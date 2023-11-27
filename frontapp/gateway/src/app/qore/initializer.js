@@ -83,18 +83,14 @@ export default (app) => {
         'qc-grid',
         'qc-htmlcontent',
         'qc-infoblock',
-        'qc-json-viewer',
         'qc-modal',
         'qc-navbar',
         'qc-navigation',
         'qc-pagination',
         'qc-simpletile',
         'qc-stomp',
-        'qc-table',
         'qc-tabs',
-        'qc-tabs-improve',
         'qc-tile',
-        'qc-timeline',
     ].forEach((component) => {
         let vueComponent = require(['.', 'components', component, 'component'].join('/') + '.vue')
         app.component(component, vueComponent.default);
