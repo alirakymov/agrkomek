@@ -1,0 +1,158 @@
+{
+    "name": "mezzio/mezzio-skeleton",
+    "description": "Zend expressive skeleton. Begin developing PSR-15 middleware applications in seconds!",
+    "type": "project",
+    "homepage": "https://github.com/mezzio/mezzio-skeleton",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "skeleton",
+        "middleware",
+        "psr",
+        "psr-7",
+        "psr-11",
+        "psr-15",
+        "zf",
+        "zendframework",
+        "mezzio"
+    ],
+    "minimum-stability": "stable",
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "laminas/laminas-dependency-plugin": true,
+            "composer/package-versions-deprecated": true,
+            "laminas/laminas-component-installer": true
+        }
+    },
+    "extra": {
+        "zf": {
+            "component-whitelist": [
+                "mezzio/mezzio",
+                "mezzio/mezzio-helpers",
+                "mezzio/mezzio-router",
+                "laminas/laminas-httphandlerrunner",
+                "mezzio/mezzio-fastroute",
+                "mezzio/mezzio-twigrenderer"
+            ]
+        }
+    },
+    "support": {
+        "issues": "https://github.com/mezzio/mezzio-skeleton/issues",
+        "source": "https://github.com/mezzio/mezzio-skeleton",
+        "rss": "https://github.com/mezzio/mezzio-skeleton/releases.atom",
+        "slack": "https://zendframework-slack.herokuapp.com",
+        "forum": "https://discourse.zendframework.com/c/questions/expressive"
+    },
+    "require": {
+        "php": "^8.0",
+        "batdan/midjourney-api-php": "^2.1",
+        "cakephp/collection": "^5.0",
+        "chrome-php/chrome": "^0.10",
+        "corveda/php-sandbox": "^3.0",
+        "ddeboer/imap": "1.12.1",
+        "depotwarehouse/oauth2-twitch": "^1.3",
+        "ediasoft/midjourney-api-php": "^1.0",
+        "elasticsearch/elasticsearch": "^7.17",
+        "endroid/qr-code": "^3.9",
+        "firebase/php-jwt": "^6.3",
+        "guzzlehttp/guzzle": "^7.0",
+        "hoa/regex": "1.17.01.13",
+        "hollodotme/fast-cgi-client": "^3.1",
+        "imagine/imagine": "^1.2",
+        "kint-php/kint": "^2.2",
+        "laminas/laminas-authentication": "^2.6",
+        "laminas/laminas-cache": "^2.9",
+        "laminas/laminas-component-installer": "^2.1.1",
+        "laminas/laminas-config-aggregator": "^1.0",
+        "laminas/laminas-db": "^2.15",
+        "laminas/laminas-dependency-plugin": "^2.0",
+        "laminas/laminas-diactoros": "^2.5",
+        "laminas/laminas-eventmanager": "^3.2",
+        "laminas/laminas-form": "^2.12",
+        "laminas/laminas-json": "^3.1",
+        "laminas/laminas-log": "2.14.x-dev",
+        "laminas/laminas-permissions-rbac": "^3.3",
+        "laminas/laminas-serializer": "2.11.x-dev",
+        "laminas/laminas-servicemanager": "^3.3",
+        "laminas/laminas-session": "^2.8",
+        "laminas/laminas-stdlib": "^3.1",
+        "laminas/laminas-validator": "^2.10",
+        "laminas/laminas-xmlrpc": "^2.9",
+        "league/oauth2-google": "^3.0",
+        "longman/telegram-bot": "^0.80.0",
+        "malkusch/lock": "^2.2",
+        "manticoresoftware/manticoresearch-php": "^2.2",
+        "maximebf/debugbar": ">=1.0.0",
+        "mezzio/mezzio": "^3.0.1",
+        "mezzio/mezzio-authentication": "1.4.0",
+        "mezzio/mezzio-authentication-basic": "1.3.0",
+        "mezzio/mezzio-authentication-oauth2": "^2.4",
+        "mezzio/mezzio-cors": "^1.0",
+        "mezzio/mezzio-fastroute": "^3.0",
+        "mezzio/mezzio-flash": "^1.0",
+        "mezzio/mezzio-helpers": "^5.0",
+        "mezzio/mezzio-session-ext": "^1.7",
+        "mezzio/mezzio-twigrenderer": "^2.0",
+        "mpdf/mpdf": "^8.0",
+        "nesbot/carbon": "^2.32",
+        "nikic/phlexy": "^0.2.0",
+        "nikic/php-parser": "^4.13",
+        "opis/closure": "^3.6.3",
+        "perftools/php-profiler": "^1.1",
+        "php-amqplib/php-amqplib": "^3.0",
+        "php-imap/php-imap": "^5.0",
+        "phpmailer/phpmailer": "^6.7",
+        "predis/predis": "^1.1",
+        "ramsey/uuid": "^4.2",
+        "roave/security-advisories": "dev-master",
+        "supervisorphp/configuration": "^0.2.1",
+        "supervisorphp/supervisor": "^3.0",
+        "symfony/console": "^6.0",
+        "symfony/expression-language": "^5.4",
+        "symfony/lock": "^5.0",
+        "symfony/process": "^5.1",
+        "symfony/var-exporter": "^5.0",
+        "tgalopin/html-sanitizer": "^1.5",
+        "webmozart/assert": "^1.9"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.0.1",
+        "squizlabs/php_codesniffer": "^2.9.1",
+        "laminas/laminas-development-mode": "^3.1",
+        "filp/whoops": "^2.1.12"
+    },
+    "autoload": {
+        "psr-4": {
+            "Qore\\": "src/Qore/src/",
+            "Qore\\App\\": "src/App/src",
+            "Qore\\Desk\\": "src/Desk/src",
+            "Qore\\Console\\": "src/Console/src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AppTest\\": "test/AppTest/"
+        }
+    },
+    "scripts": {
+        "post-create-project-cmd": [
+            "@development-enable"
+        ],
+        "development-disable": "laminas-development-mode disable",
+        "development-enable": "laminas-development-mode enable",
+        "development-status": "laminas-development-mode status",
+        "expressive": "expressive --ansi",
+        "check": [
+            "@cs-check",
+            "@test",
+            "@analyze"
+        ],
+        "analyze": "phpstan analyze -l max -c ./phpstan.installer.neon ./src ./config",
+        "clear-config-cache": "php bin/clear-config-cache.php",
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "serve": "php -S 0.0.0.0:8080 -t public/",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+    }
+}

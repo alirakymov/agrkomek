@@ -1,0 +1,26 @@
+.list-complete-enter-active {
+  overflow: hidden;
+  transition: all 1s;
+}
+
+.list-complete-leave-active {
+  margin-top: 0px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.list-complete-enter, .list-complete-leave-to {
+  /* width: 0px; */
+  opacity: 0;
+  padding: 0px;
+  margin-top: 0px;
+  overflow: hidden;
+}
+
+.pswp {
+    --pswp-root-z-index: 1040;
+}
+
+.pswp__img img {
+    width: 100%;
+}

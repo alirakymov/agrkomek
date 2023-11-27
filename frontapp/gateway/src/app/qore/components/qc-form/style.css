@@ -1,0 +1,7 @@
+.row {
+    & > .form-floating {
+        & label {
+            padding: 1rem 1.75rem;
+        }
+    }
+}

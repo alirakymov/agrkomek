@@ -1,0 +1,15 @@
+{
+    "constants": {
+        "QORE_FRONT_PATH":    "${QORE_PATH}/frontapp",
+        "QORE_PROJECTS_PATH": "${QORE_PATH}/../q.projects",
+        "QORE_CONFIG_PATH":   "${QORE_PATH}/config",
+        "QORE_BOOT_PATH":     "${QORE_PATH}/boot",
+        "PROJECT_CONFIG_PATH":   "${PROJECT_PATH}/config",
+        "PROJECT_STORAGE_PATH":  "${PROJECT_PATH}/storage",
+        "PROJECT_FRONTAPP_PATH": "${PROJECT_PATH}/frontapp",
+        "PROJECT_DATA_PATH": "${PROJECT_PATH}/data"
+    },
+    "namespaces": {
+        "Qore\\App\\": "${PROJECT_PATH}/src/App/src"
+    }
+}

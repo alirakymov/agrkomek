@@ -1,0 +1,67 @@
+//
+// Custom Main
+//
+// Add your own styles or override existing ones
+//
+// This file is included last, so you have access
+// to all Bootstrap and Dashmix functions/mixins/styles etc
+// --------------------------------------------------
+
+// If you have many custom styles, you can create and import additional files
+// For example you can create _component1.scss and include it as follows:
+// @import 'component1';
+
+$font-size-base: 1.1rem !default; // Assumes the browser default, typically `16px`
+$enable-negative-margins: true;
+$btn-focus-box-shadow: 0 0 0 0 !important;
+$btn-border-width: 0 !default;
+
+.disable-paragraph-m {
+    p {
+        margin-bottom: 0 !important;
+    }
+}
+
+// - CKEditor custom theme config
+:root {
+    --ck-z-default: 2000 !important;
+    --ck-z-modal: calc(var(--ck-z-default) + 999) !important;
+    --ck-focus-ring: 1px dashed var(--ck-color-focus-border) !important;
+    --ck-inner-shadow: none !important;
+}
+
+.table {
+    --bs-table-hover-bg: #f4f5f7;
+}
+
+.bb-dashed {
+    border-bottom: 1px dashed #ccc;
+}
+
+.timeline::before {
+    position: absolute;
+    top: 0;
+    left: 1.5rem;
+    height: calc(100% - 70px);
+    width: 0px;
+    background-color: transparent;
+    content: "";
+    border-radius: 0;
+    border-left: 1px dashed #ccc;
+    margin: 20px 0px 50px 0px;
+
+}
+
+.nav-tabs-alt {
+    .nav-link {
+        &:hover,
+        &:focus {
+            box-shadow: inset 0 -2px $theme-xmodern-primary;
+        }
+    }
+
+    .nav-link.active,
+    .nav-item.show .nav-link {
+        box-shadow: inset 0 -2px $theme-xmodern-primary;
+    }
+}

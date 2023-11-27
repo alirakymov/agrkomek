@@ -1,0 +1,2 @@
+find . -type f -exec sed -i'' -e 's/replaceOnDispatch/dispatchMap/g' {} +
+find . -type f -exec sed -i'' -e 's/__idparent/__parent/g' {} +

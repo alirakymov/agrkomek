@@ -1,0 +1,19 @@
+{% extends '@layout/main.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block head %}
+    <style type="text/css" media="screen">
+        {{ DebugBar.dumpCssAssets() | raw }}
+    </style>
+    <script charset="utf-8">
+        {{ DebugBar.dumpJsAssets() | raw }}
+    </script>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        let appData = {{ frontProtocol | json_encode() | raw }};
+    </script>
+    {{ parent() }}
+{% endblock %}
