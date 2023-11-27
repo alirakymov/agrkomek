@@ -55,7 +55,6 @@ class ManagerIndex extends BaseAction
     {
         $sm = Qore::service(SynapseManager::class);
 
-        dump($sm('Routes:Manager'));
         $sm('Routes:Manager')->initializeInterfaceGateway($this->request);
 
         $ig = Qore::service(InterfaceGateway::class);
