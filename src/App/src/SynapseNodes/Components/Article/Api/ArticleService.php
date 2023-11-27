@@ -96,7 +96,9 @@ class ArticleService extends ServiceArtificer
      */
     protected function notFound() : ?ResultInterface
     {
-        return $this->response(new HtmlResponse('Not Found', 404));
+        return $this->response(new JsonResponse([
+            'error' => 'resource not found'
+        ], 404));
     }
 
 }

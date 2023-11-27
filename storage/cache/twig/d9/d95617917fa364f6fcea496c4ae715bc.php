@@ -38,45 +38,152 @@ class __TwigTemplate_62b93a23de0ebf0afa698a0e44e6f209 extends Template
     {
         $macros = $this->macros;
         // line 1
-        echo "<!doctype html><html><head><meta charset=\"utf-8\"/><title>";
+        echo "<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=\"utf-8\"/>
+
+        <title>";
+        // line 6
         $this->displayBlock('title', $context, $blocks);
-        echo "</title><meta name=\"description\" content=\"Qore Framework\"/><meta name=\"author\" content=\"pixelcave\"/><meta name=\"csrf-token\" content=\"";
-        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, (isset($context["csrf"]) || array_key_exists("csrf", $context) ? $context["csrf"] : (function () { throw new RuntimeError('Variable "csrf" does not exist.', 1, $this->source); })()), "generateToken", [], "method", false, false, false, 1), "html", null, true);
-        echo "\"/><meta name=\"robots\" content=\"noindex, nofollow\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,user-scalable=0\"/><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin><link href=\"https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap\" rel=\"stylesheet\">";
-        echo "<link rel=\"stylesheet\" href=\"/static-gateway/assets/css/app.bundle.8fb04b1fdeb86381ee01.css\">";
-        echo " ";
+        echo "</title>
+        <meta name=\"description\" content=\"Qore Framework\"/>
+        <meta name=\"author\" content=\"pixelcave\"/>
+        <meta name=\"csrf-token\" content=\"";
+        // line 9
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, (isset($context["csrf"]) || array_key_exists("csrf", $context) ? $context["csrf"] : (function () { throw new RuntimeError('Variable "csrf" does not exist.', 9, $this->source); })()), "generateToken", [], "method", false, false, false, 9), "html", null, true);
+        echo "\"/>
+        <meta name=\"robots\" content=\"noindex, nofollow\"/>
+        <meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0,user-scalable=0\"/>
+
+        <!-- Fonts and OneUI framework -->
+        <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">
+        <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>
+        <link href=\"https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap\" rel=\"stylesheet\">
+
+        ";
+        // line 22
+        echo "
+            
+                <link rel=\"stylesheet\" href=\"/static-gateway/assets/css/app.bundle.1760ebc069a75579de20.css\" >
+            
+        ";
+        echo "
+
+        ";
+        // line 24
         $this->displayBlock('head', $context, $blocks);
-        echo "</head><body>";
+        // line 26
+        echo "    </head>
+    <body>
+        ";
+        // line 28
         $this->displayBlock('main', $context, $blocks);
-        echo " ";
+        // line 39
+        echo "        ";
         $this->displayBlock('scripts', $context, $blocks);
-        echo " ";
-        echo twig_get_attribute($this->env, $this->source, (isset($context["DebugBar"]) || array_key_exists("DebugBar", $context) ? $context["DebugBar"] : (function () { throw new RuntimeError('Variable "DebugBar" does not exist.', 1, $this->source); })()), "render", [], "method", false, false, false, 1);
-        echo "</body></html>";
+        // line 96
+        echo "        ";
+        echo twig_get_attribute($this->env, $this->source, (isset($context["DebugBar"]) || array_key_exists("DebugBar", $context) ? $context["DebugBar"] : (function () { throw new RuntimeError('Variable "DebugBar" does not exist.', 96, $this->source); })()), "render", [], "method", false, false, false, 96);
+        echo "
+    </body>
+</html>
+";
     }
 
+    // line 6
     public function block_title($context, array $blocks = [])
     {
         $macros = $this->macros;
         echo "Qore.CRM";
     }
 
+    // line 24
     public function block_head($context, array $blocks = [])
     {
         $macros = $this->macros;
-        echo " ";
+        // line 25
+        echo "        ";
     }
 
+    // line 28
     public function block_main($context, array $blocks = [])
     {
         $macros = $this->macros;
-        echo "<div id=\"qore-app\"><component v-for=\"component in components\" :is=\"component.type\" :key=\"component.id\" :options=\"component.data\" ref=\"children\" @cdestroy=\"cdestroy()\"/></div>";
+        // line 29
+        echo "            <div id=\"qore-app\">
+                <component v-for=\"component in components\"
+                    :is=\"component.type\"
+                    :key=\"component.id\"
+                    :options=\"component.data\"
+                    ref=\"children\"
+                    @cdestroy=\"cdestroy()\"
+                />
+            </div>
+        ";
     }
 
+    // line 39
     public function block_scripts($context, array $blocks = [])
     {
         $macros = $this->macros;
-        echo "<script type=\"module\" src=\"/static-gateway/assets/js/_ckeditor.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/lodash_es.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/core_js.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/_popperjs.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/axios.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/_juggle.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/flatpickr.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/_vue.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/bootstrap.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/_ckpack.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/vue3_json_viewer.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/vue_draggable_next.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/simplebar.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/regenerator_runtime.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/nouislider.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/dropzone.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/cropperjs.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/_elricco.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/qore.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/app.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/app.worker.8fb04b1fdeb86381ee01.js\" async></script>";
+        // line 40
+        echo "            
+                <script type=\"module\" src=\"/static-gateway/assets/js/_ckeditor.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/lodash_es.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/core_js.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/_popperjs.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/axios.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/_juggle.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/flatpickr.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/_vue.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/bootstrap.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/_ckpack.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/vue3_json_viewer.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/vue_draggable_next.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/v_mask.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/simplebar.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/regenerator_runtime.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/nouislider.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/lodash_throttle.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/lodash_memoize.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/lodash_debounce.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/dropzone.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/cropperjs.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/_elricco.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/_editorjs.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/qore.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/app.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/_stomp.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/app.worker.bundle.js\" async></script>
+            
+        ";
     }
 
     public function getTemplateName()
@@ -91,11 +198,109 @@ class __TwigTemplate_62b93a23de0ebf0afa698a0e44e6f209 extends Template
 
     public function getDebugInfo()
     {
-        return array (  41 => 1,);
+        return array (  131 => 40,  127 => 39,  114 => 29,  110 => 28,  106 => 25,  102 => 24,  95 => 6,  86 => 96,  83 => 39,  81 => 28,  77 => 26,  75 => 24,  66 => 22,  54 => 9,  48 => 6,  41 => 1,);
     }
 
     public function getSourceContext()
     {
-        return new Source("<!doctype html><html><head><meta charset=\"utf-8\"/><title>{% block title %}Qore.CRM{% endblock %}</title><meta name=\"description\" content=\"Qore Framework\"/><meta name=\"author\" content=\"pixelcave\"/><meta name=\"csrf-token\" content=\"{{ csrf.generateToken() }}\"/><meta name=\"robots\" content=\"noindex, nofollow\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,user-scalable=0\"/><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin><link href=\"https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap\" rel=\"stylesheet\">{% verbatim %}<link rel=\"stylesheet\" href=\"/static-gateway/assets/css/app.bundle.8fb04b1fdeb86381ee01.css\">{% endverbatim %} {% block head %} {% endblock %}</head><body>{% block main %}<div id=\"qore-app\"><component v-for=\"component in components\" :is=\"component.type\" :key=\"component.id\" :options=\"component.data\" ref=\"children\" @cdestroy=\"cdestroy()\"/></div>{% endblock %} {% block scripts %}<script type=\"module\" src=\"/static-gateway/assets/js/_ckeditor.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/lodash_es.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/core_js.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/_popperjs.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/axios.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/_juggle.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/flatpickr.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/_vue.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/bootstrap.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/_ckpack.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/vue3_json_viewer.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/vue_draggable_next.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/simplebar.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/regenerator_runtime.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/nouislider.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/dropzone.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/cropperjs.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/_elricco.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/qore.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/app.8fb04b1fdeb86381ee01.js\" async></script><script type=\"module\" src=\"/static-gateway/assets/js/app.worker.8fb04b1fdeb86381ee01.js\" async></script>{% endblock %} {{ DebugBar.render() | raw }}</body></html>", "@layout/main.twig", "/usr/share/nginx/agro/frontapp/gateway/public/templates/desk/layout/main.twig");
+        return new Source("<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=\"utf-8\"/>
+
+        <title>{% block title %}Qore.CRM{% endblock %}</title>
+        <meta name=\"description\" content=\"Qore Framework\"/>
+        <meta name=\"author\" content=\"pixelcave\"/>
+        <meta name=\"csrf-token\" content=\"{{ csrf.generateToken() }}\"/>
+        <meta name=\"robots\" content=\"noindex, nofollow\"/>
+        <meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0,user-scalable=0\"/>
+
+        <!-- Fonts and OneUI framework -->
+        <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">
+        <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>
+        <link href=\"https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap\" rel=\"stylesheet\">
+
+        {% verbatim %}
+            
+                <link rel=\"stylesheet\" href=\"/static-gateway/assets/css/app.bundle.1760ebc069a75579de20.css\" >
+            
+        {% endverbatim %}
+
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body>
+        {% block main %}
+            <div id=\"qore-app\">
+                <component v-for=\"component in components\"
+                    :is=\"component.type\"
+                    :key=\"component.id\"
+                    :options=\"component.data\"
+                    ref=\"children\"
+                    @cdestroy=\"cdestroy()\"
+                />
+            </div>
+        {% endblock %}
+        {% block scripts %}
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/_ckeditor.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/lodash_es.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/core_js.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/_popperjs.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/axios.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/_juggle.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/flatpickr.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/_vue.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/bootstrap.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/_ckpack.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/vue3_json_viewer.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/vue_draggable_next.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/v_mask.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/simplebar.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/regenerator_runtime.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/nouislider.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/lodash_throttle.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/lodash_memoize.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/lodash_debounce.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/dropzone.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/cropperjs.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/_elricco.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/_editorjs.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/qore.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/app.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/_stomp.bundle.js\" async></script>
+            
+                <script type=\"module\" src=\"/static-gateway/assets/js/app.worker.bundle.js\" async></script>
+            
+        {% endblock %}
+        {{ DebugBar.render() | raw }}
+    </body>
+</html>
+", "@layout/main.twig", "/usr/share/nginx/agro/frontapp/gateway/public/templates/desk/layout/main.twig");
     }
 }

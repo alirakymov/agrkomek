@@ -89,7 +89,9 @@ export default (app) => {
         'qc-pagination',
         'qc-simpletile',
         'qc-stomp',
+        'qc-table',
         'qc-tabs',
+        'qc-tabs-improve',
         'qc-tile',
     ].forEach((component) => {
         let vueComponent = require(['.', 'components', component, 'component'].join('/') + '.vue')

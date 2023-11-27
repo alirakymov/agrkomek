@@ -39,8 +39,8 @@ class RoutesMiddleware implements MiddlewareInterface
                 # - Get synapse service
                 $sm = Qore::service(\Qore\SynapseManager\SynapseManager::class);
                 # - Register App routes of SynapseRoutes:Executor
-                if ($cmfRoutesManager = $sm('Routes:Api')) {
-                    $_router->group('/api', null, fn ($_router) => $sm('Routes:Api')->routes($_router));
+                if ($apiRouteManager = $sm('Routes:Api')) {
+                    $_router->group('/api', null, fn ($_router) => $apiRouteManager->routes($_router));
                 }
                 # - Register App routes of SynapseRoutes:Executor
                 if ($cmfRoutesManager = $sm('Routes:Executor')) {

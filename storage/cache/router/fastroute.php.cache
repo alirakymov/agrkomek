@@ -99,6 +99,8 @@ return array (
       '/~desk/synapse' => '/~desk/synapse[/{id:[0-9]+}]',
       '/~desk/synapse/create' => '/~desk/synapse/create[/{id:[0-9]+}]',
       '/api/article/list' => '/api/article/list',
+      '/api/guide/list' => '/api/guide/list',
+      '/api/guide-category/list' => '/api/guide-category/list',
       '/~admin' => '/~admin',
       '/~admin/login' => '/~admin/login',
       '/~admin/moderator' => '/~admin/moderator',

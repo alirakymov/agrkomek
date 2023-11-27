@@ -61,6 +61,8 @@ $aggregator = new ConfigAggregator([
     \Qore\SynapseManager\ConfigProvider::class,
     \Qore\InterfaceGateway\ConfigProvider::class,
     \Qore\Sanitizer\ConfigProvider::class,
+    \Qore\QueueManager\ConfigProvider::class,
+    \Qore\NotifyManager\ConfigProvider::class,
     # - Config provider aggregator for submodules
     new ConfigProviderAggregator(QORE_CONFIG_PATH . '/config.providers.php'),
     # - Global Framework configs
