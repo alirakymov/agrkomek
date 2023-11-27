@@ -14,7 +14,6 @@ use Qore\Desk\Actions\BaseActionNavpillsTrait;
 use Qore\InterfaceGateway\Component\Auth;
 use Qore\InterfaceGateway\Component\Layout;
 use Qore\InterfaceGateway\InterfaceGateway;
-use Qore\NotifyManager\NotifyManager;
 use Qore\Qore;
 use Qore\Collection\Collection;
 use Qore\Router\RouteCollector;
@@ -86,7 +85,6 @@ class RoutesService extends ServiceArtificer
 
         $result = [
             Qore::service(App\Middlewares\AuthGuardMiddleware::class),
-            Qore::service(App\Middlewares\NotifySubscriberMiddleware::class)
         ];
 
         foreach ($synapseMiddlewaresConfig as $regularExpression => $middlewares) {

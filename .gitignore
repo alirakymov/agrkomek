@@ -5,6 +5,7 @@
 /phpunit.xml
 /vendor/
 /storage/logs/
+/storage/cache/
 
 .idea
 .phpcd
