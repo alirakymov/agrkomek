@@ -64,6 +64,7 @@ class GuideService extends ServiceArtificer
         $this->registerSubjectsRoutes($_router);
     }
 
+
     /**
      * compile
      *

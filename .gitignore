@@ -4,6 +4,7 @@
 /coveralls-upload.json
 /phpunit.xml
 /vendor/
+/storage/console/
 /storage/logs/
 /storage/cache/
 
