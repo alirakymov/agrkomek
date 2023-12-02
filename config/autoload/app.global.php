@@ -2,6 +2,7 @@
 
 use Qore\App\SynapseNodes\Components\Article\Manager\ArticleService;
 use Qore\App\SynapseNodes\Components\ArticleType\Manager\ArticleTypeService;
+use Qore\App\SynapseNodes\Components\Consultancy\Manager\ConsultancyService;
 use Qore\App\SynapseNodes\Components\Guide\Manager\GuideService;
 use Qore\App\SynapseNodes\Components\GuideCategory\Manager\GuideCategoryService;
 use Qore\App\SynapseNodes\Components\ModeratorRole\Manager\ModeratorRoleService;
@@ -59,6 +60,17 @@ return [
                             'privilege' => 1,
                             'icon' => 'fas fa-book',
                             'route' => [GuideService::class, 'index'],
+                        ],
+                    ],
+                ],
+                [
+                    'label' => 'Консультации',
+                    'sublevel' => [
+                        [
+                            'label' => 'Обращения',
+                            'privilege' => 1,
+                            'icon' => 'fas fa-book',
+                            'route' => [ConsultancyService::class, 'index'],
                         ],
                     ],
                 ],
