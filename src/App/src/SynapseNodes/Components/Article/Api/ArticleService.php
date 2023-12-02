@@ -84,7 +84,11 @@ class ArticleService extends ServiceArtificer
      */
     protected function list(): ?ResultInterface
     {
-        $data = $this->mm()->with('type')->all();
+        $data = $this->mm()
+            ->with('type')
+            ->select(fn ($_select) => $_select->order('@this.__created desc'))
+            ->all();
+
         $data = $data->map(fn ($_item) => $_item->toArray(true));
         return $this->response(new JsonResponse($data->toList()));
     }

@@ -77,6 +77,7 @@ export default (app) => {
     [
         'qc-block',
         'qc-buttongroup',
+        'qc-consultancy',
         'qc-description',
         'qc-dialog',
         'qc-form',
