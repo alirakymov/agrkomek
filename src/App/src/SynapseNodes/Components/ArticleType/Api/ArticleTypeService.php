@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Qore\App\SynapseNodes\Components\Guide\Api;
+namespace Qore\App\SynapseNodes\Components\ArticleType\Api;
 
 use Mezzio\Template\TemplateRendererInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
@@ -21,7 +21,7 @@ use Qore\SynapseManager\Plugin\RoutingHelper\RoutingHelper;
  *
  * @see Qore\SynapseManager\Artificer\Service\ServiceArtificer
  */
-class GuideService extends ServiceArtificer
+class ArticleTypeService extends ServiceArtificer
 {
     /**
      * serviceForm
@@ -43,7 +43,7 @@ class GuideService extends ServiceArtificer
     public function routes(RouteCollector $_router) : void
     {
         $this->routingHelper = $this->plugin(RoutingHelper::class);
-        $_router->group('/guide', null, function($_router) {
+        $_router->group('/article-type', null, function($_router) {
             $_router->get('/list', 'list');
         });
         # - Register related subjects routes
@@ -84,22 +84,10 @@ class GuideService extends ServiceArtificer
      */
     protected function list(): ?ResultInterface
     {
-        $request = $this->model->getRequest();
-        $queryParams = $request->getQueryParams();
+        $data = $this->mm()
+            ->select(fn ($_select) => $_select->order('@this.__created'))
+            ->all();
 
-        $filters = [];
-        if (isset($queryParams['category'])) {
-            $filters['@this.category.id'] = $queryParams['category'];
-        }
-
-        $gw = $this->mm()
-            ->with('category');
-
-        if ($filters) {
-            $gw->where($filters);
-        }
-
-        $data = $gw->all();
         $data = $data->map(fn ($_item) => $_item->toArray(true));
         return $this->response(new JsonResponse($data->toList()));
     }

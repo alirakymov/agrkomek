@@ -84,10 +84,23 @@ class ArticleService extends ServiceArtificer
      */
     protected function list(): ?ResultInterface
     {
-        $data = $this->mm()
+        $request = $this->model->getRequest();
+        $queryParams = $request->getQueryParams();
+
+        $filters = [];
+        if (isset($queryParams['type'])) {
+            $filters['@this.type.id'] = $queryParams['type'];
+        }
+
+        $gw = $this->mm()
             ->with('type')
-            ->select(fn ($_select) => $_select->order('@this.__created desc'))
-            ->all();
+            ->select(fn ($_select) => $_select->order('@this.__created desc'));
+
+        if ($filters) {
+            $gw->where($filters);
+        }
+
+        $data = $gw->all();
 
         $data = $data->map(fn ($_item) => $_item->toArray(true));
         return $this->response(new JsonResponse($data->toList()));
