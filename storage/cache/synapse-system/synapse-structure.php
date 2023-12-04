@@ -1561,6 +1561,183 @@ return [
                     ],
                 ],
             ],
+            'Machinery' => [
+                'entity' => '\\Qore\\App\\SynapseNodes\\Components\\Machinery\\Machinery',
+                'columns' => [
+                    '__iSynapseService' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Integer',
+                        'length' => 11,
+                        'null' => true,
+                        'default' => 0,
+                    ],
+                    '__idparent' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Integer',
+                        'length' => 11,
+                        'null' => false,
+                        'default' => 0,
+                    ],
+                    '__options' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Text',
+                        'null' => true,
+                        'default' => '',
+                    ],
+                    '__created' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Timestamp',
+                        'null' => true,
+                    ],
+                    '__updated' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Timestamp',
+                        'null' => true,
+                    ],
+                    '__indexed' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Integer',
+                        'length' => 1,
+                        'null' => false,
+                        'default' => 0,
+                    ],
+                    '__deleted' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Timestamp',
+                        'null' => true,
+                    ],
+                    'attribute-27' => [
+                        'label' => 'Символьное значение',
+                        'length' => 255,
+                        'null' => true,
+                        'default' => null,
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
+                        'alias' => 'title',
+                    ],
+                    'attribute-28' => [
+                        'label' => 'Целое число',
+                        'length' => 11,
+                        'default' => '0',
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Integer',
+                        'alias' => 'price',
+                        'null' => true,
+                    ],
+                    'attribute-29' => [
+                        'label' => 'Текстовое значение',
+                        'null' => true,
+                        'default' => null,
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Text',
+                        'alias' => 'content',
+                    ],
+                ],
+                'constraints' => [
+                    'parent' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Constraint\\Index',
+                        'columns' => [
+                            '__idparent',
+                        ],
+                    ],
+                    'created' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Constraint\\Index',
+                        'columns' => [
+                            '__created',
+                        ],
+                    ],
+                    'updated' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Constraint\\Index',
+                        'columns' => [
+                            '__updated',
+                        ],
+                    ],
+                    'indexed' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Constraint\\Index',
+                        'columns' => [
+                            '__indexed',
+                        ],
+                    ],
+                    'deleted' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Constraint\\Index',
+                        'columns' => [
+                            '__deleted',
+                        ],
+                    ],
+                ],
+            ],
+            'Machinery_References' => [
+                'entity' => 'Qore\\SynapseManager\\Structure\\Entity\\SynapseReferenceBaseEntity',
+                'columns' => [
+                    'iSynapseRelation' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Integer',
+                        'length' => 11,
+                        'null' => false,
+                    ],
+                    'iSynapseEntityFrom' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Integer',
+                        'length' => 11,
+                        'null' => false,
+                    ],
+                    'iSynapseServiceFrom' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Integer',
+                        'length' => 11,
+                        'null' => false,
+                        'default' => 0,
+                    ],
+                    'iSynapseEntityTo' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Integer',
+                        'length' => 11,
+                        'null' => false,
+                    ],
+                    'iSynapseServiceTo' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Integer',
+                        'length' => 11,
+                        'null' => false,
+                        'default' => 0,
+                    ],
+                    '__created' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Timestamp',
+                        'null' => true,
+                    ],
+                    '__updated' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Timestamp',
+                        'null' => true,
+                    ],
+                    '__deleted' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Timestamp',
+                        'null' => true,
+                    ],
+                ],
+                'constraints' => [
+                    'iSR-iSEF-iSET' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Constraint\\Index',
+                        'columns' => [
+                            'iSynapseRelation',
+                            'iSynapseEntityFrom',
+                            'iSynapseEntityTo',
+                        ],
+                    ],
+                    'iSR-iSET-iSEF' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Constraint\\Index',
+                        'columns' => [
+                            'iSynapseRelation',
+                            'iSynapseEntityTo',
+                            'iSynapseEntityFrom',
+                        ],
+                    ],
+                    'iSR-iSEF-iSSF-iSET-iSST' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Constraint\\UniqueKey',
+                        'columns' => [
+                            'iSynapseRelation',
+                            'iSynapseEntityFrom',
+                            'iSynapseServiceFrom',
+                            'iSynapseEntityTo',
+                            'iSynapseServiceTo',
+                        ],
+                    ],
+                    'iSR-iSET-iSST-iSEF-iSSF' => [
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Constraint\\UniqueKey',
+                        'columns' => [
+                            'iSynapseRelation',
+                            'iSynapseEntityTo',
+                            'iSynapseServiceTo',
+                            'iSynapseEntityFrom',
+                            'iSynapseServiceFrom',
+                        ],
+                    ],
+                ],
+            ],
             'Routes' => [
                 'entity' => 'Qore\\SynapseManager\\Structure\\Entity\\SynapseBaseEntity',
                 'columns' => [
@@ -2166,6 +2343,14 @@ return [
                 'via' => 'Routes_References(iSynapseEntityFrom,iSynapseEntityTo)',
                 'conditions' => [
                     'Routes_References.iSynapseRelation' => 15,
+                ],
+            ],
+            'Routes@route > Machinery@machinery' => [
+                'type' => 3,
+                'decorate-type' => '1',
+                'via' => 'Routes_References(iSynapseEntityFrom,iSynapseEntityTo)',
+                'conditions' => [
+                    'Routes_References.iSynapseRelation' => 16,
                 ],
             ],
         ],
