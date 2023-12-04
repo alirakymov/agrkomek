@@ -127,6 +127,27 @@ return [
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
         'description' => '',
     ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);content)' => [
+        'iSynapse' => 'QSynapse:Synapses(Machinery)',
+        'name' => 'content',
+        'label' => 'Содержимое',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Text',
+        'description' => 'Содержимое',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);price)' => [
+        'iSynapse' => 'QSynapse:Synapses(Machinery)',
+        'name' => 'price',
+        'label' => 'Цена',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Integer',
+        'description' => 'стоимость',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);title)' => [
+        'iSynapse' => 'QSynapse:Synapses(Machinery)',
+        'name' => 'title',
+        'label' => 'Название',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
+        'description' => 'Название',
+    ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Moderator);email)' => [
         'iSynapse' => 'QSynapse:Synapses(Moderator)',
         'name' => 'email',

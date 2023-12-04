@@ -70,6 +70,15 @@ return [
         'type' => 2,
         '__options' => [],
     ],
+    'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(Machinery);Manager);MachineryForm)' => [
+        'iSynapseService' => 'QSynapse:SynapseServices(QSynapse:Synapses(Machinery);Manager)',
+        'name' => 'MachineryForm',
+        'label' => 'Форма создания / редактирования',
+        'template' => '$title',
+        'description' => 'Форма создания / редактирования',
+        'type' => 0,
+        '__options' => [],
+    ],
     'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(Moderator);Manager);ModeratorForm)' => [
         'iSynapseService' => 'QSynapse:SynapseServices(QSynapse:Synapses(Moderator);Manager)',
         'name' => 'ModeratorForm',

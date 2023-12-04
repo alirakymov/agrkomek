@@ -49,6 +49,12 @@ return [
         'description' => 'Изображения',
         'tree' => 0,
     ],
+    'QSynapse:Synapses(Machinery)' => [
+        'iParent' => null,
+        'name' => 'Machinery',
+        'description' => 'Сельскохозяйственная техника ',
+        'tree' => 0,
+    ],
     'QSynapse:Synapses(Moderator)' => [
         'iParent' => null,
         'name' => 'Moderator',

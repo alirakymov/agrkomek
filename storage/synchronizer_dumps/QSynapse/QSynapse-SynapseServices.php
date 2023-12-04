@@ -78,6 +78,13 @@ return [
         'index' => 0,
         'description' => 'Загрузчик изображений',
     ],
+    'QSynapse:SynapseServices(QSynapse:Synapses(Machinery);Manager)' => [
+        'iSynapse' => 'QSynapse:Synapses(Machinery)',
+        'name' => 'Manager',
+        'label' => 'Управление объявлениями',
+        'index' => 0,
+        'description' => 'Управление объявлениями',
+    ],
     'QSynapse:SynapseServices(QSynapse:Synapses(Moderator);Manager)' => [
         'iSynapse' => 'QSynapse:Synapses(Moderator)',
         'name' => 'Manager',
