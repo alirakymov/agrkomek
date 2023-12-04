@@ -28,7 +28,7 @@ return function (Qore $app, MiddlewareFactory $factory, ContainerInterface $cont
     # The error handler should be the first (most outer) middleware to catch all Exceptions.
     $app->pipe(ErrorHandler::class);
     # - Cors Middleware Fix preflight requests
-    $app->pipe(CorsMiddleware::class);
+    // $app->pipe(CorsMiddleware::class);
     # - Parse body params
     $app->pipe(BodyParamsMiddleware::class);
     # - Register qore-session manager
