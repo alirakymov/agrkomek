@@ -127,6 +127,18 @@ class ConsultancyService extends ServiceArtificer
             ->select(fn ($_select) => $_select->order('@this.__created desc'))
             ->all();
 
+        $ids = $data->extract('id')->toList();
+
+        $messages = $this->mm('SM:ConsultancyMessage')
+            ->where(['@this.idConsultancy' => $ids])
+            ->all()
+            ->map(fn ($_message) => $_message->toArray(true));
+
+        $data = $data->map(function ($_consultancy) use ($messages) {
+            $_consultancy['messages'] = $messages->match(['idConsultancy' => $_consultancy->id])->toList();
+            return $_consultancy;
+        });
+
         $data = $data->map(fn ($_item) => $_item->toArray(true));
         return $this->response(new JsonResponse($data->toList()));
     }
