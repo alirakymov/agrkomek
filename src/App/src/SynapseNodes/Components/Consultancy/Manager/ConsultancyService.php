@@ -64,6 +64,7 @@ class ConsultancyService extends ServiceArtificer
             $this->routingHelper->routesCrud($_router);
             $_router->get('/dialog/{id: \d+}', 'dialog');
             $_router->post('/message/{id: \d+}', 'message');
+            $_router->get('/close/{id: \d+}', 'close');
             $_router->get('/reload-dialog/{id: \d+}', 'reload-dialog');
         });
         # - Register related subjects routes
@@ -78,7 +79,7 @@ class ConsultancyService extends ServiceArtificer
     {
         /** @var RoutingHelper */
         $this->routingHelper = $this->plugin(RoutingHelper::class);
-        list($method, $arguments) = $this->routingHelper->dispatch(['dialog', 'message', 'reload-dialog' => 'reloadDialog']) ?? [null, null];
+        list($method, $arguments) = $this->routingHelper->dispatch(['dialog', 'message', 'close', 'reload-dialog' => 'reloadDialog']) ?? [null, null];
 
         return ! is_null($method) ? call_user_func_array([$this, $method], $arguments ?? []) : null;
     }
@@ -216,6 +217,31 @@ class ConsultancyService extends ServiceArtificer
     }
 
     /**
+     * Message
+     *
+     * @return ?ResultInterface
+     */
+    protected function close(): ?ResultInterface
+    {
+        $request = $this->model->getRequest();
+        $routeResult = $this->model->getRouteResult();
+        $matchedParams = $routeResult->getMatchedParams();
+
+        $consultancy = $this->mm()->where(['@this.id' => $matchedParams['id']])->one();
+
+        if (! $consultancy) {
+            return $this->response([]);
+        }
+
+        $consultancy->closed = 1;
+        $this->mm($consultancy)->save();
+
+        $dialog = $this->getDialogComponent($consultancy);
+
+        return $this->response($dialog);
+    }
+
+    /**
      * Get dialog component
      *
      * @param \Qore\App\SynapseNodes\Components\Consultancy\Consultancy $_consultancy 
@@ -233,6 +259,7 @@ class ConsultancyService extends ServiceArtificer
         $dialog = $ig(ConsultancyComponent::class, sprintf('%s.%s', get_class($this), 'dialog-consultancy'))
             ->setOption('consultancy', $_consultancy->toArray(true))
             ->setOption('message-route', Qore::url($this->getRouteName('message'), ['id' => $_consultancy['id']]))
+            ->setOption('close-route', Qore::url($this->getRouteName('close'), ['id' => $_consultancy['id']]))
             ->setOption('reload-dialog-route', Qore::url($this->getRouteName('reload-dialog'), ['id' => $_consultancy['id']]))
             ->setOption('messages', $messages->map(fn($_message) => $_message->toArray(true))->toList());
 

@@ -10,6 +10,7 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Qore\App\SynapseNodes\Components\Consultancy\Consultancy;
 use Qore\App\SynapseNodes\Components\ConsultancyMessage\ConsultancyMessage;
 use Qore\DealingManager\ResultInterface;
 use Qore\Qore;
@@ -47,9 +48,9 @@ class ConsultancyService extends ServiceArtificer
         $_router->group('/consultancy', null, function($_router) {
             $_router->get('/token', 'token');
             $_router->get('/list', 'list');
-            $_router->post('/post', 'post');
             $_router->get('/dialog', 'dialog');
             $_router->post('/message', 'message');
+            $_router->post('/close', 'close');
         });
         # - Register related subjects routes
         $this->registerSubjectsRoutes($_router);
@@ -68,7 +69,8 @@ class ConsultancyService extends ServiceArtificer
 
         $this->routingHelper = $this->plugin(RoutingHelper::class);
 
-        list($method, $arguments) = $this->routingHelper->dispatch(['token', 'list', 'post', 'dialog', 'message']) ?? ['notFound', null];
+        list($method, $arguments) = $this->routingHelper->dispatch(['token', 'list', 'dialog', 'message', 'close']) ?? ['notFound', null];
+
         return ! is_null($method) ? call_user_func_array([$this, $method], $arguments ?? []) : null;
     }
 
@@ -153,7 +155,7 @@ class ConsultancyService extends ServiceArtificer
         $request = $this->model->getRequest();
         $queryParams = $request->getQueryParams();
 
-        if (! isset($queryParams['id'], $queryParams['token'])) {
+        if (! isset($queryParams['token'])) {
             return $this->response(new JsonResponse([
                 'error' => 'bad request'
             ], 400));
@@ -169,11 +171,14 @@ class ConsultancyService extends ServiceArtificer
             ], 400));
         }
 
-        $consultancy = $this->mm()->where(['@this.token' => $session->token, '@this.id' => $queryParams['id']])->one();
+        $consultancy = $this->mm()
+            ->select(fn ($_select) => $_select->order('@this.__created desc'))
+            ->where(['@this.token' => $session->token, '@this.closed' => 0])
+            ->one();
 
         if (! $consultancy) {
             return $this->response(new JsonResponse([
-                'error' => 'dialog not found'
+                'error' => 'Active consultancy not found'
             ], 400));
         }
 
@@ -186,11 +191,71 @@ class ConsultancyService extends ServiceArtificer
     }
 
     /**
-     * Post
+     * Message
      *
      * @return ?ResultInterface
      */
-    protected function post(): ?ResultInterface
+    protected function message(): ?ResultInterface
+    {
+        $request = $this->model->getRequest();
+
+        $token = $request('token');
+
+        if (! $token) {
+            return $this->response(new JsonResponse([
+                'error' => 'bad request'
+            ], 400));
+        }
+
+        $session = $this->mm('SM:ConsultancySession')
+            ->where(['@this.token' => $token])
+            ->one();
+
+        if (! $session) {
+            return $this->response(new JsonResponse([
+                'error' => 'token not found'
+            ], 400));
+        }
+
+        $message = $request('message');
+
+        if (! $message) {
+            return $this->response(new JsonResponse([
+                'error' => 'there is no message'
+            ], 400));
+        }
+
+        $consultancy = $this->mm()
+            ->select(fn ($_select) => $_select->order('@this.__created desc'))
+            ->where(['@this.token' => $session->token, '@this.closed' => 0])
+            ->one();
+
+        if (! $consultancy) {
+            $consultancy = $this->makeConsultancy($session->token, $message);
+        }
+
+        $message = $this->mm('SM:ConsultancyMessage', [
+            'idConsultancy' => $consultancy->id,
+            'message' => $message,
+            'direction' => ConsultancyMessage::DIRECTION_IN,
+        ]);
+
+        $this->mm($message)->save();
+
+        return $this->response(
+            new JsonResponse([
+                'result' => 'success',
+                'entity' => $message->toArray(true)
+            ])
+        );
+    }
+
+    /**
+     * Close
+     *
+     * @return ?ResultInterface
+     */
+    protected function close(): ?ResultInterface
     {
         $request = $this->model->getRequest();
 
@@ -212,89 +277,34 @@ class ConsultancyService extends ServiceArtificer
             ], 400));
         }
 
-        $message = $request('message');
+        $consultancies = $this->mm()
+            ->select(fn ($_select) => $_select->order('@this.__created desc'))
+            ->where(['@this.token' => $session->token, '@this.closed' => 0])
+            ->all();
 
-        if (! $message) {
-            return $this->response(new JsonResponse([
-                'error' => 'there is no message'
-            ], 400));
-        }
-
-        $consultancy = $this->mm([
-            'question' => $message,
-            'token' => $session->token,
-        ]);
-
-        $this->mm($consultancy)->save();
+        $consultancies->each(fn ($_consultancy) => $_consultancy->closed = 1)->compile();
+        $this->mm($consultancies)->save();
 
         return $this->response(
             new JsonResponse([
                 'result' => 'success',
-                'entity' => $consultancy->toArray(true)
             ])
         );
     }
 
     /**
-     * Message
+     * Make consultancy 
      *
-     * @return ?ResultInterface
+     * @param string $_token
+     * @param string $_message 
+     *
+     * @return \Qore\App\SynapseNodes\Components\Consultancy\Consultancy
      */
-    protected function message(): ?ResultInterface
+    protected function makeConsultancy(string $_token, string $_message): Consultancy
     {
-        $request = $this->model->getRequest();
-
-        $token = $request('token');
-        $idConsultancy = $request('id');
-
-        if (! $token || ! $idConsultancy) {
-            return $this->response(new JsonResponse([
-                'error' => 'bad request'
-            ], 400));
-        }
-
-        $session = $this->mm('SM:ConsultancySession')
-            ->where(['@this.token' => $token])
-            ->one();
-
-        if (! $session) {
-            return $this->response(new JsonResponse([
-                'error' => 'token not found'
-            ], 400));
-        }
-
-        $consultancy = $this->mm()
-            ->where(['@this.token' => $session->token, '@this.id' => $idConsultancy])
-            ->one();
-
-        if (! $consultancy) {
-            return $this->response(new JsonResponse([
-                'error' => 'dialog not found'
-            ], 400));
-        }
-
-        $message = $request('message');
-
-        if (! $message) {
-            return $this->response(new JsonResponse([
-                'error' => 'there is no message'
-            ], 400));
-        }
-
-        $message = $this->mm('SM:ConsultancyMessage', [
-            'idConsultancy' => $consultancy->id,
-            'message' => $message,
-            'direction' => ConsultancyMessage::DIRECTION_IN,
-        ]);
-
-        $this->mm($message)->save();
-
-        return $this->response(
-            new JsonResponse([
-                'result' => 'success',
-                'entity' => $message->toArray(true)
-            ])
-        );
+        $consultancy = $this->mm([ 'token' => $_token, 'question' => $_message, ]);
+        $this->mm($consultancy)->save();
+        return $consultancy;
     }
 
     /**

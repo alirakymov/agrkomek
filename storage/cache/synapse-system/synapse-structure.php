@@ -1445,6 +1445,14 @@ return [
                         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
                         'alias' => 'token',
                     ],
+                    'attribute-30' => [
+                        'label' => 'Целое число',
+                        'length' => 11,
+                        'default' => '0',
+                        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Integer',
+                        'alias' => 'closed',
+                        'null' => true,
+                    ],
                 ],
                 'constraints' => [
                     'parent' => [

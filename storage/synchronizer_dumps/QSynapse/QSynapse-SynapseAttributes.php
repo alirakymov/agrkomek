@@ -36,6 +36,13 @@ return [
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
         'description' => '',
     ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Consultancy);closed)' => [
+        'iSynapse' => 'QSynapse:Synapses(Consultancy)',
+        'name' => 'closed',
+        'label' => 'Закрыт',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Integer',
+        'description' => 'Закрыт',
+    ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Consultancy);question)' => [
         'iSynapse' => 'QSynapse:Synapses(Consultancy)',
         'name' => 'question',

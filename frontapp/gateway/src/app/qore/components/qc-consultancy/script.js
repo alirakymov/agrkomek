@@ -16,21 +16,24 @@ export default {
             wysiwygEditor: WysiwygEditor,
             consultancy: _.get(this.options, 'consultancy', null),
             messageRoute: _.get(this.options, 'message-route', null),
+            closeRoute: _.get(this.options, 'close-route', null),
             reloadDialogRoute: _.get(this.options, 'reload-dialog-route', null),
             message: '',
             messages: _.get(this.options, 'messages', []),
+            interval: null
         };
     },
 
     props: ['options'],
 
     mounted: function() {
-        setInterval(() => {
+        this.interval = setInterval(() => {
             this.reloadDialog();
         }, 5000);
     },
 
-    beforeDestroy: function() {
+    unmounted: function() {
+        clearInterval(this.interval);
     },
 
     computed: {
@@ -135,6 +138,10 @@ export default {
                 });
 
 
+        },
+
+        closeConsultancy() {
+            this.$axios.get(this.closeRoute);
         }
     }
 }
