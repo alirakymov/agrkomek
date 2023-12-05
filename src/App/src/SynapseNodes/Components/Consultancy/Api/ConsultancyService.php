@@ -126,7 +126,7 @@ class ConsultancyService extends ServiceArtificer
         }
 
         $data = $this->mm()->where(['@this.token' => $session->token])
-            ->select(fn ($_select) => $_select->order('@this.__created desc'))
+            ->select(fn ($_select) => $_select->order('@this.__created'))
             ->all();
 
         $ids = $data->extract('id')->toList();
