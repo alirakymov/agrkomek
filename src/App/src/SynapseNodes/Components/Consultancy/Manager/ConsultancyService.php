@@ -312,6 +312,41 @@ class ConsultancyService extends ServiceArtificer
         ]);
 
         return $this->presentAs(ListComponent::class, [
+            'columns' => [
+                'id' => [
+                    'label' => '#',
+                    'class-header' => 'col-1',
+                    'class-column' => 'col-1',
+                ],
+                'question' => [
+                    'label' => 'Запрос',
+                    'class-header' => 'col-4',
+                    'class-column' => 'col-4',
+                ],
+                'token' => [
+                    'label' => 'Сессия',
+                    'class-header' => 'col-3',
+                    'class-column' => 'col-3',
+                ],
+                'closed' => [
+                    'label' => 'Статус',
+                    'class-header' => 'col-1',
+                    'class-column' => 'col-1',
+                    'transform' => function ($_item) {
+                        return isset($_item['closed']) && (int)$_item['closed']
+                            ? ['isLabel' => true, 'class' => 'bg-warning-light text-warning', 'label' => 'Закрыта']
+                            : ['isLabel' => true, 'class' => 'bg-info-light text-info', 'label' => 'Открыта'];
+                    },
+                ],
+                'created' => [
+                    'label' => 'Создан',
+                    'class-header' => 'col-2',
+                    'class-column' => 'col-2',
+                    'transform' => function($_item) {
+                        return $_item['__created']->format('d.m.Y H:i');
+                    }
+                ],
+            ],
             'actions' => $this->getListActions(),
             'suffix' => $testFilters['filters']['id'] ?? null,
             'sortable' => $this->getSortableOptions(),
