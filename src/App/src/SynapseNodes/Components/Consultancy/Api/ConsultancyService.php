@@ -283,7 +283,10 @@ class ConsultancyService extends ServiceArtificer
             ->all();
 
         $consultancies->each(fn ($_consultancy) => $_consultancy->closed = 1)->compile();
-        $this->mm($consultancies)->save();
+
+        if ($consultancies->count()) {
+            $this->mm($consultancies)->save();
+        }
 
         return $this->response(
             new JsonResponse([
