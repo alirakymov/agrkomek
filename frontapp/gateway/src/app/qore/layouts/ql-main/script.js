@@ -21,7 +21,6 @@ export default {
     mounted() {
         /** Init page theme application */
         window.Dashmix = new ThemeApp();
-        console.log(this.components)
     },
 
     updated() {

@@ -1,6 +1,6 @@
 {
     "composer.autoloader_path": "vendor/autoload.php",
     "composer.class_maps_only": false,
-    "php_code_sniffer.enabled": true,
-    "prophecy.enabled": true
+    "php_code_sniffer.enabled": false,
+    "prophecy.enabled": false
 }

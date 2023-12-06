@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Qore\App\SynapseNodes\Components\Machinery;
 
+
 use Qore\Qore;
 use Qore\SynapseManager\Structure\Entity\SynapseBaseEntity;
 
@@ -24,16 +25,30 @@ class Machinery extends SynapseBaseEntity
 
         static::before('save', function($_event) {
             $entity = $_event->getTarget();
-            $entity->content = is_string($entity->content) 
-                ? $entity->content 
-                : json_encode($entity->content, JSON_UNESCAPED_UNICODE);
+
+            $entity->params = is_string($entity->params) 
+                ? $entity->params 
+                : json_encode($entity->params, JSON_UNESCAPED_UNICODE);
+
+            $entity->images = is_string($entity->images) 
+                ? $entity->images 
+                : json_encode($entity->images, JSON_UNESCAPED_UNICODE);
+            dump($entity);
         });
 
         static::after('save', $func = function($_event) {
             $entity = $_event->getTarget();
-            $entity->content = is_string($entity->content) 
-                ? json_decode($entity->content, true) 
-                : $entity->content;
+
+            $entity->params = $entity->params ?: [];
+            $entity->images = $entity->images ?: [];
+
+            $entity->params = is_string($entity->params) 
+                ? json_decode($entity->params, true) 
+                : $entity->params;
+
+            $entity->images = is_string($entity->images) 
+                ? json_decode($entity->images, true) 
+                : $entity->images;
         });
 
         static::after('initialize', $func);

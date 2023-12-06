@@ -141,6 +141,20 @@ return [
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Text',
         'description' => 'Содержимое',
     ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);images)' => [
+        'iSynapse' => 'QSynapse:Synapses(Machinery)',
+        'name' => 'images',
+        'label' => 'Изображения',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\LongText',
+        'description' => 'Изображения',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);params)' => [
+        'iSynapse' => 'QSynapse:Synapses(Machinery)',
+        'name' => 'params',
+        'label' => 'Параметры',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\LongText',
+        'description' => 'доп параметры',
+    ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);price)' => [
         'iSynapse' => 'QSynapse:Synapses(Machinery)',
         'name' => 'price',

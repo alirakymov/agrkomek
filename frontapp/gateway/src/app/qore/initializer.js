@@ -84,6 +84,7 @@ export default (app) => {
         'qc-grid',
         'qc-htmlcontent',
         'qc-infoblock',
+        'qc-machinery-form',
         'qc-modal',
         'qc-navbar',
         'qc-navigation',

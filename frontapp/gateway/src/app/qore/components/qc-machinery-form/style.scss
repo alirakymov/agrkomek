@@ -1,0 +1,11 @@
+.machinery-dropzone {
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+        max-height: 100px !important;
+    }
+
+    .dz-default.dz-message {
+        display: none;
+    }
+}

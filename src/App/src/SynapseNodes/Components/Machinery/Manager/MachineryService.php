@@ -19,6 +19,7 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Qore\App\SynapseNodes\Components\Machinery\Manager\InterfaceGateway\Form;
 use Qore\SynapseManager\Artificer\Service\ServiceArtificer;
 use Qore\SynapseManager\Plugin\FormMaker\FormMaker;
 use Qore\SynapseManager\Plugin\RoutingHelper\RoutingHelper;
@@ -148,32 +149,44 @@ class MachineryService extends ServiceArtificer
 
         $request = $this->model->getRequest();
 
-        /** @var FormMaker */
-        $formMaker = $this->plugin(FormMaker::class);
-        $fm = $formMaker->make($this->serviceForm);
 
         $ig = Qore::service(InterfaceGateway::class);
+
+        $machinery = $this->mm([]);
+
+        /**@var InterfaceGateway */
+        $ig = Qore::service(InterfaceGateway::class);
+        $form = $ig(Form::class, sprintf('machinery-form-%s', 'new'));
+
+        $form->setOption('machinery', [
+            'images' => [],
+            'params' => [],
+        ]);
+
+        $form->setOption('upload-route', Qore::url($this->sm('ImageStore:Uploader')->getRouteName('upload')));
+        $form->setOption('save-route', Qore::url($this->getRouteName('create')));
+
         $modal = $ig(Modal::class, sprintf('%s.%s', get_class($this), 'modal-create'))
             ->setTitle('Создание')
             ->setOption('modal-type', 'rightside')
             ->setOption('size', 'xl')
-            ->component(Qore::service(QoreFront::class)->decorate($fm));
+            ->component($form);
 
         $component = $this->getComponent();
 
         if ($request->getMethod() === 'POST') {
-            if ($fm->isValid()) {
-                # - Save data
-                $this->mm($this->model->getDataSource()->extractData()->first())->save();
+            $data = $request->getParsedBody()['machinery'];
+            unset($data['__created'], $data['__updated']);
 
-                # - Generate json response
-                return $this->response([
-                    $modal->execute('close'),
-                    $component->execute('reload'),
-                ]);
-            } else {
-                return $this->response($fm->decorate(['decorate']));
-            }
+            $entity = $this->mm($data);
+            $this->mm($entity)->save();
+
+            $component = $this->getComponent();
+            # - Generate json response
+            return $this->response([
+                $modal->execute('close'),
+                $component->execute('reload'),
+            ]);
         } else {
             $modal->execute('open');
             # - Generate json response
@@ -192,35 +205,41 @@ class MachineryService extends ServiceArtificer
 
         $request = $this->model->getRequest();
 
-        /** @var FormMaker */
-        $formMaker = $this->plugin(FormMaker::class);
-        $fm = $formMaker->make($this->serviceForm);
+        $routeResult = $this->model->getRouteResult();
+        $routeParams = $routeResult->getMatchedParams();
 
+        $machinery = $this->mm()->where(['@this.id' => $routeParams['id']])->one();
+        if (! $machinery) {
+            return $this->response([]);
+        }
+
+        /**@var InterfaceGateway */
         $ig = Qore::service(InterfaceGateway::class);
+        $form = $ig(Form::class, sprintf('machinery-form-%s', $machinery->id));
+
+        $form->setOption('machinery', $machinery->toArray(true));
+        $form->setOption('upload-route', Qore::url($this->sm('ImageStore:Uploader')->getRouteName('upload')));
+        $form->setOption('save-route', Qore::url($this->getRouteName('update')));
+
         $modal = $ig(Modal::class, sprintf('%s.%s', get_class($this), 'modal-update'))
             ->setTitle('Редактирование')
             ->setOption('modal-type', 'rightside')
             ->setOption('size', 'xl')
-            ->component(Qore::service(QoreFront::class)->decorate($fm));
-
-        $component = $this->getComponent();
+            ->component($form);
 
         if ($request->getMethod() === 'POST') {
-            if ($fm->isValid()) {
-                # - Save data
-                $this->model->getDataSource()->extractData()->each(function($_entity){
-                    $this->mm($_entity)->save();
-                });
-                # - Generate json response
-                return $this->response([
-                    $modal->execute('close'),
-                    $component->execute('reload'),
-                ]);
-            } else {
-                return $this->response(
-                    $fm->decorate(['decorate'])
-                );
-            }
+            $data = $request->getParsedBody()['machinery'];
+            unset($data['__created'], $data['__updated']);
+
+            $entity = $this->mm($data);
+            $this->mm($entity)->save();
+
+            $component = $this->getComponent();
+            # - Generate json response
+            return $this->response([
+                $modal->execute('close'),
+                $component->execute('reload'),
+            ]);
         } else {
             $modal->execute('open');
             # - Generate json response

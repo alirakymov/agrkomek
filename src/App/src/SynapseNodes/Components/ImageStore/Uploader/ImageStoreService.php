@@ -82,8 +82,10 @@ class ImageStoreService extends ServiceArtificer
         # - Upload files
         $files = $this->model->getRequest()->getUploadedFiles();
 
-        if (isset($files['image'])) {
-            $this->mm($image = $this->mm(['file' => $files['image']]))->save();
+        $file = $files['image'] ?? $files['file'] ?? null;
+
+        if (! is_null($file)) {
+            $this->mm($image = $this->mm(['file' => $file]))->save();
             # - Generate json response
             return $this->response(new JsonResponse([
                 'success' => 1,
@@ -92,6 +94,7 @@ class ImageStoreService extends ServiceArtificer
                 ]
             ]));
         }
+
         return $this->response(new JsonResponse([
             'success' => 0,
         ]));

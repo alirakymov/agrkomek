@@ -78,6 +78,13 @@ return [
         'index' => 0,
         'description' => 'Загрузчик изображений',
     ],
+    'QSynapse:SynapseServices(QSynapse:Synapses(Machinery);Api)' => [
+        'iSynapse' => 'QSynapse:Synapses(Machinery)',
+        'name' => 'Api',
+        'label' => 'Api',
+        'index' => 0,
+        'description' => 'Api',
+    ],
     'QSynapse:SynapseServices(QSynapse:Synapses(Machinery);Manager)' => [
         'iSynapse' => 'QSynapse:Synapses(Machinery)',
         'name' => 'Manager',
