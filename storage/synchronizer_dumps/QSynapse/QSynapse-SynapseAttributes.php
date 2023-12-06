@@ -148,12 +148,33 @@ return [
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\LongText',
         'description' => 'Изображения',
     ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);linkGeo)' => [
+        'iSynapse' => 'QSynapse:Synapses(Machinery)',
+        'name' => 'linkGeo',
+        'label' => 'Ссылка geo',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Text',
+        'description' => 'Ссылка geo',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);linkWhatsapp)' => [
+        'iSynapse' => 'QSynapse:Synapses(Machinery)',
+        'name' => 'linkWhatsapp',
+        'label' => 'Ссылка Whatsapp',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Text',
+        'description' => 'Ссылка Whatsapp',
+    ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);params)' => [
         'iSynapse' => 'QSynapse:Synapses(Machinery)',
         'name' => 'params',
         'label' => 'Параметры',
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\LongText',
         'description' => 'доп параметры',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);phone)' => [
+        'iSynapse' => 'QSynapse:Synapses(Machinery)',
+        'name' => 'phone',
+        'label' => 'Номер телефона',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
+        'description' => 'Номер телефона',
     ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);price)' => [
         'iSynapse' => 'QSynapse:Synapses(Machinery)',
@@ -168,6 +189,13 @@ return [
         'label' => 'Название',
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
         'description' => 'Название',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);type)' => [
+        'iSynapse' => 'QSynapse:Synapses(Machinery)',
+        'name' => 'type',
+        'label' => 'Тип',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
+        'description' => 'тип объявления',
     ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Moderator);email)' => [
         'iSynapse' => 'QSynapse:Synapses(Moderator)',

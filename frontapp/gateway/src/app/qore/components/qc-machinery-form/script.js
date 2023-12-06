@@ -16,8 +16,10 @@ export default {
             uploadRoute: _.get(this.options, 'upload-route', null),
             images: _.get(this.options, 'machinery.images', []),
             params: _.get(this.options, 'machinery.params', []),
+            types: _.get(this.options, 'types', []),
             dropzone: null,
             dropzoneUploads: [],
+            errors: [],
         };
     },
 
@@ -93,18 +95,30 @@ export default {
             this.params.push('');
         },
 
+        isInvalidType() {
+            return this.errors.indexOf('type') > -1;
+        },
+
         deleteImage(key) {
             this.images.splice(key, 1);
         },
 
         save() {
+            if (! this.machinery.type) {
+                this.errors.push('type');
+                return;
+            }
+
             let machinery = this.machinery;
 
             machinery.images = this.images;
             machinery.params = this.params;
 
             this.$axios
-                .post(this.saveRoute, { machinery });
+                .post(this.saveRoute, { machinery })
+                .then(() => {
+                    this.errors = [];
+                });
         },
     }
 }

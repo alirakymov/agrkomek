@@ -84,6 +84,10 @@ class MachineryService extends ServiceArtificer
 
         $filters = [];
 
+        if (isset($queryParams['type'])) {
+            $filters['@this.type'] = $queryParams['type'];
+        }
+
         $gw = $this->mm()
             ->select(fn ($_select) => $_select->order('@this.__created desc'));
 

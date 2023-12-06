@@ -15,6 +15,23 @@ use Qore\SynapseManager\Structure\Entity\SynapseBaseEntity;
  */
 class Machinery extends SynapseBaseEntity
 {
+    const TYPE_RENT = 'rent';
+
+    const TYPE_EXCHANGE = 'exchange';
+
+    /**
+     * Return types
+     *
+     * @return array
+     */
+    public static function getTypes(): array
+    {
+        return [
+            ['id' => self::TYPE_RENT, 'label' => 'Аренда'],
+            ['id' => self::TYPE_EXCHANGE, 'label' => 'Обмен'],
+        ];
+    }
+
     /**
      * subscribe
      *

@@ -23,6 +23,13 @@
         </div>
 
         <div class="form-floating mb-4">
+            <select class="form-select" v-model="machinery.type" :class="{'is-invalid': isInvalidType()}">
+                <option v-for="option in types" :value="option.id" >{{ option.label }}</option>
+            </select>
+            <label >Тип объявления</label>
+            <div class="form-text animated fadeInUp">выберите тип объявления</div>
+        </div>
+        <div class="form-floating mb-4">
             <input type="text" class="form-control"
                 placeholder="Название"
                 v-model="machinery.title"
@@ -30,7 +37,7 @@
             <label>Название</label>
             <div class="form-text animated fadeInUp">название техники</div>
         </div>
-        <div class="form-floating mb-4">
+        <div class="form-floating mb-4" v-if="machinery.type != 'exchange'">
             <input type="text" class="form-control"
                 placeholder="Цена"
                 v-model="machinery.price"
@@ -47,6 +54,30 @@
             <div class="form-text animated fadeInUp">дополнительный параметр</div>
         </div>
         <div class="mb-4"><a href="javascript:void(0);" @click="addParam()">+ добавить параметр</a></div>
+        <div class="form-floating mb-4">
+            <input type="text" class="form-control"
+                placeholder="Ссылка на geo-локацию"
+                v-model="machinery.linkGeo"
+            >
+            <label>Ссылка на geo-локацию</label>
+            <div class="form-text animated fadeInUp">введите ссылку на geo-локацию</div>
+        </div>
+        <div class="form-floating mb-4">
+            <input type="text" class="form-control"
+                placeholder="Ссылка на Whatsapp"
+                v-model="machinery.linkWhatsapp"
+            >
+            <label>Ссылка на Whatsapp</label>
+            <div class="form-text animated fadeInUp">введите ссылку на Whatsapp</div>
+        </div>
+        <div class="form-floating mb-4">
+            <input type="text" class="form-control"
+                placeholder="Номер телефона"
+                v-model="machinery.phone"
+            >
+            <label>Телефон</label>
+            <div class="form-text animated fadeInUp">введите телефон</div>
+        </div>
         <div class="form-floating mb-4">
             <textarea class="form-control" style="height: 120px"
                 placeholder="Описание"

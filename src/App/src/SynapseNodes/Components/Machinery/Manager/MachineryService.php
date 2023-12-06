@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Qore\App\SynapseNodes\Components\Machinery\Manager;
 
 use Mezzio\Helper\UrlHelper;
+use Qore\App\SynapseNodes\Components\Machinery\Machinery;
 use Qore\DealingManager\Result;
 use Qore\DealingManager\ResultInterface;
 use Qore\Form\Decorator\QoreFront;
@@ -165,6 +166,7 @@ class MachineryService extends ServiceArtificer
 
         $form->setOption('upload-route', Qore::url($this->sm('ImageStore:Uploader')->getRouteName('upload')));
         $form->setOption('save-route', Qore::url($this->getRouteName('create')));
+        $form->setOption('types', Machinery::getTypes());
 
         $modal = $ig(Modal::class, sprintf('%s.%s', get_class($this), 'modal-create'))
             ->setTitle('Создание')
@@ -220,6 +222,7 @@ class MachineryService extends ServiceArtificer
         $form->setOption('machinery', $machinery->toArray(true));
         $form->setOption('upload-route', Qore::url($this->sm('ImageStore:Uploader')->getRouteName('upload')));
         $form->setOption('save-route', Qore::url($this->getRouteName('update')));
+        $form->setOption('types', Machinery::getTypes());
 
         $modal = $ig(Modal::class, sprintf('%s.%s', get_class($this), 'modal-update'))
             ->setTitle('Редактирование')
@@ -313,6 +316,22 @@ class MachineryService extends ServiceArtificer
                     'label' => 'Параметры',
                     'class-header' => 'col-3',
                     'class-column' => 'col-3',
+                ],
+                'type' => [
+                    'label' => 'Тип',
+                    'class-header' => 'col-1',
+                    'class-column' => 'col-1',
+                    'transform' => function ($_item) {
+                        $types = Machinery::getTypes();
+
+                        $type = Qore::collection($types)->firstMatch(['id' => $_item['type']]);
+
+                        if (is_null($type)) {
+                            return ['isLabel' => true, 'class' => 'bg-warning-light text-warning', 'label' => 'Неопределен'];
+                        }
+
+                        return ['isLabel' => true, 'class' => 'bg-info-light text-info', 'label' => $type['label']];
+                    },
                 ],
                 // 'closed' => [
                 //     'label' => 'Статус',
