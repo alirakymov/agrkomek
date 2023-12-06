@@ -33,7 +33,6 @@ class Machinery extends SynapseBaseEntity
             $entity->images = is_string($entity->images) 
                 ? $entity->images 
                 : json_encode($entity->images, JSON_UNESCAPED_UNICODE);
-            dump($entity);
         });
 
         static::after('save', $func = function($_event) {
