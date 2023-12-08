@@ -85,7 +85,17 @@ class GuideCategoryService extends ServiceArtificer
     protected function list(): ?ResultInterface
     {
         $data = $this->mm()->all();
-        $data = $data->map(fn ($_item) => $_item->toArray(true));
+        $data2 = Qore::collection($data->toList());
+
+        $data = $data->map(function($_item) use ($data2) {
+            $_item = $_item->toArray(true);
+            $_item['isLeaf'] = true;
+            if ($data2->match(['__idparent' => $_item['id']])->count()) {
+                $_item['isLeaf'] = false;
+            } 
+            return $_item;
+        });
+
         return $this->response(new JsonResponse($data->toList()));
     }
 
