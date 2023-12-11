@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Qore\App\SynapseNodes\Components\GuideCategory\Api;
+namespace Qore\App\SynapseNodes\Components\User\Api;
 
 use Mezzio\Template\TemplateRendererInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
@@ -10,6 +10,8 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Qore\App\SynapseNodes\Components\Consultancy\Consultancy;
+use Qore\App\SynapseNodes\Components\ConsultancyMessage\ConsultancyMessage;
 use Qore\DealingManager\ResultInterface;
 use Qore\Qore;
 use Qore\Router\RouteCollector;
@@ -17,11 +19,11 @@ use Qore\SynapseManager\Artificer\Service\ServiceArtificer;
 use Qore\SynapseManager\Plugin\RoutingHelper\RoutingHelper;
 
 /**
- * Class: ArticleService
+ * Class: ConsultancyService 
  *
  * @see Qore\SynapseManager\Artificer\Service\ServiceArtificer
  */
-class GuideCategoryService extends ServiceArtificer
+class UserService extends ServiceArtificer
 {
     /**
      * serviceForm
@@ -43,8 +45,8 @@ class GuideCategoryService extends ServiceArtificer
     public function routes(RouteCollector $_router) : void
     {
         $this->routingHelper = $this->plugin(RoutingHelper::class);
-        $_router->group('/guide-category', null, function($_router) {
-            $_router->get('/list', 'list');
+        $_router->group('/user', null, function($_router) {
+            $_router->get('/code', 'code');
         });
         # - Register related subjects routes
         $this->registerSubjectsRoutes($_router);
@@ -60,9 +62,11 @@ class GuideCategoryService extends ServiceArtificer
     public function compile() : ?ResultInterface
     {
         $routeResult = $this->model->getRouteResult();
+
         $this->routingHelper = $this->plugin(RoutingHelper::class);
 
-        list($method, $arguments) = $this->routingHelper->dispatch(['list']) ?? ['notFound', null];
+        list($method, $arguments) = $this->routingHelper->dispatch(['code']) ?? ['notFound', null];
+
         return ! is_null($method) ? call_user_func_array([$this, $method], $arguments ?? []) : null;
     }
 
@@ -77,25 +81,35 @@ class GuideCategoryService extends ServiceArtificer
     }
 
     /**
-     * List
+     * Token 
      *
      * @return ?ResultInterface
      */
-    protected function list(): ?ResultInterface
+    protected function code(): ?ResultInterface
     {
-        $data = $this->mm()->all();
-        $data2 = Qore::collection($data->toList());
+        $request = $this->model->getRequest();
+        $queryParams = $request->getQueryParams();
 
-        $data = $data->map(function($_item) use ($data2) {
-            $_item = $_item->toArray(true);
-            $_item['isLeaf'] = true;
-            if ($data2->match(['__idparent' => $_item['id']])->count()) {
-                $_item['isLeaf'] = false;
-            } 
-            return $_item;
-        });
+        if (! isset($queryParams['phone'])) {
+            return $this->response(new JsonResponse([
+                'error' => 'bad request'
+            ], 400));
+        }
 
-        return $this->response(new JsonResponse($data->toList()));
+        $user = $this->mm('SM:User')->where(['@this.phone' => $queryParams['phone']])->one();
+
+        if (is_null($user)) {
+            $user = $this->mm([
+                'phone' => $queryParams['phone'],
+            ]);
+        }
+
+        $user->generateOtp();
+        $this->mm($user)->save();
+
+        return $this->response(new JsonResponse([
+            'result' => 'success' 
+        ]));
     }
 
     /**

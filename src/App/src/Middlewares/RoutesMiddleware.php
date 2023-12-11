@@ -55,6 +55,7 @@ class RoutesMiddleware implements MiddlewareInterface
                 });
             });
         });
+
         return $_handler->handle($_request);
     }
 

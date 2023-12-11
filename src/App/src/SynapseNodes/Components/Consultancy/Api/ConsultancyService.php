@@ -133,6 +133,7 @@ class ConsultancyService extends ServiceArtificer
 
         $messages = $this->mm('SM:ConsultancyMessage')
             ->where(['@this.idConsultancy' => $ids])
+            ->select(fn ($_select) => $_select->order('@this.__created'))
             ->all()
             ->map(fn ($_message) => $_message->toArray(true));
 

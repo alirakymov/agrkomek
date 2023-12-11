@@ -11,6 +11,5 @@ $dependencies = $config['dependencies'];
 $dependencies['services']['config'] = $config;
 $dependencies['services']['loader'] = $_loader;
 
-
 // Build container
 return new ServiceManager($dependencies);

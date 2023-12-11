@@ -43,6 +43,7 @@ $aggregator = new ConfigAggregator([
     \Laminas\Diactoros\ConfigProvider::class,
     \Mezzio\Authentication\Basic\ConfigProvider::class,
     \Mezzio\Authentication\ConfigProvider::class,
+    \Mezzio\Authentication\OAuth2\ConfigProvider::class,
     \Mezzio\Session\Ext\ConfigProvider::class,
     \Mezzio\Flash\ConfigProvider::class,
     \Mezzio\Session\ConfigProvider::class,

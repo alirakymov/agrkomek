@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Mezzio\Authentication\OAuth2\AuthorizationHandler;
+use Mezzio\Authentication\OAuth2\TokenEndpointHandler;
 use Mezzio\Flash\FlashMessageMiddleware;
 use Psr\Container\ContainerInterface;
 use Qore\Qore as Qore;
@@ -15,6 +17,7 @@ use Mezzio\Router\Middleware\ImplicitOptionsMiddleware;
 use Mezzio\Router\Middleware\MethodNotAllowedMiddleware;
 use Mezzio\Router\Middleware\RouteMiddleware;
 use Laminas\Stratigility\Middleware\ErrorHandler;
+use Mezzio\Authentication\OAuth2\AuthorizationMiddleware;
 use Mezzio\Cors\Middleware\CorsMiddleware;
 use Mezzio\Helper\BodyParams\BodyParamsMiddleware;
 use Mezzio\Session\SessionMiddleware as MezzioSessionMiddleware;

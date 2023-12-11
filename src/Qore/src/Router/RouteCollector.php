@@ -327,7 +327,6 @@ class RouteCollector
     private function concatNamespace($_namespace, string $_name = null) : string
     {
         if ($_name === null) {
-
             if ($_namespace === null) {
                 return null;
             }
@@ -338,4 +337,5 @@ class RouteCollector
 
         return ($_namespace ? $_namespace . '.' : '') . ($_name ?? '');
     }
+
 }

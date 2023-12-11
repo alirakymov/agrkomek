@@ -1,13 +1,13 @@
 <?php
 
 use Qore\App\SynapseNodes\Components\Article\Manager\ArticleService;
-use Qore\App\SynapseNodes\Components\ArticleType\Manager\ArticleTypeService;
-use Qore\App\SynapseNodes\Components\Consultancy\Manager\ConsultancyService;
+use Qore\App\SynapseNodes\Components\ArticleType\Manager\ArticleTypeService; use Qore\App\SynapseNodes\Components\Consultancy\Manager\ConsultancyService;
 use Qore\App\SynapseNodes\Components\Guide\Manager\GuideService;
 use Qore\App\SynapseNodes\Components\GuideCategory\Manager\GuideCategoryService;
 use Qore\App\SynapseNodes\Components\Machinery\Manager\MachineryService;
 use Qore\App\SynapseNodes\Components\ModeratorRole\Manager\ModeratorRoleService;
 use Qore\App\SynapseNodes\Components\Moderator\Manager\ModeratorService;
+use Qore\App\SynapseNodes\Components\User\Manager\UserService;
 
 return [
     'app' => [
@@ -83,6 +83,17 @@ return [
                             'privilege' => 1,
                             'icon' => 'fas fa-tractor',
                             'route' => [MachineryService::class, 'index'],
+                        ],
+                    ],
+                ],
+                [
+                    'label' => 'Пользователи',
+                    'sublevel' => [
+                        [
+                            'label' => 'Список',
+                            'privilege' => 1,
+                            'icon' => 'fas fa-users',
+                            'route' => [UserService::class, 'index'],
                         ],
                     ],
                 ],

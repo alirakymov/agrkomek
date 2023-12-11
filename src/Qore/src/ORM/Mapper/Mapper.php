@@ -388,6 +388,9 @@ class Mapper implements MapperInterface
      */
     protected function getColumn(array $_column) : Ddl\Column\ColumnInterface
     {
+        if ($_column['Type'] == 'tinyint(1)') {
+            dump($_column);
+        }
         $type = $this->matchColumnType($_column['Type']);
         $isNull = $_column['Null'] !== 'NO';
 

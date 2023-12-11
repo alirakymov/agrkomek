@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Qore\App\SynapseNodes\System\Routes\Api;
 
+use Mezzio\Authentication\OAuth2\AuthorizationHandler;
+use Mezzio\Authentication\OAuth2\AuthorizationMiddleware;
+use Mezzio\Authentication\OAuth2\TokenEndpointHandler;
 use Mezzio\Helper\UrlHelper;
 use Mezzio\Router\RouteResult;
 use Qore\App;
@@ -32,6 +35,8 @@ class RoutesService extends Service\ServiceArtificer
                 $artificers = array_merge($artificers, [$subjectArtificer], $subjectArtificer->getFormsArtificers());
             }
 
+            $_router->post('/oauth2/token', 'oauth-token', TokenEndpointHandler::class);
+
             $_router->registerRoutesFromMiddlewares($artificers);
         });
     }
@@ -44,6 +49,7 @@ class RoutesService extends Service\ServiceArtificer
      */
     public function process(ServerRequestInterface $_request, RequestHandlerInterface $_handler) : ResponseInterface
     {
+        /**@var RouteResult */
         $routeResult = $_request->getAttribute(RouteResult::class);
         $routeOptions = $routeResult->getMatchedRoute()->getOptions();
         $middleware = $routeOptions['proxing_middleware'];
@@ -65,7 +71,7 @@ class RoutesService extends Service\ServiceArtificer
      */
     private function getPipelineCollectionForMiddleware(string $_middleware) : array
     {
-        $synapseMiddlewaresConfig = Qore::config('qore.synapse-middlewares', []);
+        $synapseMiddlewaresConfig = Qore::config('qore.route-middlewares', []);
 
         $result = [];
         foreach ($synapseMiddlewaresConfig as $regularExpression => $middlewares) {
