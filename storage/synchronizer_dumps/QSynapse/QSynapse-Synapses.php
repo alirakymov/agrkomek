@@ -79,4 +79,10 @@ return [
         'description' => 'Сервис роутов',
         'tree' => 0,
     ],
+    'QSynapse:Synapses(User)' => [
+        'iParent' => null,
+        'name' => 'User',
+        'description' => 'Пользователь',
+        'tree' => 0,
+    ],
 ];

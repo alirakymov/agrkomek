@@ -73,6 +73,14 @@ return [
         'type' => '1',
         'description' => '',
     ],
+    'QSynapse:SynapseRelations(QSynapse:Synapses(Machinery);machineries;QSynapse:Synapses(User);user)' => [
+        'iSynapseFrom' => 'QSynapse:Synapses(User)',
+        'synapseAliasFrom' => 'machineries',
+        'iSynapseTo' => 'QSynapse:Synapses(Machinery)',
+        'synapseAliasTo' => 'user',
+        'type' => '2',
+        'description' => 'machineries',
+    ],
     'QSynapse:SynapseRelations(QSynapse:Synapses(Machinery);machinery;QSynapse:Synapses(Routes);route)' => [
         'iSynapseFrom' => 'QSynapse:Synapses(Routes)',
         'synapseAliasFrom' => 'machinery',
@@ -120,5 +128,13 @@ return [
         'synapseAliasTo' => 'routes',
         'type' => '1',
         'description' => '',
+    ],
+    'QSynapse:SynapseRelations(QSynapse:Synapses(User);user;QSynapse:Synapses(Routes);route)' => [
+        'iSynapseFrom' => 'QSynapse:Synapses(Routes)',
+        'synapseAliasFrom' => 'user',
+        'iSynapseTo' => 'QSynapse:Synapses(User)',
+        'synapseAliasTo' => 'route',
+        'type' => '1',
+        'description' => 'User',
     ],
 ];

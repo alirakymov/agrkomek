@@ -71,6 +71,13 @@ return [
         'index' => 0,
         'description' => 'Категории справочника',
     ],
+    'QSynapse:SynapseServices(QSynapse:Synapses(ImageStore);ApiPrivate)' => [
+        'iSynapse' => 'QSynapse:Synapses(ImageStore)',
+        'name' => 'ApiPrivate',
+        'label' => 'ApiPrivate',
+        'index' => 0,
+        'description' => 'ApiPrivate',
+    ],
     'QSynapse:SynapseServices(QSynapse:Synapses(ImageStore);Uploader)' => [
         'iSynapse' => 'QSynapse:Synapses(ImageStore)',
         'name' => 'Uploader',
@@ -84,6 +91,13 @@ return [
         'label' => 'Api',
         'index' => 0,
         'description' => 'Api',
+    ],
+    'QSynapse:SynapseServices(QSynapse:Synapses(Machinery);ApiPrivate)' => [
+        'iSynapse' => 'QSynapse:Synapses(Machinery)',
+        'name' => 'ApiPrivate',
+        'label' => 'Приватный API',
+        'index' => 0,
+        'description' => 'Приватный API',
     ],
     'QSynapse:SynapseServices(QSynapse:Synapses(Machinery);Manager)' => [
         'iSynapse' => 'QSynapse:Synapses(Machinery)',
@@ -133,5 +147,19 @@ return [
         'label' => 'Сервис управления',
         'index' => 0,
         'description' => 'сервис управления роутами',
+    ],
+    'QSynapse:SynapseServices(QSynapse:Synapses(User);Api)' => [
+        'iSynapse' => 'QSynapse:Synapses(User)',
+        'name' => 'Api',
+        'label' => 'Сервис API',
+        'index' => 0,
+        'description' => 'Сервис API',
+    ],
+    'QSynapse:SynapseServices(QSynapse:Synapses(User);Manager)' => [
+        'iSynapse' => 'QSynapse:Synapses(User)',
+        'name' => 'Manager',
+        'label' => 'Сервис управления',
+        'index' => 0,
+        'description' => 'Сервис управления',
     ],
 ];

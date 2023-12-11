@@ -42,6 +42,7 @@ class MachineryService extends ServiceArtificer
         $this->routingHelper = $this->plugin(RoutingHelper::class);
         $_router->group('/machinery', null, function($_router) {
             $_router->post('/save', 'save');
+            $_router->get('/user-list', 'user-list');
         });
         # - Register related subjects routes
         $this->registerSubjectsRoutes($_router);
@@ -60,7 +61,7 @@ class MachineryService extends ServiceArtificer
 
         $this->routingHelper = $this->plugin(RoutingHelper::class);
 
-        list($method, $arguments) = $this->routingHelper->dispatch(['save']) ?? ['notFound', null];
+        list($method, $arguments) = $this->routingHelper->dispatch(['save', 'user-list' => 'list']) ?? ['notFound', null];
         return ! is_null($method) ? call_user_func_array([$this, $method], $arguments ?? []) : null;
     }
 
@@ -108,6 +109,41 @@ class MachineryService extends ServiceArtificer
             'result' => 'success',
             'entity' => $entity,
         ]));
+    }
+
+    /**
+     * List
+     *
+     * @return ?ResultInterface
+     */
+    protected function list(): ?ResultInterface
+    {
+        $request = $this->model->getRequest();
+        $queryParams = $request->getQueryParams();
+        /**@var UserInterface */
+        $user = $request->getAttribute(UserInterface::class);
+
+        $user = $this->mm('SM:User')->where(['@this.phone' => $user->getIdentity()])->one();
+
+        $filters = [
+            '@this.user.id' => $user->id
+        ];
+
+        if (isset($queryParams['type'])) {
+            $filters['@this.type'] = $queryParams['type'];
+        }
+
+        $gw = $this->mm()->with('user')
+            ->select(fn ($_select) => $_select->order('@this.__updated desc'));
+
+        if ($filters) {
+            $gw->where($filters);
+        }
+
+        $data = $gw->all();
+
+        $data = $data->map(fn ($_item) => $_item->toArray(true));
+        return $this->response(new JsonResponse($data->toList()));
     }
 
     /**

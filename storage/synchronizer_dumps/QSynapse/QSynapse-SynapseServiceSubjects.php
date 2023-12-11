@@ -85,6 +85,13 @@ return [
         'relationType' => 1,
         'description' => '',
     ],
+    'QSynapse:SynapseServiceSubjects(QSynapse:SynapseRelations(QSynapse:Synapses(ImageStore);images;QSynapse:Synapses(Routes);route);QSynapse:SynapseServices(QSynapse:Synapses(Routes);Api);QSynapse:SynapseServices(QSynapse:Synapses(ImageStore);ApiPrivate))' => [
+        'iSynapseRelation' => 'QSynapse:SynapseRelations(QSynapse:Synapses(ImageStore);images;QSynapse:Synapses(Routes);route)',
+        'iSynapseServiceFrom' => 'QSynapse:SynapseServices(QSynapse:Synapses(Routes);Api)',
+        'iSynapseServiceTo' => 'QSynapse:SynapseServices(QSynapse:Synapses(ImageStore);ApiPrivate)',
+        'relationType' => 1,
+        'description' => '',
+    ],
     'QSynapse:SynapseServiceSubjects(QSynapse:SynapseRelations(QSynapse:Synapses(ImageStore);images;QSynapse:Synapses(Routes);route);QSynapse:SynapseServices(QSynapse:Synapses(Routes);Manager);QSynapse:SynapseServices(QSynapse:Synapses(ImageStore);Uploader))' => [
         'iSynapseRelation' => 'QSynapse:SynapseRelations(QSynapse:Synapses(ImageStore);images;QSynapse:Synapses(Routes);route)',
         'iSynapseServiceFrom' => 'QSynapse:SynapseServices(QSynapse:Synapses(Routes);Manager)',
@@ -96,6 +103,13 @@ return [
         'iSynapseRelation' => 'QSynapse:SynapseRelations(QSynapse:Synapses(Machinery);machinery;QSynapse:Synapses(Routes);route)',
         'iSynapseServiceFrom' => 'QSynapse:SynapseServices(QSynapse:Synapses(Routes);Api)',
         'iSynapseServiceTo' => 'QSynapse:SynapseServices(QSynapse:Synapses(Machinery);Api)',
+        'relationType' => 1,
+        'description' => '',
+    ],
+    'QSynapse:SynapseServiceSubjects(QSynapse:SynapseRelations(QSynapse:Synapses(Machinery);machinery;QSynapse:Synapses(Routes);route);QSynapse:SynapseServices(QSynapse:Synapses(Routes);Api);QSynapse:SynapseServices(QSynapse:Synapses(Machinery);ApiPrivate))' => [
+        'iSynapseRelation' => 'QSynapse:SynapseRelations(QSynapse:Synapses(Machinery);machinery;QSynapse:Synapses(Routes);route)',
+        'iSynapseServiceFrom' => 'QSynapse:SynapseServices(QSynapse:Synapses(Routes);Api)',
+        'iSynapseServiceTo' => 'QSynapse:SynapseServices(QSynapse:Synapses(Machinery);ApiPrivate)',
         'relationType' => 1,
         'description' => '',
     ],
@@ -140,5 +154,19 @@ return [
         'iSynapseServiceTo' => 'QSynapse:SynapseServices(QSynapse:Synapses(ModeratorRole);Manager)',
         'relationType' => 1,
         'description' => 'роуты ролей модератора',
+    ],
+    'QSynapse:SynapseServiceSubjects(QSynapse:SynapseRelations(QSynapse:Synapses(User);user;QSynapse:Synapses(Routes);route);QSynapse:SynapseServices(QSynapse:Synapses(Routes);Api);QSynapse:SynapseServices(QSynapse:Synapses(User);Api))' => [
+        'iSynapseRelation' => 'QSynapse:SynapseRelations(QSynapse:Synapses(User);user;QSynapse:Synapses(Routes);route)',
+        'iSynapseServiceFrom' => 'QSynapse:SynapseServices(QSynapse:Synapses(Routes);Api)',
+        'iSynapseServiceTo' => 'QSynapse:SynapseServices(QSynapse:Synapses(User);Api)',
+        'relationType' => 1,
+        'description' => '',
+    ],
+    'QSynapse:SynapseServiceSubjects(QSynapse:SynapseRelations(QSynapse:Synapses(User);user;QSynapse:Synapses(Routes);route);QSynapse:SynapseServices(QSynapse:Synapses(Routes);Manager);QSynapse:SynapseServices(QSynapse:Synapses(User);Manager))' => [
+        'iSynapseRelation' => 'QSynapse:SynapseRelations(QSynapse:Synapses(User);user;QSynapse:Synapses(Routes);route)',
+        'iSynapseServiceFrom' => 'QSynapse:SynapseServices(QSynapse:Synapses(Routes);Manager)',
+        'iSynapseServiceTo' => 'QSynapse:SynapseServices(QSynapse:Synapses(User);Manager)',
+        'relationType' => 1,
+        'description' => '',
     ],
 ];
