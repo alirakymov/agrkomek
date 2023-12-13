@@ -2,22 +2,29 @@
 
 declare(strict_types=1);
 
-namespace Qore\App\SynapseNodes\Components\Machinery\Api;
+namespace Qore\App\SynapseNodes\Components\User\ApiPrivate;
 
+use Mezzio\Template\TemplateRendererInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Laminas\Diactoros\Response\JsonResponse;
-use Qore\App\SynapseNodes\Components\Machinery\Machinery;
+use Mezzio\Authentication\UserInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Qore\App\SynapseNodes\Components\Consultancy\Consultancy;
+use Qore\App\SynapseNodes\Components\ConsultancyMessage\ConsultancyMessage;
 use Qore\DealingManager\ResultInterface;
+use Qore\Qore;
 use Qore\Router\RouteCollector;
 use Qore\SynapseManager\Artificer\Service\ServiceArtificer;
 use Qore\SynapseManager\Plugin\RoutingHelper\RoutingHelper;
 
 /**
- * Class: ArticleService
+ * Class: ConsultancyService 
  *
  * @see Qore\SynapseManager\Artificer\Service\ServiceArtificer
  */
-class MachineryService extends ServiceArtificer
+class UserService extends ServiceArtificer
 {
     /**
      * serviceForm
@@ -39,8 +46,8 @@ class MachineryService extends ServiceArtificer
     public function routes(RouteCollector $_router) : void
     {
         $this->routingHelper = $this->plugin(RoutingHelper::class);
-        $_router->group('/machinery', null, function($_router) {
-            $_router->get('/list', 'list');
+        $_router->group('/user', null, function($_router) {
+            $_router->post('/profile', 'profile');
         });
         # - Register related subjects routes
         $this->registerSubjectsRoutes($_router);
@@ -59,7 +66,8 @@ class MachineryService extends ServiceArtificer
 
         $this->routingHelper = $this->plugin(RoutingHelper::class);
 
-        list($method, $arguments) = $this->routingHelper->dispatch(['list']) ?? ['notFound', null];
+        list($method, $arguments) = $this->routingHelper->dispatch(['profile']) ?? ['notFound', null];
+
         return ! is_null($method) ? call_user_func_array([$this, $method], $arguments ?? []) : null;
     }
 
@@ -74,32 +82,31 @@ class MachineryService extends ServiceArtificer
     }
 
     /**
-     * List
+     * Token 
      *
      * @return ?ResultInterface
      */
-    protected function list(): ?ResultInterface
+    protected function profile(): ?ResultInterface
     {
         $request = $this->model->getRequest();
         $queryParams = $request->getQueryParams();
+        /**@var UserInterface */
+        $user = $request->getAttribute(UserInterface::class);
+        $user = $this->mm('SM:User')->where(['@this.phone' => $user->getIdentity()])->one();
 
-        $filters = ['@this.status' => Machinery::STATUS_ACTIVE];
+        $parsedBody = $request->getParsedBody();
 
-        if (isset($queryParams['type'])) {
-            $filters['@this.type'] = $queryParams['type'];
+        if (isset($parsedBody['firstname']) || isset($parsedBody['secondname'])) {
+            isset($parsedBody['firstname']) && $user['firstname'] = $parsedBody['firstname'];
+            isset($parsedBody['secondname']) && $user['secondname'] = $parsedBody['secondname'];
+
+            $this->mm($user)->save();
         }
 
-        $gw = $this->mm()
-            ->select(fn ($_select) => $_select->order('@this.__created desc'));
-
-        if ($filters) {
-            $gw->where($filters);
-        }
-
-        $data = $gw->all();
-
-        $data = $data->map(fn ($_item) => $_item->toArray(true));
-        return $this->response(new JsonResponse($data->toList()));
+        return $this->response(new JsonResponse([
+            'result' => 'success',
+            'entity' => $user,
+        ]));
     }
 
     /**

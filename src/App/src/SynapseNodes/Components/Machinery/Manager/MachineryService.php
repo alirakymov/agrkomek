@@ -21,6 +21,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Qore\App\SynapseNodes\Components\Machinery\Manager\InterfaceGateway\Form;
+use Qore\ORM\Sql\Select;
 use Qore\SynapseManager\Artificer\Service\ServiceArtificer;
 use Qore\SynapseManager\Plugin\FormMaker\FormMaker;
 use Qore\SynapseManager\Plugin\RoutingHelper\RoutingHelper;
@@ -223,6 +224,7 @@ class MachineryService extends ServiceArtificer
         $form->setOption('upload-route', Qore::url($this->sm('ImageStore:Uploader')->getRouteName('upload')));
         $form->setOption('save-route', Qore::url($this->getRouteName('update')));
         $form->setOption('types', Machinery::getTypes());
+        $form->setOption('statuses', Machinery::getStatuses());
 
         $modal = $ig(Modal::class, sprintf('%s.%s', get_class($this), 'modal-update'))
             ->setTitle('Редактирование')
@@ -237,7 +239,7 @@ class MachineryService extends ServiceArtificer
             $entity = $this->mm($data);
             $this->mm($entity)->save();
 
-            $component = $this->getComponent();
+            $component = $this->getComponent(null);
             # - Generate json response
             return $this->response([
                 $modal->execute('close'),
@@ -265,7 +267,7 @@ class MachineryService extends ServiceArtificer
 
         ! is_null($object) && $this->mm($object)->delete();
 
-        $component = $this->getComponent();
+        $component = $this->getComponent(null);
         return $this->response([$component->execute('reload')]);
     }
 
@@ -291,9 +293,21 @@ class MachineryService extends ServiceArtificer
     protected function getComponent($_data = null)
     {
         # - Формируем уникальный суффикс для имени компонента интерфейса
-        $testFilters = $this->model->getFilters(true)->firstMatch([
-            'referencePath' => '{relation.path}' # Example: {relation.path} => @this.id
-        ]);
+        if ($_data !== null) {
+
+            $gw = $this->mm()
+                ->select(fn ($_select) => $_select->order('@this.__updated desc'));
+
+            $queryParams = $this->model->getRequest()->getQueryParams();
+
+            if (isset($queryParams['user-id'])) {
+                $gw->with('user')->where([
+                    '@this.user.id' => $queryParams['user-id'],
+                ]);
+            }
+
+            $_data = $gw->all();
+        }
 
         return $this->presentAs(ListComponent::class, [
             'columns' => [
@@ -312,15 +326,29 @@ class MachineryService extends ServiceArtificer
                     'class-header' => 'col-1',
                     'class-column' => 'col-1',
                 ],
-                'params' => [
-                    'label' => 'Параметры',
-                    'class-header' => 'col-3',
-                    'class-column' => 'col-3',
+                'status' => [
+                    'label' => 'Статус',
+                    'class-header' => 'col-2',
+                    'class-column' => 'col-2 text-center',
+                    'transform' => function ($_item) {
+                        if (! $_item['status']) {
+                            return ['isLabel' => true, 'class' => 'bg-warning-light text-warning', 'label' => 'Не назначен'];
+                        }
+
+                        switch(true) {
+                            case $_item['status'] === Machinery::STATUS_CHECKING:
+                                return ['isLabel' => true, 'class' => 'bg-warning-light text-warning', 'label' => 'На проверке'];
+                            case $_item['status'] === Machinery::STATUS_ACTIVE:
+                                return ['isLabel' => true, 'class' => 'bg-info-light text-info', 'label' => 'Активно'];
+                            case $_item['status'] === Machinery::STATUS_ARCHIVE:
+                                return ['isLabel' => true, 'class' => 'bg-warning-light text-danger', 'label' => 'В архиве'];
+                        }
+                    },
                 ],
                 'type' => [
                     'label' => 'Тип',
                     'class-header' => 'col-1',
-                    'class-column' => 'col-1',
+                    'class-column' => 'col-1 text-center',
                     'transform' => function ($_item) {
                         $types = Machinery::getTypes();
 
@@ -333,16 +361,6 @@ class MachineryService extends ServiceArtificer
                         return ['isLabel' => true, 'class' => 'bg-info-light text-info', 'label' => $type['label']];
                     },
                 ],
-                // 'closed' => [
-                //     'label' => 'Статус',
-                //     'class-header' => 'col-1',
-                //     'class-column' => 'col-1',
-                //     'transform' => function ($_item) {
-                //         return isset($_item['closed']) && (int)$_item['closed']
-                //             ? ['isLabel' => true, 'class' => 'bg-warning-light text-warning', 'label' => 'Закрыта']
-                //             : ['isLabel' => true, 'class' => 'bg-info-light text-info', 'label' => 'Открыта'];
-                //     },
-                // ],
                 'created' => [
                     'label' => 'Создано',
                     'class-header' => 'col-2',

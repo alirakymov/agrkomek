@@ -30,6 +30,13 @@
             <div class="form-text animated fadeInUp">выберите тип объявления</div>
         </div>
         <div class="form-floating mb-4">
+            <select class="form-select" v-model="machinery.status" :class="{'is-invalid': isInvalidStatus()}">
+                <option v-for="option in statuses" :value="option.id" >{{ option.label }}</option>
+            </select>
+            <label >Статус</label>
+            <div class="form-text animated fadeInUp">выберите статус объявления</div>
+        </div>
+        <div class="form-floating mb-4">
             <input type="text" class="form-control"
                 placeholder="Название"
                 v-model="machinery.title"

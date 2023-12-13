@@ -190,6 +190,13 @@ return [
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Integer',
         'description' => 'стоимость',
     ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);status)' => [
+        'iSynapse' => 'QSynapse:Synapses(Machinery)',
+        'name' => 'status',
+        'label' => 'Статус',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
+        'description' => 'Статус',
+    ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);title)' => [
         'iSynapse' => 'QSynapse:Synapses(Machinery)',
         'name' => 'title',
@@ -294,6 +301,13 @@ return [
         'label' => 'Телефонный номер',
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
         'description' => '',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(User);secondname)' => [
+        'iSynapse' => 'QSynapse:Synapses(User)',
+        'name' => 'secondname',
+        'label' => 'Фамилия',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
+        'description' => 'Фамилия',
     ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(User);validatedCode)' => [
         'iSynapse' => 'QSynapse:Synapses(User)',

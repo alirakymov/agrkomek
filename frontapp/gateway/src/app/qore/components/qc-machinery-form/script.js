@@ -17,6 +17,7 @@ export default {
             images: _.get(this.options, 'machinery.images', []),
             params: _.get(this.options, 'machinery.params', []),
             types: _.get(this.options, 'types', []),
+            statuses: _.get(this.options, 'statuses', []),
             dropzone: null,
             dropzoneUploads: [],
             errors: [],
@@ -99,6 +100,10 @@ export default {
             return this.errors.indexOf('type') > -1;
         },
 
+        isInvalidStatus() {
+            return this.errors.indexOf('status') > -1;
+        },
+
         deleteImage(key) {
             this.images.splice(key, 1);
         },
@@ -108,6 +113,12 @@ export default {
                 this.errors.push('type');
                 return;
             }
+
+            if (! this.machinery.status) {
+                this.errors.push('status');
+                return;
+            }
+
 
             let machinery = this.machinery;
 

@@ -21,9 +21,12 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Qore\App\SynapseNodes\Components\Machinery\Machinery;
+use Qore\App\SynapseNodes\Components\User\User;
 use Qore\SynapseManager\Artificer\Service\ServiceArtificer;
 use Qore\SynapseManager\Plugin\FormMaker\FormMaker;
 use Qore\SynapseManager\Plugin\RoutingHelper\RoutingHelper;
+use Qore\SynapseManager\SynapseManager;
 
 /**
  * Class: UserService
@@ -62,6 +65,7 @@ class UserService extends ServiceArtificer
         $_router->group('/user', null, function($_router) {
             $this->routingHelper->routesCrud($_router);
             $_router->get('/block/{id:\d+}', 'block');
+            $_router->get('/machineries/{id:\d+}', 'machineries');
         });
         # - Register related subjects routes
         $this->registerSubjectsRoutes($_router);
@@ -75,7 +79,7 @@ class UserService extends ServiceArtificer
     {
         /** @var RoutingHelper */
         $this->routingHelper = $this->plugin(RoutingHelper::class);
-        list($method, $arguments) = $this->routingHelper->dispatch(['block']) ?? [null, null];
+        list($method, $arguments) = $this->routingHelper->dispatch(['block', 'machineries']) ?? [null, null];
 
         return ! is_null($method) ? call_user_func_array([$this, $method], $arguments ?? []) : null;
     }
@@ -112,6 +116,127 @@ class UserService extends ServiceArtificer
                 'frontProtocol' => $ig('layout')->component($component)->compose(),
             ])));
         }
+    }
+
+    /**
+     * index
+     *
+     */
+    protected function machineries()
+    {
+        $this->next->process($this->model);
+
+        $routeResult = $this->model->getRouteResult();
+        $routeParams = $routeResult->getMatchedParams();
+
+        $user = $this->gateway([
+            '@this.id' => $routeParams['id']
+        ])->one();
+
+        /**@var InterfaceGateway */
+        $ig = Qore::service(InterfaceGateway::class);
+
+        $machineriesComponent = $this->getMachineriesComponent($user);
+
+        $modal = $ig(Modal::class, sprintf('%s.%s', get_class($this), 'modal-machinery'))
+            ->setTitle(sprintf('Список объявлений пользователя %s', $user['firstname'] ?: $user['phone']))
+            ->setOption('modal-type', 'rightside')
+            ->setOption('size', 'xl')
+            ->component($machineriesComponent);
+
+        $modal->execute('open');
+        # - Generate json response
+        return $this->response($ig('layout')->component($modal));
+    }
+
+    /**
+     * Machineries component
+     *
+     * @param \Qore\App\SynapseNodes\Components\User\User $_user 
+     *
+     * @return ListComponent
+     */
+    protected function getMachineriesComponent(User $_user)
+    {
+        $data = $this->mm('SM:Machinery')
+            ->with('user')
+            ->where(['@this.user.id' => $_user->id])
+            ->select(fn($_select) => $_select->order('@this.__updated desc'))
+            ->all();
+
+        $sm = Qore::service(SynapseManager::class);
+
+        $request = $this->model->getRequest();
+
+        $machineryService = $sm('Machinery:Manager');
+        $machineryService->setModel($this->model->setRequest($request->withQueryParams(['user-id' => $_user->id])));
+
+        $component = $sm('Machinery:Manager')->presentAs(ListComponent::class, [
+            'columns' => [
+                'id' => [
+                    'label' => '#',
+                    'class-header' => 'col-1',
+                    'class-column' => 'col-1',
+                ],
+                'title' => [
+                    'label' => 'Название',
+                    'class-header' => 'col-4',
+                    'class-column' => 'col-4',
+                ],
+                'price' => [
+                    'label' => 'Цена',
+                    'class-header' => 'col-1',
+                    'class-column' => 'col-1',
+                ],
+                'status' => [
+                    'label' => 'Статус',
+                    'class-header' => 'col-2',
+                    'class-column' => 'col-2 text-center',
+                    'transform' => function ($_item) {
+                        if (! $_item['status']) {
+                            return ['isLabel' => true, 'class' => 'bg-warning-light text-warning', 'label' => 'Не назначен'];
+                        }
+
+                        switch(true) {
+                            case $_item['status'] === Machinery::STATUS_CHECKING:
+                                return ['isLabel' => true, 'class' => 'bg-warning-light text-warning', 'label' => 'На проверке'];
+                            case $_item['status'] === Machinery::STATUS_ACTIVE:
+                                return ['isLabel' => true, 'class' => 'bg-info-light text-info', 'label' => 'Активно'];
+                            case $_item['status'] === Machinery::STATUS_ARCHIVE:
+                                return ['isLabel' => true, 'class' => 'bg-warning-light text-danger', 'label' => 'В архиве'];
+                        }
+                    },
+                ],
+                'type' => [
+                    'label' => 'Тип',
+                    'class-header' => 'col-1',
+                    'class-column' => 'col-1 text-center',
+                    'transform' => function ($_item) {
+                        $types = Machinery::getTypes();
+                        $type = Qore::collection($types)->firstMatch(['id' => $_item['type']]);
+
+                        if (is_null($type)) {
+                            return ['isLabel' => true, 'class' => 'bg-warning-light text-warning', 'label' => 'Неопределен'];
+                        }
+
+                        return ['isLabel' => true, 'class' => 'bg-info-light text-info', 'label' => $type['label']];
+                    },
+                ],
+                'created' => [
+                    'label' => 'Создано',
+                    'class-header' => 'col-2',
+                    'class-column' => 'col-2',
+                    'transform' => function($_item) {
+                        return $_item['__created']->format('d.m.Y H:i');
+                    }
+                ],
+            ],
+            'sortable' => false,
+        ])->build($data);
+
+        $component->setName("Qore\\App\\SynapseNodes\\Components\\Machinery\\Manager\\MachineryService");
+
+        return $component;
     }
 
     /**
@@ -254,6 +379,16 @@ class UserService extends ServiceArtificer
     protected function getListActions()
     {
         return [
+            'machineries' => [
+                'label' => 'Список объявлений',
+                'icon' => 'fas fa-tractor',
+                'actionUri' => function($_data) {
+                    return Qore::service(UrlHelper::class)->generate(
+                        $this->getRouteName('machineries'),
+                        ['id' => $_data['id']],
+                    );
+                },
+            ],
             'block' => [
                 'label' => 'Блокировать/Разблокировать',
                 'icon' => 'fas fa-lock',

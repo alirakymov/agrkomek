@@ -155,6 +155,13 @@ return [
         'index' => 0,
         'description' => 'Сервис API',
     ],
+    'QSynapse:SynapseServices(QSynapse:Synapses(User);ApiPrivate)' => [
+        'iSynapse' => 'QSynapse:Synapses(User)',
+        'name' => 'ApiPrivate',
+        'label' => 'ApiPrivate',
+        'index' => 0,
+        'description' => '',
+    ],
     'QSynapse:SynapseServices(QSynapse:Synapses(User);Manager)' => [
         'iSynapse' => 'QSynapse:Synapses(User)',
         'name' => 'Manager',

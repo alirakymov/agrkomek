@@ -19,6 +19,12 @@ class Machinery extends SynapseBaseEntity
 
     const TYPE_EXCHANGE = 'exchange';
 
+    const STATUS_CHECKING = 'checking';
+
+    const STATUS_ACTIVE = 'active';
+
+    const STATUS_ARCHIVE = 'archive';
+
     /**
      * Return types
      *
@@ -33,6 +39,20 @@ class Machinery extends SynapseBaseEntity
     }
 
     /**
+     * Return status
+     *
+     * @return array
+     */
+    public static function getStatuses(): array
+    {
+        return [
+            ['id' => self::STATUS_CHECKING, 'label' => 'На проверке'],
+            ['id' => self::STATUS_ACTIVE, 'label' => 'Активно'],
+            ['id' => self::STATUS_ARCHIVE, 'label' => 'В архиве'],
+        ];
+    }
+
+    /**
      * subscribe
      *
      */
@@ -42,6 +62,10 @@ class Machinery extends SynapseBaseEntity
 
         static::before('save', function($_event) {
             $entity = $_event->getTarget();
+
+            if (! $entity->status) {
+                $entity->status = self::STATUS_CHECKING;
+            }
 
             $entity->params = is_string($entity->params) 
                 ? $entity->params 

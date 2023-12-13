@@ -162,6 +162,13 @@ return [
         'relationType' => 1,
         'description' => '',
     ],
+    'QSynapse:SynapseServiceSubjects(QSynapse:SynapseRelations(QSynapse:Synapses(User);user;QSynapse:Synapses(Routes);route);QSynapse:SynapseServices(QSynapse:Synapses(Routes);Api);QSynapse:SynapseServices(QSynapse:Synapses(User);ApiPrivate))' => [
+        'iSynapseRelation' => 'QSynapse:SynapseRelations(QSynapse:Synapses(User);user;QSynapse:Synapses(Routes);route)',
+        'iSynapseServiceFrom' => 'QSynapse:SynapseServices(QSynapse:Synapses(Routes);Api)',
+        'iSynapseServiceTo' => 'QSynapse:SynapseServices(QSynapse:Synapses(User);ApiPrivate)',
+        'relationType' => 1,
+        'description' => '',
+    ],
     'QSynapse:SynapseServiceSubjects(QSynapse:SynapseRelations(QSynapse:Synapses(User);user;QSynapse:Synapses(Routes);route);QSynapse:SynapseServices(QSynapse:Synapses(Routes);Manager);QSynapse:SynapseServices(QSynapse:Synapses(User);Manager))' => [
         'iSynapseRelation' => 'QSynapse:SynapseRelations(QSynapse:Synapses(User);user;QSynapse:Synapses(Routes);route)',
         'iSynapseServiceFrom' => 'QSynapse:SynapseServices(QSynapse:Synapses(Routes);Manager)',

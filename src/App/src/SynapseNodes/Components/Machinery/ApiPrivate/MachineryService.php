@@ -43,6 +43,7 @@ class MachineryService extends ServiceArtificer
         $_router->group('/machinery', null, function($_router) {
             $_router->post('/save', 'save');
             $_router->get('/user-list', 'user-list');
+            $_router->get('/archive', 'archive');
         });
         # - Register related subjects routes
         $this->registerSubjectsRoutes($_router);
@@ -61,7 +62,7 @@ class MachineryService extends ServiceArtificer
 
         $this->routingHelper = $this->plugin(RoutingHelper::class);
 
-        list($method, $arguments) = $this->routingHelper->dispatch(['save', 'user-list' => 'list']) ?? ['notFound', null];
+        list($method, $arguments) = $this->routingHelper->dispatch(['save', 'user-list' => 'list', 'archive']) ?? ['notFound', null];
         return ! is_null($method) ? call_user_func_array([$this, $method], $arguments ?? []) : null;
     }
 
@@ -103,6 +104,45 @@ class MachineryService extends ServiceArtificer
 
         $entity->type = Machinery::TYPE_RENT;
 
+        $this->mm($entity)->save();
+
+        return $this->response(new JsonResponse([
+            'result' => 'success',
+            'entity' => $entity,
+        ]));
+    }
+
+    /**
+     * Archive 
+     *
+     * @return ?ResultInterface
+     */
+    protected function archive(): ?ResultInterface
+    {
+        $request = $this->model->getRequest();
+        /**@var UserInterface */
+        $user = $request->getAttribute(UserInterface::class);
+
+        $queryParams = $request->getQueryParams();
+
+        if (! isset($queryParams['id'])) {
+            return $this->response(new JsonResponse([
+                'result' => 'bad request',
+            ], 400));
+        }
+
+        $entity = $this->mm()
+            ->with('user')
+            ->where(['@this.id' => $queryParams['id'], '@this.user.phone' => $user->getIdentity()])
+            ->one();
+
+        if (! $entity) {
+            return $this->response(new JsonResponse([
+                'result' => 'bad request',
+            ], 400));
+        }
+
+        $entity->status = Machinery::STATUS_ARCHIVE;
         $this->mm($entity)->save();
 
         return $this->response(new JsonResponse([
