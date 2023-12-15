@@ -48,6 +48,7 @@ class UserService extends ServiceArtificer
         $this->routingHelper = $this->plugin(RoutingHelper::class);
         $_router->group('/user', null, function($_router) {
             $_router->post('/profile', 'profile');
+            $_router->get('/info', 'info');
         });
         # - Register related subjects routes
         $this->registerSubjectsRoutes($_router);
@@ -66,7 +67,7 @@ class UserService extends ServiceArtificer
 
         $this->routingHelper = $this->plugin(RoutingHelper::class);
 
-        list($method, $arguments) = $this->routingHelper->dispatch(['profile']) ?? ['notFound', null];
+        list($method, $arguments) = $this->routingHelper->dispatch(['profile', 'info']) ?? ['notFound', null];
 
         return ! is_null($method) ? call_user_func_array([$this, $method], $arguments ?? []) : null;
     }
@@ -106,6 +107,25 @@ class UserService extends ServiceArtificer
         return $this->response(new JsonResponse([
             'result' => 'success',
             'entity' => $user,
+        ]));
+    }
+
+    /**
+     * Token 
+     *
+     * @return ?ResultInterface
+     */
+    protected function info(): ?ResultInterface
+    {
+        $request = $this->model->getRequest();
+        $queryParams = $request->getQueryParams();
+        
+        /**@var UserInterface */
+        $user = $request->getAttribute(UserInterface::class);
+        $user = $this->mm('SM:User')->where(['@this.phone' => $user->getIdentity()])->one();
+
+        return $this->response(new JsonResponse([
+            'user' => $user,
         ]));
     }
 
