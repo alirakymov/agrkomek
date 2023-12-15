@@ -25,6 +25,14 @@ return [
         'type' => '1',
         'description' => '',
     ],
+    'QSynapse:SynapseRelations(QSynapse:Synapses(Chat);chat;QSynapse:Synapses(Routes);route)' => [
+        'iSynapseFrom' => 'QSynapse:Synapses(Routes)',
+        'synapseAliasFrom' => 'chat',
+        'iSynapseTo' => 'QSynapse:Synapses(Chat)',
+        'synapseAliasTo' => 'route',
+        'type' => '1',
+        'description' => '',
+    ],
     'QSynapse:SynapseRelations(QSynapse:Synapses(Consultancy);consultancy;QSynapse:Synapses(Routes);route)' => [
         'iSynapseFrom' => 'QSynapse:Synapses(Routes)',
         'synapseAliasFrom' => 'consultancy',

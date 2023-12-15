@@ -29,6 +29,20 @@ return [
         'index' => 0,
         'description' => 'Управление типами новостей',
     ],
+    'QSynapse:SynapseServices(QSynapse:Synapses(Chat);ApiPrivate)' => [
+        'iSynapse' => 'QSynapse:Synapses(Chat)',
+        'name' => 'ApiPrivate',
+        'label' => 'Приватное API',
+        'index' => 0,
+        'description' => '',
+    ],
+    'QSynapse:SynapseServices(QSynapse:Synapses(Chat);Manager)' => [
+        'iSynapse' => 'QSynapse:Synapses(Chat)',
+        'name' => 'Manager',
+        'label' => 'Сервис управления чатами',
+        'index' => 0,
+        'description' => '',
+    ],
     'QSynapse:SynapseServices(QSynapse:Synapses(Consultancy);Api)' => [
         'iSynapse' => 'QSynapse:Synapses(Consultancy)',
         'name' => 'Api',

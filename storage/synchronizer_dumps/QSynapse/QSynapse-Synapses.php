@@ -13,6 +13,12 @@ return [
         'description' => 'Тип новости',
         'tree' => 0,
     ],
+    'QSynapse:Synapses(Chat)' => [
+        'iParent' => null,
+        'name' => 'Chat',
+        'description' => 'Чаты',
+        'tree' => 0,
+    ],
     'QSynapse:Synapses(Consultancy)' => [
         'iParent' => null,
         'name' => 'Consultancy',

@@ -36,6 +36,13 @@ return [
         'relationType' => 1,
         'description' => '',
     ],
+    'QSynapse:SynapseServiceSubjects(QSynapse:SynapseRelations(QSynapse:Synapses(Chat);chat;QSynapse:Synapses(Routes);route);QSynapse:SynapseServices(QSynapse:Synapses(Routes);Api);QSynapse:SynapseServices(QSynapse:Synapses(Chat);ApiPrivate))' => [
+        'iSynapseRelation' => 'QSynapse:SynapseRelations(QSynapse:Synapses(Chat);chat;QSynapse:Synapses(Routes);route)',
+        'iSynapseServiceFrom' => 'QSynapse:SynapseServices(QSynapse:Synapses(Routes);Api)',
+        'iSynapseServiceTo' => 'QSynapse:SynapseServices(QSynapse:Synapses(Chat);ApiPrivate)',
+        'relationType' => 1,
+        'description' => '',
+    ],
     'QSynapse:SynapseServiceSubjects(QSynapse:SynapseRelations(QSynapse:Synapses(Consultancy);consultancy;QSynapse:Synapses(Routes);route);QSynapse:SynapseServices(QSynapse:Synapses(Routes);Api);QSynapse:SynapseServices(QSynapse:Synapses(Consultancy);Api))' => [
         'iSynapseRelation' => 'QSynapse:SynapseRelations(QSynapse:Synapses(Consultancy);consultancy;QSynapse:Synapses(Routes);route)',
         'iSynapseServiceFrom' => 'QSynapse:SynapseServices(QSynapse:Synapses(Routes);Api)',
