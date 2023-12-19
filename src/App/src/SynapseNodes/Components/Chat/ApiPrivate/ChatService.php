@@ -46,6 +46,11 @@ class ChatService extends ServiceArtificer
             $_router->get('/user-list', 'user-list');
             $_router->get('/list', 'list');
             $_router->get('/delete', 'delete');
+            
+            $_router->group('/message', null, function($_router) {
+                $_router->post('/post', 'message-post');
+                $_router->get('/list', 'message-list');
+            });
         });
         # - Register related subjects routes
         $this->registerSubjectsRoutes($_router);
@@ -64,7 +69,7 @@ class ChatService extends ServiceArtificer
 
         $this->routingHelper = $this->plugin(RoutingHelper::class);
 
-        list($method, $arguments) = $this->routingHelper->dispatch(['save', 'user-list' => 'userList', 'list']) ?? ['notFound', null];
+        list($method, $arguments) = $this->routingHelper->dispatch(['save', 'user-list' => 'userList', 'list', 'message-post' => 'messagePost', 'message-list' => 'messageList']) ?? ['notFound', null];
         return ! is_null($method) ? call_user_func_array([$this, $method], $arguments ?? []) : null;
     }
 
@@ -161,6 +166,104 @@ class ChatService extends ServiceArtificer
         }
 
         $data = $gw->all();
+
+        $data = $data->map(fn ($_item) => $_item->toArray(true));
+        return $this->response(new JsonResponse($data->toList()));
+    }
+
+    /**
+     * Message post
+     *
+     * @return ?ResultInterface 
+     */
+    protected function messagePost(): ?ResultInterface
+    {
+        $request = $this->model->getRequest();
+        $queryParams = $request->getQueryParams();
+        /**@var UserInterface */
+        $user = $request->getAttribute(UserInterface::class);
+
+        $message = $request->getParsedBody();
+
+        if (! isset($message['chat']) || ! isset($message['message'])) {
+            return $this->response(new JsonResponse([
+                'result' => 'bad request',
+            ], 400));
+        }
+
+        $chat = $this->mm('SM:Chat')
+            ->where(['@this.id' => $message['chat']])
+            ->one();
+
+        if (! $chat) {
+            return $this->response(new JsonResponse([
+                'result' => 'bad request',
+                'error' => 'undefined chat'
+            ], 400));
+        }
+
+        $user = $this->mm('SM:User')->where(['@this.phone' => $user->getIdentity()])->one();
+
+        $message = $this->mm('SM:ChatMessage', [
+            'message' => $message['message'],
+            'idChat' => $message['chat'],
+            'idUser' => $user->id,
+        ]);
+
+        $this->mm($message)->save();
+
+        return $this->response(new JsonResponse([
+            'result' => 'success',
+            'entity' => $message->toArray(true),
+        ]));
+    }
+
+    /**
+     * List
+     *
+     * @return ?ResultInterface
+     */
+    protected function messageList(): ?ResultInterface
+    {
+        $request = $this->model->getRequest(); $queryParams = $request->getQueryParams();
+
+        if (! isset($queryParams['id'])) {
+            return $this->response(new JsonResponse([
+                'result' => 'bad request',
+            ], 400));
+        }
+
+        $chat = $this->mm('SM:Chat')
+            ->where(['@this.id' => $queryParams['id']])
+            ->one();
+
+        if (! $chat) {
+            return $this->response(new JsonResponse([
+                'result' => 'bad request',
+                'error' => 'undefined chat'
+            ], 400));
+        }
+
+        $filters = [
+            '@this.idChat' => $queryParams['id'],
+        ];
+
+        $gw = $this->mm('SM:ChatMessage')
+            ->select(fn ($_select) => $_select->order('@this.__created'));
+
+        if ($filters) {
+            $gw->where($filters);
+        }
+
+        $data = $gw->all();
+
+        $users = $data->extract('idUser')->toList();
+        $users = $this->mm('SM:User')->where(['@this.id' => $users])->all();
+
+        $data = $data->map(function($_message) use ($users) {
+            $_message['user'] = $users->firstMatch(['id' => $_message['idUser']])->toArray(true);
+            return $_message;
+        });
 
         $data = $data->map(fn ($_item) => $_item->toArray(true));
         return $this->response(new JsonResponse($data->toList()));

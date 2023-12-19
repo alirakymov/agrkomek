@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Qore\App\SynapseNodes\Components\ArticleType;
 
+use Qore\App\SynapseNodes\Components\LanguageTrait;
 use Qore\Qore;
 use Qore\SynapseManager\Structure\Entity\SynapseBaseEntity;
 
@@ -14,6 +15,8 @@ use Qore\SynapseManager\Structure\Entity\SynapseBaseEntity;
  */
 class ArticleType extends SynapseBaseEntity
 {
+    use LanguageTrait;
+
     /**
      * subscribe
      *

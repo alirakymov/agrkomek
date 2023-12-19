@@ -19,6 +19,12 @@ return [
         'description' => 'Чаты',
         'tree' => 0,
     ],
+    'QSynapse:Synapses(ChatMessage)' => [
+        'iParent' => 'Chat',
+        'name' => 'ChatMessage',
+        'description' => 'Сообщение',
+        'tree' => 0,
+    ],
     'QSynapse:Synapses(Consultancy)' => [
         'iParent' => null,
         'name' => 'Consultancy',

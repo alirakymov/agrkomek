@@ -21,6 +21,8 @@ class Machinery extends SynapseBaseEntity
 
     const STATUS_CHECKING = 'checking';
 
+    const STATUS_REJECTED = 'rejected';
+
     const STATUS_ACTIVE = 'active';
 
     const STATUS_ARCHIVE = 'archive';
@@ -47,6 +49,7 @@ class Machinery extends SynapseBaseEntity
     {
         return [
             ['id' => self::STATUS_CHECKING, 'label' => 'На проверке'],
+            ['id' => self::STATUS_REJECTED, 'label' => 'Отклонено'],
             ['id' => self::STATUS_ACTIVE, 'label' => 'Активно'],
             ['id' => self::STATUS_ARCHIVE, 'label' => 'В архиве'],
         ];

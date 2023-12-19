@@ -36,6 +36,15 @@
             <label >Статус</label>
             <div class="form-text animated fadeInUp">выберите статус объявления</div>
         </div>
+        <div class="form-floating mb-4" v-if="machinery.status == 'rejected'">
+            <textarea class="form-control" style="height: 120px"
+                placeholder="Описание"
+                v-model="machinery.rejectMessage"
+                rows="10"
+            ></textarea>
+            <label>Причина</label>
+            <div class="form-text animated fadeInUp">опишите причину отклонения</div>
+        </div>
         <div class="form-floating mb-4">
             <input type="text" class="form-control"
                 placeholder="Название"

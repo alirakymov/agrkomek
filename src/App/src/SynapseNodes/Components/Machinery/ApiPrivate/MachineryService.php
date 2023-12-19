@@ -302,7 +302,6 @@ class MachineryService extends ServiceArtificer
         $user = $this->mm('SM:User')->where(['@this.phone' => $user->getIdentity()])->one();
 
         return $this->mm($_data)->link('user', $user);
-
     }
 
     /**

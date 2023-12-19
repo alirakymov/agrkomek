@@ -19,6 +19,7 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Qore\App\SynapseNodes\Components\Guide\Guide;
 use Qore\SynapseManager\Artificer\Service\ServiceArtificer;
 use Qore\SynapseManager\Plugin\FormMaker\FormMaker;
 use Qore\SynapseManager\Plugin\RoutingHelper\RoutingHelper;
@@ -286,6 +287,17 @@ class GuideService extends ServiceArtificer
                     'label' => 'Заголовок',
                     'class-header' => 'col-5',
                     'class-column' => 'col-5',
+                ],
+                'language' => [
+                    'label' => 'Язык',
+                    'class-header' => 'col-2',
+                    'class-column' => 'col-2',
+                    'transform' => function ($_item) {
+                        $lang = Qore::collection(Guide::getLanguages())->firstMatch(['id' => $_item['language']]);
+                        return $lang
+                            ? ['isLabel' => true, 'class' => 'bg-success-light text-primary', 'label' => $lang['label']]
+                            : ['isLabel' => true, 'class' => 'bg-warning-light text-warning', 'label' => 'Неопределен'];
+                    },
                 ],
                 'approved' => [
                     'label' => 'Статус',

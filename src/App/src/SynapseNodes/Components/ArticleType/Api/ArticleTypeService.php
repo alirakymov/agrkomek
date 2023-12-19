@@ -84,9 +84,23 @@ class ArticleTypeService extends ServiceArtificer
      */
     protected function list(): ?ResultInterface
     {
-        $data = $this->mm()
-            ->select(fn ($_select) => $_select->order('@this.__created'))
-            ->all();
+        $request = $this->model->getRequest();
+        $queryParams = $request->getQueryParams();
+
+        $filters = [];
+        if (isset($queryParams['lang'])) {
+            $filters['@this.language'] = $queryParams['lang'];
+        }
+
+        $gw = $this->mm()
+            ->select(fn ($_select) => $_select->order('@this.__created'));
+
+        if ($filters) {
+            $gw->where($filters);
+        }
+
+        $data = $gw->all();
+
 
         $data = $data->map(fn ($_item) => $_item->toArray(true));
         return $this->response(new JsonResponse($data->toList()));

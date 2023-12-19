@@ -15,6 +15,13 @@ return [
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\LongText',
         'description' => 'Содержимое',
     ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Article);language)' => [
+        'iSynapse' => 'QSynapse:Synapses(Article)',
+        'name' => 'language',
+        'label' => 'Язык',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
+        'description' => '',
+    ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Article);source)' => [
         'iSynapse' => 'QSynapse:Synapses(Article)',
         'name' => 'source',
@@ -28,6 +35,13 @@ return [
         'label' => 'Заголовок',
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
         'description' => 'Заголовок',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(ArticleType);language)' => [
+        'iSynapse' => 'QSynapse:Synapses(ArticleType)',
+        'name' => 'language',
+        'label' => 'Язык',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
+        'description' => '',
     ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(ArticleType);title)' => [
         'iSynapse' => 'QSynapse:Synapses(ArticleType)',
@@ -56,6 +70,27 @@ return [
         'label' => 'Название',
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
         'description' => '',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(ChatMessage);idChat)' => [
+        'iSynapse' => 'QSynapse:Synapses(ChatMessage)',
+        'name' => 'idChat',
+        'label' => 'Группа',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\BigInteger',
+        'description' => '',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(ChatMessage);idUser)' => [
+        'iSynapse' => 'QSynapse:Synapses(ChatMessage)',
+        'name' => 'idUser',
+        'label' => 'Пользователь',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\BigInteger',
+        'description' => '',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(ChatMessage);message)' => [
+        'iSynapse' => 'QSynapse:Synapses(ChatMessage)',
+        'name' => 'message',
+        'label' => 'Сообщение',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\LongText',
+        'description' => 'Сообщение',
     ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Consultancy);closed)' => [
         'iSynapse' => 'QSynapse:Synapses(Consultancy)',
@@ -120,12 +155,26 @@ return [
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\LongText',
         'description' => 'Содержимое',
     ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Guide);language)' => [
+        'iSynapse' => 'QSynapse:Synapses(Guide)',
+        'name' => 'language',
+        'label' => 'Язык',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
+        'description' => '',
+    ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Guide);title)' => [
         'iSynapse' => 'QSynapse:Synapses(Guide)',
         'name' => 'title',
         'label' => 'Заголовок',
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
         'description' => 'Заголовок',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(GuideCategory);language)' => [
+        'iSynapse' => 'QSynapse:Synapses(GuideCategory)',
+        'name' => 'language',
+        'label' => 'Язык',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
+        'description' => '',
     ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(GuideCategory);title)' => [
         'iSynapse' => 'QSynapse:Synapses(GuideCategory)',
@@ -210,6 +259,13 @@ return [
         'label' => 'Цена',
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Integer',
         'description' => 'стоимость',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);rejectMessage)' => [
+        'iSynapse' => 'QSynapse:Synapses(Machinery)',
+        'name' => 'rejectMessage',
+        'label' => 'Причина отклонения',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Text',
+        'description' => 'Причина отклонения',
     ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);status)' => [
         'iSynapse' => 'QSynapse:Synapses(Machinery)',

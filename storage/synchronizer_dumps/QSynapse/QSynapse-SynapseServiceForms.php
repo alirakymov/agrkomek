@@ -10,6 +10,7 @@ return [
         'type' => 0,
         '__options' => [
             'fields-order' => [
+                'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(Article);Manager);ArticleForm);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(Article);language)',
                 'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(Article);Manager);ArticleForm);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(Article);title)',
                 'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(Article);Manager);ArticleForm);QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ArticleType);Manager);Selection);QSynapse:SynapseAttributes()',
                 'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(Article);Manager);ArticleForm);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(Article);source)',
@@ -25,7 +26,12 @@ return [
         'template' => '$title',
         'description' => 'Создание',
         'type' => 0,
-        '__options' => [],
+        '__options' => [
+            'fields-order' => [
+                'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ArticleType);Manager);ArticleTypeForm);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(ArticleType);language)',
+                'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ArticleType);Manager);ArticleTypeForm);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(ArticleType);title)',
+            ],
+        ],
     ],
     'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ArticleType);Manager);Selection)' => [
         'iSynapseService' => 'QSynapse:SynapseServices(QSynapse:Synapses(ArticleType);Manager)',
@@ -59,7 +65,12 @@ return [
         'template' => '$title',
         'description' => 'GuideCategoryForm',
         'type' => 0,
-        '__options' => [],
+        '__options' => [
+            'fields-order' => [
+                'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(GuideCategory);Manager);GuideCategoryForm);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(GuideCategory);language)',
+                'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(GuideCategory);Manager);GuideCategoryForm);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(GuideCategory);title)',
+            ],
+        ],
     ],
     'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(GuideCategory);Manager);SelectionField)' => [
         'iSynapseService' => 'QSynapse:SynapseServices(QSynapse:Synapses(GuideCategory);Manager)',

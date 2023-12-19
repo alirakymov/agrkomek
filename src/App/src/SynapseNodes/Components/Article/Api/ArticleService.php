@@ -92,6 +92,10 @@ class ArticleService extends ServiceArtificer
             $filters['@this.type.id'] = $queryParams['type'];
         }
 
+        if (isset($queryParams['lang'])) {
+            $filters['@this.language'] = $queryParams['lang'];
+        }
+
         $gw = $this->mm()
             ->with('type')
             ->select(fn ($_select) => $_select->order('@this.__created desc'));

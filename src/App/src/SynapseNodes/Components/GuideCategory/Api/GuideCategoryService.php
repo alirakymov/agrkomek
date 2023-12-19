@@ -83,7 +83,22 @@ class GuideCategoryService extends ServiceArtificer
      */
     protected function list(): ?ResultInterface
     {
-        $data = $this->mm()->all();
+        $request = $this->model->getRequest();
+        $queryParams = $request->getQueryParams();
+
+        $filters = [];
+        if (isset($queryParams['lang'])) {
+            $filters['@this.language'] = $queryParams['lang'];
+        }
+
+        $gw = $this->mm()
+            ->select(fn ($_select) => $_select->order('@this.__created'));
+
+        if ($filters) {
+            $gw->where($filters);
+        }
+
+        $data = $gw->all();
         $data2 = Qore::collection($data->toList());
 
         $data = $data->map(function($_item) use ($data2) {

@@ -92,6 +92,10 @@ class GuideService extends ServiceArtificer
             $filters['@this.category.id'] = $queryParams['category'];
         }
 
+        if (isset($queryParams['lang'])) {
+            $filters['@this.language'] = $queryParams['lang'];
+        }
+
         $gw = $this->mm()
             ->with('category');
 

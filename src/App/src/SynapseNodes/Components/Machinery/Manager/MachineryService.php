@@ -338,6 +338,8 @@ class MachineryService extends ServiceArtificer
                         switch(true) {
                             case $_item['status'] === Machinery::STATUS_CHECKING:
                                 return ['isLabel' => true, 'class' => 'bg-warning-light text-warning', 'label' => 'На проверке'];
+                            case $_item['status'] === Machinery::STATUS_REJECTED:
+                                return ['isLabel' => true, 'class' => 'bg-danger-light text-danger', 'label' => 'Отклонено'];
                             case $_item['status'] === Machinery::STATUS_ACTIVE:
                                 return ['isLabel' => true, 'class' => 'bg-info-light text-info', 'label' => 'Активно'];
                             case $_item['status'] === Machinery::STATUS_ARCHIVE:
