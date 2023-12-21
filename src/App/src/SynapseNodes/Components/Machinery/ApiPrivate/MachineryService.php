@@ -102,7 +102,7 @@ class MachineryService extends ServiceArtificer
             ], 400));
         }
 
-        $entity->type = Machinery::TYPE_RENT;
+        $entity->type = Machinery::TYPE_EXCHANGE;
 
         $this->mm($entity)->save();
 
@@ -202,9 +202,9 @@ class MachineryService extends ServiceArtificer
             'title' => function($_value) {
                 return ! empty($_value);
             },
-            'price' => function($_value) {
-                return preg_match('/\d+/', (string)$_value);
-            },
+            // 'price' => function($_value) {
+            //     return preg_match('/\d+/', (string)$_value);
+            // },
             'content' => function($_value) {
                 return ! empty($_value);
             },
