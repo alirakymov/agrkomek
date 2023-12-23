@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use Mezzio\Csrf\CsrfGuardFactoryInterface;
 use Mezzio\Csrf\FlashCsrfGuardFactory;
+use Qore\App\Services\SmsService\SmsService;
+use Qore\App\Services\SmsService\SmsServiceFactory;
 
 return [
     // Provides application-wide services.
@@ -26,6 +28,7 @@ return [
         // Use 'factories' for services provided by callbacks/factory classes.
         'factories'  => [
             // Fully\Qualified\ClassName::class => Fully\Qualified\FactoryName::class,
+            SmsService::class => SmsServiceFactory::class,
         ],
     ],
 ];

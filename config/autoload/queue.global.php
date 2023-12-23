@@ -10,10 +10,13 @@ return [
                 'options' => [
                     'host' => 'mps.rmq',
                     'port' => '5672',
-                    'username' => 'mps_user',
-                    'password' => 'mps_password',
+                    'username' => 'qore_user',
+                    'password' => 'qore_password',
                 ],
-            ]
+            ],
+            'jobs' => [
+                '\\Qore\\App\\Services\\SmsService\\SmsServiceJob',
+            ],
         ],
     ],
 ];

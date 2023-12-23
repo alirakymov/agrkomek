@@ -18,7 +18,9 @@ class QueueManagerFactory
      */
     public function __invoke(ContainerInterface $container) : QueueManager
     {
-        return new QueueManager();
+        $config = Qore::config('qore.queue-manager.adapter', []);
+        $adapterClass = $config['class'] ?? AmqpAdapter::class;
+        return new QueueManager(new $adapterClass($config['options'] ?? []));
     }
 
 }

@@ -242,6 +242,7 @@ class ConsultancyService extends ServiceArtificer
         ]);
 
         $this->mm($message)->save();
+        $this->mm($consultancy)->save();
 
         return $this->response(
             new JsonResponse([

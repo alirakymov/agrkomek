@@ -24,8 +24,33 @@ class ConfigProvider
         return [
             'dependencies' => [
                 'factories' => [
+                    Command\QueueCreateJob::class => Command\QueueCreateJobFactory::class,
+                    Command\QueueInitWorkers::class => Command\QueueInitWorkersFactory::class,
+                    Command\QueueWorker::class => Command\QueueWorkerFactory::class,
                     QueueManager::class => QueueManagerFactory::class,
                 ]
+            ],
+            'console' => [
+                'commands' => [
+                    Command\QueueCreateJob::class,
+                    Command\QueueInitWorkers::class,
+                    Command\QueueWorker::class,
+                ],
+            ],
+            'qore' => [
+                'queue-manager' => [
+                    'config_file' => PROJECT_CONFIG_PATH . DS . 'queue.global.php',
+                    'jobs' => [],
+                    'adapter' => [
+                        'class' => Adapter\AmqpAdapter::class,
+                        'options' => [
+                            'host' => 'localhost',
+                            'port' => '5672',
+                            'username' => 'guest',
+                            'password' => 'guest',
+                        ],
+                    ]
+                ],
             ],
         ];
     }

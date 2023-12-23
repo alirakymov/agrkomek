@@ -275,8 +275,15 @@ class GuideService extends ServiceArtificer
             'referencePath' => '{relation.path}' # Example: {relation.path} => @this.id
         ]);
 
-        return $this->presentAs(ListComponent::class, [
+        # - Формируем уникальный суффикс для имени компонента интерфейса
+        if ($_data !== null) {
 
+            $gw = $this->mm();
+            $gw->with('category');
+            $_data = $gw->all();
+        }
+
+        return $this->presentAs(ListComponent::class, [
             'columns' => [
                 'id' => [
                     'label' => '#',
@@ -287,6 +294,14 @@ class GuideService extends ServiceArtificer
                     'label' => 'Заголовок',
                     'class-header' => 'col-5',
                     'class-column' => 'col-5',
+                ],
+                'category' => [
+                    'label' => 'Категория',
+                    'class-header' => 'col-2',
+                    'class-column' => 'col-2',
+                    'transform' => function ($_item) {
+                        return $_item->category()->title;
+                    },
                 ],
                 'language' => [
                     'label' => 'Язык',

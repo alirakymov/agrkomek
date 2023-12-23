@@ -168,6 +168,7 @@ class MachineryService extends ServiceArtificer
         $form->setOption('upload-route', Qore::url($this->sm('ImageStore:Uploader')->getRouteName('upload')));
         $form->setOption('save-route', Qore::url($this->getRouteName('create')));
         $form->setOption('types', Machinery::getTypes());
+        $form->setOption('statuses', Machinery::getStatuses());
 
         $modal = $ig(Modal::class, sprintf('%s.%s', get_class($this), 'modal-create'))
             ->setTitle('Создание')
@@ -299,9 +300,10 @@ class MachineryService extends ServiceArtificer
                 ->select(fn ($_select) => $_select->order('@this.__updated desc'));
 
             $queryParams = $this->model->getRequest()->getQueryParams();
+            $gw->with('user');
 
             if (isset($queryParams['user-id'])) {
-                $gw->with('user')->where([
+                $gw->where([
                     '@this.user.id' => $queryParams['user-id'],
                 ]);
             }
@@ -325,6 +327,14 @@ class MachineryService extends ServiceArtificer
                     'label' => 'Цена',
                     'class-header' => 'col-1',
                     'class-column' => 'col-1',
+                ],
+                'user' => [
+                    'label' => 'Источник',
+                    'class-header' => 'col-1',
+                    'class-column' => 'col-1',
+                    'transform' => function ($_item) {
+                        return $_item->user() ? $_item->user()->phone : 'АгроКомек';
+                    },
                 ],
                 'status' => [
                     'label' => 'Статус',

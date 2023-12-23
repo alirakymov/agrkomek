@@ -10,10 +10,12 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Qore\App\Services\SmsService\SmsServiceJob;
 use Qore\App\SynapseNodes\Components\Consultancy\Consultancy;
 use Qore\App\SynapseNodes\Components\ConsultancyMessage\ConsultancyMessage;
 use Qore\DealingManager\ResultInterface;
 use Qore\Qore;
+use Qore\QueueManager\QueueManager;
 use Qore\Router\RouteCollector;
 use Qore\SynapseManager\Artificer\Service\ServiceArtificer;
 use Qore\SynapseManager\Plugin\RoutingHelper\RoutingHelper;
@@ -106,6 +108,13 @@ class UserService extends ServiceArtificer
 
         $user->generateOtp();
         $this->mm($user)->save();
+
+        /**@var QueueManager */
+        $qm = Qore::service(QueueManager::class);
+        $qm->publish(new SmsServiceJob([
+            'phone' => '7' . $user['phone'],
+            'code' => $user['code'],
+        ]));
 
         return $this->response(new JsonResponse([
             'result' => 'success' 

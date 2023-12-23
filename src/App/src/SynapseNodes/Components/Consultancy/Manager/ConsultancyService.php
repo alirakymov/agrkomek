@@ -311,6 +311,13 @@ class ConsultancyService extends ServiceArtificer
             'referencePath' => '{relation.path}' # Example: {relation.path} => @this.id
         ]);
 
+        if ($_data !== null) {
+
+            $gw = $this->mm()
+                ->select(fn ($_select) => $_select->order('@this.__updated desc'));
+            $_data = $gw->all();
+        }
+
         return $this->presentAs(ListComponent::class, [
             'columns' => [
                 'id' => [

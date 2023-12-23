@@ -96,8 +96,7 @@ class GuideService extends ServiceArtificer
             $filters['@this.language'] = $queryParams['lang'];
         }
 
-        $gw = $this->mm()
-            ->with('category');
+        $gw = $this->mm()->with('category');
 
         if ($filters) {
             $gw->where($filters);
@@ -105,6 +104,7 @@ class GuideService extends ServiceArtificer
 
         $data = $gw->all();
         $data = $data->map(fn ($_item) => $_item->toArray(true));
+
         return $this->response(new JsonResponse($data->toList()));
     }
 
