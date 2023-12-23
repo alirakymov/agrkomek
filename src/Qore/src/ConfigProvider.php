@@ -131,7 +131,7 @@ class ConfigProvider
         return [
             'upload-dir' => PROJECT_STORAGE_PATH . DS . 'uploads',
             'paths' => [
-                'services-files' => touch_dir([PROJECT_PATH, 'storage', 'services']),
+                'services-files' => touch_dir([PROJECT_STORAGE_PATH, 'services']),
                 'logs-files' => touch_dir([PROJECT_PATH, 'storage', 'logs']),
                 'debuglog-files' => touch_dir([PROJECT_PATH, 'storage', 'logs', 'debug']),
                 'qore-fe' => realpath(QORE_FRONT_PATH),

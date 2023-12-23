@@ -60,6 +60,7 @@ class SupervisorConfigurator
         $config = new Configuration();
 
         $command = $this->prepareCommand($_service->command);
+
         $config->addSection(new Program($_service->name(), [
             'command' => $command['command'],
             'autostart' => (bool)$_service['autostart'],
@@ -73,6 +74,7 @@ class SupervisorConfigurator
         $renderer = new Renderer();
 
         is_file($fileName = $this->getServicesDirectory() . DS . $this->getServiceFileName($_service->name)) && unlink($fileName);
+
         file_put_contents($fileName, $renderer->render($config->toArray()));
 
         $this->clearServicesDirectory();

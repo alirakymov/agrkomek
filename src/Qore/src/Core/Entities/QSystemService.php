@@ -19,7 +19,7 @@ class QSystemService extends QSystemBase
      */
     public function name()
     {
-        return Qore::config('app.project-name') . '.' . $this->name;
+        return Qore::config('app.project-name') . '_' . $this->name;
     }
 
     /**
