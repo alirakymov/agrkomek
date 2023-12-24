@@ -117,7 +117,7 @@ class UserService extends ServiceArtificer
         $qm = Qore::service(QueueManager::class);
         $qm->publish(new SmsServiceJob([
             'phone' => '7' . $user['phone'],
-            'code' => $user['code'],
+            'message' => sprintf("Sızdıñ rastau kodyñyz %s\nVash kod podtverjdeniya %s", $user['code'], $user['code']),
         ]));
 
         return $this->response(new JsonResponse([

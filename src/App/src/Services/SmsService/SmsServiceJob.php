@@ -29,7 +29,7 @@ class SmsServiceJob extends JobAbstract implements JobInterface
     public function process() : bool
     {
         $smsService = Qore::service(SmsService::class);
-        $smsService->send($this->task['phone'], sprintf('Ваш код %s', $this->task['code']));
+        $smsService->send($this->task['phone'], $this->task['message']);
 
         return true;
     }
