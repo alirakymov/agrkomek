@@ -92,10 +92,14 @@ class UserService extends ServiceArtificer
         $request = $this->model->getRequest();
         $queryParams = $request->getQueryParams();
 
-        if (! isset($queryParams['phone'])) {
+        if (! isset($queryParams['phone']) || ! preg_match('/[0-9]{10,11}/', $queryParams['phone'])) {
             return $this->response(new JsonResponse([
                 'error' => 'bad request'
             ], 400));
+        }
+
+        if (mb_strlen($queryParams['phone']) == 11) {
+            $queryParams['phone'] = mb_substr($queryParams['phone'], 1);
         }
 
         $user = $this->mm('SM:User')->where(['@this.phone' => $queryParams['phone']])->one();
