@@ -38,6 +38,10 @@ class UserRepository implements UserRepositoryInterface
         ClientEntityInterface $clientEntity
     ) {
 
+        if (mb_strlen($username) == 11) {
+            $username = mb_substr($username, 1);
+        }
+
         $mm = $this->mm;
         $user = $mm('SM:User')
             ->where(['@this.phone' => $username, '@this.blocked' => 0])
