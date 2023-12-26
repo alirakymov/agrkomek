@@ -183,4 +183,11 @@ return [
         'index' => 0,
         'description' => 'Сервис управления',
     ],
+    'QSynapse:SynapseServices(QSynapse:Synapses(Weather);Api)' => [
+        'iSynapse' => 'QSynapse:Synapses(Weather)',
+        'name' => 'Api',
+        'label' => 'Api',
+        'index' => 0,
+        'description' => '',
+    ],
 ];

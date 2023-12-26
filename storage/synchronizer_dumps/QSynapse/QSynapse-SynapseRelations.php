@@ -145,4 +145,12 @@ return [
         'type' => '1',
         'description' => 'User',
     ],
+    'QSynapse:SynapseRelations(QSynapse:Synapses(Weather);weather;QSynapse:Synapses(Routes);route)' => [
+        'iSynapseFrom' => 'QSynapse:Synapses(Routes)',
+        'synapseAliasFrom' => 'weather',
+        'iSynapseTo' => 'QSynapse:Synapses(Weather)',
+        'synapseAliasTo' => 'route',
+        'type' => '1',
+        'description' => '',
+    ],
 ];

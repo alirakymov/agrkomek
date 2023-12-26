@@ -97,4 +97,10 @@ return [
         'description' => 'Пользователь',
         'tree' => 0,
     ],
+    'QSynapse:Synapses(Weather)' => [
+        'iParent' => null,
+        'name' => 'Weather',
+        'description' => 'Погода'."\r\n",
+        'tree' => 0,
+    ],
 ];

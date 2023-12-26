@@ -99,6 +99,13 @@ return [
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Integer',
         'description' => 'Закрыт',
     ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Consultancy);isUpdated)' => [
+        'iSynapse' => 'QSynapse:Synapses(Consultancy)',
+        'name' => 'isUpdated',
+        'label' => 'Обновлен',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Integer',
+        'description' => 'isUpdated',
+    ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Consultancy);question)' => [
         'iSynapse' => 'QSynapse:Synapses(Consultancy)',
         'name' => 'question',
