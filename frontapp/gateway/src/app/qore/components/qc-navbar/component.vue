@@ -12,10 +12,10 @@
             <div>
                 <!-- Dark Mode -->
                 <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="layout"
-                    data-action="dark_mode_toggle">
-                    <i class="far fa-moon"></i>
-                </button>
+                <!-- <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="layout" -->
+                <!--     data-action="dark_mode_toggle"> -->
+                <!--     <i class="far fa-moon"></i> -->
+                <!-- </button> -->
                 <!-- END Dark Mode -->
 
                 <!-- Close Sidebar, Visible only on mobile screens -->

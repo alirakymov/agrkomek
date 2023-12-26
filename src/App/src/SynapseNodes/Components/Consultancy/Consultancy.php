@@ -15,6 +15,28 @@ use Qore\SynapseManager\Structure\Entity\SynapseBaseEntity;
 class Consultancy extends SynapseBaseEntity
 {
     /**
+     * Is Answered
+     *
+     * @return Consultancy
+     */
+    public function isAnswered(): Consultancy
+    {
+        $this->isUpdated = 0;
+        return $this;
+    }
+
+    /**
+     * Is updated 
+     *
+     * @return Consultancy
+     */
+    public function isUpdated(): Consultancy
+    {
+        $this->isUpdated = 1;
+        return $this;
+    }
+
+    /**
      * subscribe
      *
      */

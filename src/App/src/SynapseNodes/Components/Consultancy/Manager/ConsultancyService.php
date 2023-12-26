@@ -209,7 +209,10 @@ class ConsultancyService extends ServiceArtificer
             'direction' => ConsultancyMessage::DIRECTION_OUT,
         ]);
 
+        $consultancy->isAnswered();
+
         $this->mm($message)->save();
+        $this->mm($consultancy)->save();
 
         $dialog = $this->getDialogComponent($consultancy);
 
@@ -306,11 +309,6 @@ class ConsultancyService extends ServiceArtificer
      */
     protected function getComponent($_data = null)
     {
-        # - Формируем уникальный суффикс для имени компонента интерфейса
-        $testFilters = $this->model->getFilters(true)->firstMatch([
-            'referencePath' => '{relation.path}' # Example: {relation.path} => @this.id
-        ]);
-
         if ($_data !== null) {
 
             $gw = $this->mm()
@@ -320,6 +318,11 @@ class ConsultancyService extends ServiceArtificer
 
         return $this->presentAs(ListComponent::class, [
             'columns' => [
+                'row:class' => [
+                    'transform' => function ($_item) {
+                        return (int)$_item->isUpdated == 1 ? 'bg-info-light' : '';
+                    },
+                ],
                 'id' => [
                     'label' => '#',
                     'class-header' => 'col-1',

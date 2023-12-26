@@ -270,9 +270,11 @@ class ArticleService extends ServiceArtificer
     protected function getComponent($_data = null)
     {
         # - Формируем уникальный суффикс для имени компонента интерфейса
-        $testFilters = $this->model->getFilters(true)->firstMatch([
-            'referencePath' => '{relation.path}' # Example: {relation.path} => @this.id
-        ]);
+        if ($_data !== null) {
+            $gw = $this->mm()->with('type')
+                ->select(fn ($_select) => $_select->order('@this.__updated desc'));
+            $_data = $gw->all();
+        }
 
         return $this->presentAs(ListComponent::class, [
             'columns' => [
@@ -283,13 +285,21 @@ class ArticleService extends ServiceArtificer
                 ],
                 'title' => [
                     'label' => 'Заголовок',
-                    'class-header' => 'col-5',
-                    'class-column' => 'col-5',
+                    'class-header' => 'col-3',
+                    'class-column' => 'col-3',
+                ],
+                'type' => [
+                    'label' => 'Тип',
+                    'class-header' => 'col-2',
+                    'class-column' => 'col-2',
+                    'transform' => function ($_item) {
+                        return $_item->type()->title;
+                    },
                 ],
                 'language' => [
                     'label' => 'Язык',
-                    'class-header' => 'col-2',
-                    'class-column' => 'col-2',
+                    'class-header' => 'col-1',
+                    'class-column' => 'col-1',
                     'transform' => function ($_item) {
                         $lang = Qore::collection(Article::getLanguages())->firstMatch(['id' => $_item['language']]);
                         return $lang
@@ -299,8 +309,8 @@ class ArticleService extends ServiceArtificer
                 ],
                 'approved' => [
                     'label' => 'Статус',
-                    'class-header' => 'col-2',
-                    'class-column' => 'col-2',
+                    'class-header' => 'col-1',
+                    'class-column' => 'col-1',
                     'transform' => function ($_item) {
                         return isset($_item['approved']) && (int)$_item['approved']
                             ? ['isLabel' => true, 'class' => 'bg-success-light text-success', 'label' => 'Опубликовано']

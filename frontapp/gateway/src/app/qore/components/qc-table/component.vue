@@ -50,31 +50,35 @@
                 <table class="table table-bordered table-dashed table-hover">
                     <thead>
                         <tr>
-                            <th v-for="(column, key) in columns" :key="'header-' + key" :class="getHeaderClass(column)">{{ column.label }}</th>
+                            <template v-for="(column, key) in columns">
+                                <th :key="'header-' + key" :class="getHeaderClass(column)" v-if="key != 'row:class'">{{ column.label }}</th>
+                            </template>
                         </tr>
                     </thead>
                     <draggable v-model="data" tag="tbody" @change="reorder" v-bind="dragOptions" :no-transition-on-drag="false">
-                        <tr v-for="(row, id) in data" :key="'row-' + id">
-                            <td v-for="(column, key) in columns" :key="'column-' + key" :class="getColumnClass(column)">
-                                <template v-if="key == 'table-actions'">
-                                    <div class="btn-group" role="group" data-toggle="buttons">
-                                        <button class="btn btn-sm btn-alt-secondary" type="button" data-toggle="click-ripple"
-                                            v-for="(action, key) in row.actions"
-                                            :key="'button' + key"
-                                            :disabled="action.actionUri ? false : true"
-                                            v-on:click="tableAction(action, $event)"
-                                            :title="action.label"
-                                        ><i v-if="action.icon" :class="action.icon"></i></button>
-                                    </div>
-                                </template><template v-else>
-                                    <a v-if="isAction(row[key])" v-on:click="tableAction(row[key], $event)" class="link-fx" href="javascript:void(0);" v-html="row[key].label"></a>
-                                    <a v-else-if="isImage(row[key])">
-                                        <img :src="row[key].image" :width="getImageSize(row[key],'width')" :height="getImageSize(row[key],'height')" :alt="row[key].alt ? row[key].alt : '' ">
-                                    </a>
-                                    <template v-else-if="isBadge(row[key])"><span class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill" :class="row[key].class" style="font-size: 90%;">{{ row[key].label }}</span></template>
-                                    <template v-else><div v-html="row[key]"></div></template>
-                                </template>
-                            </td>
+                        <tr v-for="(row, id) in data" :key="'row-' + id" :class="row['row:class']">
+                            <template v-for="(column, key) in columns">
+                                <td :key="'column-' + key" :class="getColumnClass(column)" v-if="key != 'row:class'">
+                                    <template v-if="key == 'table-actions'">
+                                        <div class="btn-group" role="group" data-toggle="buttons">
+                                            <button class="btn btn-sm btn-alt-secondary" type="button" data-toggle="click-ripple"
+                                                v-for="(action, key) in row.actions"
+                                                :key="'button' + key"
+                                                :disabled="action.actionUri ? false : true"
+                                                v-on:click="tableAction(action, $event)"
+                                                :title="action.label"
+                                            ><i v-if="action.icon" :class="action.icon"></i></button>
+                                        </div>
+                                    </template><template v-else>
+                                        <a v-if="isAction(row[key])" v-on:click="tableAction(row[key], $event)" class="link-fx" href="javascript:void(0);" v-html="row[key].label"></a>
+                                        <a v-else-if="isImage(row[key])">
+                                            <img :src="row[key].image" :width="getImageSize(row[key],'width')" :height="getImageSize(row[key],'height')" :alt="row[key].alt ? row[key].alt : '' ">
+                                        </a>
+                                        <template v-else-if="isBadge(row[key])"><span class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill" :class="row[key].class" style="font-size: 90%;">{{ row[key].label }}</span></template>
+                                        <template v-else><div v-html="row[key]"></div></template>
+                                    </template>
+                                </td>
+                            </template>
                         </tr>
                     </draggable>
                 </table>

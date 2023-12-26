@@ -241,6 +241,8 @@ class ConsultancyService extends ServiceArtificer
             'direction' => ConsultancyMessage::DIRECTION_IN,
         ]);
 
+        $consultancy->isUpdated();
+
         $this->mm($message)->save();
         $this->mm($consultancy)->save();
 

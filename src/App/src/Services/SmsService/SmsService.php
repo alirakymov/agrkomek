@@ -41,7 +41,6 @@ class SmsService
         ];
 
         $response = $this->client->request('GET', $this->host, ['query' => $params]);
-        dump($response);
     }
 
 }

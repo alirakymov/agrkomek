@@ -1,5 +1,5 @@
 <template>
-    <div id="page-container" class="sidebar-l sidebar-o sidebar-dark sidebar-mini enable-page-overlay side-scroll page-header-fixed main-content-narrow side-trans-enabled">
+    <div id="page-container" class="sidebar-l sidebar-o sidebar-dark sidebar-mini-1 enable-page-overlay side-scroll page-header-fixed main-content-narrow side-trans-enabled">
         <!-- Sidebar -->
         <component is="qc-navbar" :options="navbar"></component>
         <!-- END Sidebar -->
