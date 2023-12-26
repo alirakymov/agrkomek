@@ -16,6 +16,7 @@ use Qore\Qore;
 use Qore\Router\RouteCollector;
 use Qore\SynapseManager\Artificer\Service\ServiceArtificer;
 use Qore\SynapseManager\Plugin\RoutingHelper\RoutingHelper;
+use Throwable;
 
 /**
  * Class: ArticleService
@@ -93,16 +94,22 @@ class WeatherService extends ServiceArtificer
         $host = Qore::config('weather.host', 'https://api.weather.yandex.ru/v2/forecast/');
         $token = Qore::config('weather.token', '9a474249-cdb6-400d-9011-d117dcebada2');
 
-        $response = $client->request('GET', $host, [
-            'query' => [
-                'lat' => $queryParams['lat'],
-                'lon' => $queryParams['lon'],
-                'lang' => $queryParams['lang'] ?? 'ru_RU',
-            ],
-            'headers' => [
-                'X-Yandex-API-Key' => $token,
-            ],
-        ]);
+        try {
+            $response = $client->request('GET', $host, [
+                'query' => [
+                    'lat' => $queryParams['lat'],
+                    'lon' => $queryParams['lon'],
+                    'lang' => $queryParams['lang'] ?? 'ru_RU',
+                ],
+                'headers' => [
+                    'X-Yandex-API-Key' => $token,
+                ],
+            ]);
+        } catch (Throwable) {
+            return $this->response(new JsonResponse([
+                'status' => 'error'
+            ], 503));
+        }
 
         return $this->response(new JsonResponse(json_decode($response->getBody()->getContents(), true)));
     }
