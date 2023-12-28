@@ -49,6 +49,7 @@ class ConsultancyService extends ServiceArtificer
             $_router->get('/token', 'token');
             $_router->get('/list', 'list');
             $_router->get('/dialog', 'dialog');
+            $_router->get('/active', 'active');
             $_router->get('/categories', 'categories');
             $_router->post('/message', 'message');
             $_router->post('/close', 'close');
@@ -70,7 +71,7 @@ class ConsultancyService extends ServiceArtificer
 
         $this->routingHelper = $this->plugin(RoutingHelper::class);
 
-        list($method, $arguments) = $this->routingHelper->dispatch(['token', 'list', 'dialog', 'categories', 'message', 'close']) ?? ['notFound', null];
+        list($method, $arguments) = $this->routingHelper->dispatch(['token', 'list', 'dialog', 'active', 'categories', 'message', 'close']) ?? ['notFound', null];
 
         return ! is_null($method) ? call_user_func_array([$this, $method], $arguments ?? []) : null;
     }
@@ -173,7 +174,7 @@ class ConsultancyService extends ServiceArtificer
             ], 400));
         }
 
-        $consultancy = $this->mm()
+        $consultancy = $this->mm()->with('category')
             ->select(fn ($_select) => $_select->order('@this.__created desc'))
             ->where(['@this.token' => $session->token, '@this.closed' => 0])
             ->one();
@@ -190,6 +191,48 @@ class ConsultancyService extends ServiceArtificer
 
         $data = $data->map(fn ($_item) => $_item->toArray(true));
         return $this->response(new JsonResponse($data->toList()));
+    }
+
+    /**
+     * Dialog 
+     *
+     * @return ?ResultInterface
+     */
+    protected function active(): ?ResultInterface
+    {
+        $request = $this->model->getRequest();
+        $queryParams = $request->getQueryParams();
+
+        if (! isset($queryParams['token'])) {
+            return $this->response(new JsonResponse([
+                'error' => 'bad request'
+            ], 400));
+        }
+        
+        $session = $this->mm('SM:ConsultancySession')
+            ->where(['@this.token' => $queryParams['token']])
+            ->one();
+
+        if (! $session) {
+            return $this->response(new JsonResponse([
+                'error' => 'token not found'
+            ], 400));
+        }
+
+        $consultancy = $this->mm()->with('category')
+            ->select(fn ($_select) => $_select->order('@this.__created desc'))
+            ->where(['@this.token' => $session->token, '@this.closed' => 0])
+            ->one();
+
+        if (! $consultancy) {
+            return $this->response(new JsonResponse([
+                'active' => null
+            ]));
+        }
+
+        return $this->response(new JsonResponse([
+            'active' => $consultancy->toArray(true),
+        ]));
     }
 
     /**
