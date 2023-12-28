@@ -120,6 +120,13 @@ return [
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
         'description' => ' Токен',
     ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(ConsultancyCategory);title)' => [
+        'iSynapse' => 'QSynapse:Synapses(ConsultancyCategory)',
+        'name' => 'title',
+        'label' => 'Название',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
+        'description' => 'Название',
+    ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(ConsultancyMessage);direction)' => [
         'iSynapse' => 'QSynapse:Synapses(ConsultancyMessage)',
         'name' => 'direction',

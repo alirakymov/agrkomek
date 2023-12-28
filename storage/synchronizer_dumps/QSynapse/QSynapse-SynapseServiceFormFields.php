@@ -89,6 +89,17 @@ return [
         'placeholder' => 'Введите название типа',
         'description' => 'название типа новости',
     ],
+    'QSynapse:SynapseServiceFormFields(QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ConsultancyCategory);Manager);ConsultancyCategoryForm);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(ConsultancyCategory);title))' => [
+        'iSynapseServiceForm' => 'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ConsultancyCategory);Manager);ConsultancyCategoryForm)',
+        'iSynapseServiceSubject' => 'QSynapse:SynapseServiceSubjects()',
+        'iSynapseServiceSubjectForm' => 'QSynapse:SynapseServiceForms()',
+        'iSynapseAttribute' => 'QSynapse:SynapseAttributes(QSynapse:Synapses(ConsultancyCategory);title)',
+        'type' => 1,
+        'attributeFieldType' => 'Qore\\Form\\Field\\Text',
+        'label' => 'Название категории',
+        'placeholder' => 'Название категории',
+        'description' => 'Название категории',
+    ],
     'QSynapse:SynapseServiceFormFields(QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(Guide);Manager);GuideForm);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(Guide);approved))' => [
         'iSynapseServiceForm' => 'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(Guide);Manager);GuideForm)',
         'iSynapseServiceSubject' => 'QSynapse:SynapseServiceSubjects()',

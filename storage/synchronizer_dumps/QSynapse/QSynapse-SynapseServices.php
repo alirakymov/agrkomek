@@ -57,6 +57,13 @@ return [
         'index' => 0,
         'description' => 'Сервис управления консультациями',
     ],
+    'QSynapse:SynapseServices(QSynapse:Synapses(ConsultancyCategory);Manager)' => [
+        'iSynapse' => 'QSynapse:Synapses(ConsultancyCategory)',
+        'name' => 'Manager',
+        'label' => 'Управление категориями консультаций',
+        'index' => 0,
+        'description' => '',
+    ],
     'QSynapse:SynapseServices(QSynapse:Synapses(Guide);Api)' => [
         'iSynapse' => 'QSynapse:Synapses(Guide)',
         'name' => 'Api',

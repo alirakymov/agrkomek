@@ -42,6 +42,15 @@ return [
         'type' => 2,
         '__options' => [],
     ],
+    'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ConsultancyCategory);Manager);ConsultancyCategoryForm)' => [
+        'iSynapseService' => 'QSynapse:SynapseServices(QSynapse:Synapses(ConsultancyCategory);Manager)',
+        'name' => 'ConsultancyCategoryForm',
+        'label' => 'Форма создания / редактирования',
+        'template' => '$title',
+        'description' => '',
+        'type' => 0,
+        '__options' => [],
+    ],
     'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(Guide);Manager);GuideForm)' => [
         'iSynapseService' => 'QSynapse:SynapseServices(QSynapse:Synapses(Guide);Manager)',
         'name' => 'GuideForm',

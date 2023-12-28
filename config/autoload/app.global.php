@@ -1,7 +1,8 @@
 <?php
 
 use Qore\App\SynapseNodes\Components\Article\Manager\ArticleService;
-use Qore\App\SynapseNodes\Components\ArticleType\Manager\ArticleTypeService; use Qore\App\SynapseNodes\Components\Consultancy\Manager\ConsultancyService;
+use Qore\App\SynapseNodes\Components\ArticleType\Manager\ArticleTypeService; use Qore\App\SynapseNodes\Components\ConsultancyCategory\Manager\ConsultancyCategoryService;
+use Qore\App\SynapseNodes\Components\Consultancy\Manager\ConsultancyService;
 use Qore\App\SynapseNodes\Components\Guide\Manager\GuideService;
 use Qore\App\SynapseNodes\Components\GuideCategory\Manager\GuideCategoryService;
 use Qore\App\SynapseNodes\Components\Machinery\Manager\MachineryService;
@@ -70,8 +71,14 @@ return [
                         [
                             'label' => 'Обращения',
                             'privilege' => 1,
-                            'icon' => 'fas fa-book',
+                            'icon' => 'fas fa-comments',
                             'route' => [ConsultancyService::class, 'index'],
+                        ],
+                        [
+                            'label' => 'Категории',
+                            'privilege' => 1,
+                            'icon' => 'far fa-comment-dots',
+                            'route' => [ConsultancyCategoryService::class, 'index'],
                         ],
                     ],
                 ],

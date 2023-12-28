@@ -49,6 +49,7 @@ class ConsultancyService extends ServiceArtificer
             $_router->get('/token', 'token');
             $_router->get('/list', 'list');
             $_router->get('/dialog', 'dialog');
+            $_router->get('/categories', 'categories');
             $_router->post('/message', 'message');
             $_router->post('/close', 'close');
         });
@@ -69,7 +70,7 @@ class ConsultancyService extends ServiceArtificer
 
         $this->routingHelper = $this->plugin(RoutingHelper::class);
 
-        list($method, $arguments) = $this->routingHelper->dispatch(['token', 'list', 'dialog', 'message', 'close']) ?? ['notFound', null];
+        list($method, $arguments) = $this->routingHelper->dispatch(['token', 'list', 'dialog', 'categories', 'message', 'close']) ?? ['notFound', null];
 
         return ! is_null($method) ? call_user_func_array([$this, $method], $arguments ?? []) : null;
     }
@@ -192,6 +193,23 @@ class ConsultancyService extends ServiceArtificer
     }
 
     /**
+     * Categories 
+     *
+     * @return ?ResultInterface
+     */
+    protected function categories(): ?ResultInterface
+    {
+        $request = $this->model->getRequest();
+        $queryParams = $request->getQueryParams();
+
+        $data = $this->mm('SM:ConsultancyCategory')
+            ->all();
+
+        $data = $data->map(fn ($_item) => $_item->toArray(true));
+        return $this->response(new JsonResponse($data->toList()));
+    }
+
+    /**
      * Message
      *
      * @return ?ResultInterface
@@ -232,7 +250,25 @@ class ConsultancyService extends ServiceArtificer
             ->one();
 
         if (! $consultancy) {
+
+            $category = $request('category', null);
+
+            if (is_null($category)) {
+                return $this->response(new JsonResponse([
+                    'error' => 'there is no category for consultancy dialog'
+                ], 400));
+            }
+
+            $category = $this->mm('SM:ConsultancyCategory')->where(['@this.id' => (int)$category])->one();
+
+            if (is_null($category)) {
+                return $this->response(new JsonResponse([
+                    'error' => 'there is no category for consultancy dialog'
+                ], 400));
+            }
+
             $consultancy = $this->makeConsultancy($session->token, $message);
+            $consultancy->link('category', $category);
         }
 
         $message = $this->mm('SM:ConsultancyMessage', [

@@ -31,6 +31,12 @@ return [
         'description' => 'Консультации',
         'tree' => 0,
     ],
+    'QSynapse:Synapses(ConsultancyCategory)' => [
+        'iParent' => 'Consultancy',
+        'name' => 'ConsultancyCategory',
+        'description' => '',
+        'tree' => 1,
+    ],
     'QSynapse:Synapses(ConsultancyMessage)' => [
         'iParent' => 'Consultancy',
         'name' => 'ConsultancyMessage',

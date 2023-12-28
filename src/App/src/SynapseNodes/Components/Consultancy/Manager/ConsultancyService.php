@@ -311,7 +311,7 @@ class ConsultancyService extends ServiceArtificer
     {
         if ($_data !== null) {
 
-            $gw = $this->mm()
+            $gw = $this->mm()->with('category')
                 ->select(fn ($_select) => $_select->order('@this.__updated desc'));
             $_data = $gw->all();
         }
@@ -330,13 +330,22 @@ class ConsultancyService extends ServiceArtificer
                 ],
                 'question' => [
                     'label' => 'Запрос',
-                    'class-header' => 'col-4',
-                    'class-column' => 'col-4',
+                    'class-header' => 'col-3',
+                    'class-column' => 'col-3',
                 ],
                 'token' => [
                     'label' => 'Сессия',
-                    'class-header' => 'col-3',
-                    'class-column' => 'col-3',
+                    'class-header' => 'col-2',
+                    'class-column' => 'col-2',
+                ],
+                'category' => [
+                    'label' => 'Категория',
+                    'class-header' => 'col-2',
+                    'class-column' => 'col-2',
+                    'transform' => function ($_item) {
+                        $category = $_item->category();
+                        return $category ? $category->title : 'Не назначена';
+                    },
                 ],
                 'closed' => [
                     'label' => 'Статус',
@@ -345,15 +354,15 @@ class ConsultancyService extends ServiceArtificer
                     'transform' => function ($_item) {
                         return isset($_item['closed']) && (int)$_item['closed']
                             ? ['isLabel' => true, 'class' => 'bg-warning-light text-warning', 'label' => 'Закрыта']
-                            : ['isLabel' => true, 'class' => 'bg-info-light text-info', 'label' => 'Открыта'];
+                            : ['isLabel' => true, 'class' => 'bg-primary-light text-white', 'label' => 'Открыта'];
                     },
                 ],
-                'created' => [
-                    'label' => 'Создан',
+                'updated' => [
+                    'label' => 'Последняя активность',
                     'class-header' => 'col-2',
                     'class-column' => 'col-2',
                     'transform' => function($_item) {
-                        return $_item['__created']->format('d.m.Y H:i');
+                        return $_item['__updated']->format('d.m.Y H:i');
                     }
                 ],
             ],
