@@ -302,16 +302,13 @@ class ConsultancyService extends ServiceArtificer
                 ], 400));
             }
 
+            $consultancy = $this->makeConsultancy($session->token, $message);
+
             $category = $this->mm('SM:ConsultancyCategory')->where(['@this.id' => (int)$category])->one();
 
-            if (is_null($category)) {
-                return $this->response(new JsonResponse([
-                    'error' => 'there is no category for consultancy dialog'
-                ], 400));
+            if (! is_null($category)) {
+                $consultancy->link('category', $category);
             }
-
-            $consultancy = $this->makeConsultancy($session->token, $message);
-            $consultancy->link('category', $category);
         }
 
         $message = $this->mm('SM:ConsultancyMessage', [
