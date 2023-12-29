@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Qore\App\SynapseNodes\Components\User\Authentication;
+namespace Qore\App\SynapseNodes\Components\Moderator\Authentication;
 
 use Psr\Container\ContainerInterface;
 use Webmozart\Assert\Assert;

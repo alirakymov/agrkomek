@@ -9,6 +9,7 @@ use Qore\App\SynapseNodes\Components\ModeratorPermission\ModeratorPermission;
 use Qore\DealingManager\Result;
 use Qore\DealingManager\ResultInterface;
 use Qore\Form\Decorator\QoreFront;
+use Qore\InterfaceGateway\Component\Form;
 use Qore\InterfaceGateway\Component\Modal;
 use Qore\InterfaceGateway\InterfaceGateway;
 use Qore\Qore as Qore;
@@ -20,6 +21,7 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Qore\App\SynapseNodes\Components\Consultancy\Manager\ConsultancyService;
 use Qore\SynapseManager\Artificer\Service\ServiceArtificer;
 use Qore\SynapseManager\Plugin\FormMaker\FormMaker;
 use Qore\SynapseManager\Plugin\RoutingHelper\RoutingHelper;
@@ -60,6 +62,7 @@ class ModeratorPermissionService extends ServiceArtificer
         $this->routingHelper = $this->plugin(RoutingHelper::class);
         $_router->group('/moderator-permission', null, function($_router) {
             $this->routingHelper->routesCrud($_router);
+            $_router->any('/extra/{id:\d+}', 'extra');
         });
         # - Register related subjects routes
         $this->registerSubjectsRoutes($_router);
@@ -73,7 +76,7 @@ class ModeratorPermissionService extends ServiceArtificer
     {
         /** @var RoutingHelper */
         $this->routingHelper = $this->plugin(RoutingHelper::class);
-        list($method, $arguments) = $this->routingHelper->dispatch() ?? [null, null];
+        list($method, $arguments) = $this->routingHelper->dispatch(['extra']) ?? [null, null];
 
         return ! is_null($method) ? call_user_func_array([$this, $method], $arguments ?? []) : null;
     }
@@ -173,6 +176,81 @@ class ModeratorPermissionService extends ServiceArtificer
             } else {
                 return $this->response($fm->decorate(['decorate']));
             }
+        } else {
+            $modal->execute('open');
+            # - Generate json response
+            return $this->response($ig('layout')->component($modal));
+        }
+    }
+
+    /**
+     * create
+     *
+     */
+    protected function extra()
+    {
+        # - Init synpase structure
+        $this->next->process($this->model);
+
+        $request = $this->model->getRequest();
+        $ig = Qore::service(InterfaceGateway::class);
+
+        $routeResult = $this->model->getRouteResult();
+        $routeParams = $routeResult->getMatchedParams();
+
+        $permission = $this->mm()->where(['@this.id' => $routeParams['id']])->one();
+
+        if ($permission->component !== ConsultancyService::class) {
+            return $this->response([]);
+        }
+
+        $consultancyCategories = $this->mm('SM:ConsultancyCategory')
+            ->all();
+
+        $options = $consultancyCategories
+            ->map(fn ($_item) => $_item->extract(['id', 'title' => 'label', '__idparent']))
+            ->nest('id', '__idparent');
+
+        $fields = [
+            'extra' => [
+                'type' => 'treeselect',
+                'name' => 'extra',
+                'label'=> 'Экстра опции',
+                'placeholder' => 'Экстра опции',
+                'info' => 'на данный адрес будет выслано письмо для подтверждения',
+                'options' => $options, 
+                'additional' => [
+                    'multi' => true,
+                    'flat' => false,
+                    'disableBranchNodes' => true,
+                ]
+            ],
+            'submit' => [
+                'type' => 'submit',
+                'label' => 'Сохранить',
+            ],
+        ];
+
+        $form = $ig(Form::class, 'extra-options-form');
+        $form->setFields($fields);
+        $form->setModel([
+            'extra' => $permission->extra,
+        ]);
+        $form->setAction(Qore::url($this->getRouteName('extra'), ['id' => $permission->id]));
+
+        $modal = $ig(Modal::class, sprintf('%s.%s', get_class($this), 'modal-extra-options'))
+            ->setTitle('Дополнительные опции')
+            ->component($form);
+
+        if ($request->getMethod() === 'POST') {
+            # - Save data
+            $permission->extra = $request('extra');
+            $this->mm($permission)->save();
+
+            # - Generate json response
+            return $this->response([
+                $modal->execute('close'),
+            ]);
         } else {
             $modal->execute('open');
             # - Generate json response
@@ -324,23 +402,19 @@ class ModeratorPermissionService extends ServiceArtificer
      */
     protected function getListActions()
     {
-        /**
-            return [
-                '{structure}' => [
-                    'label' => '{Structure Button Label}',
-                    'icon' => 'fas fa-bars',
-                    'actionUri' => function($_data) {
-                        $artificer = $this->sm('{Synapse:Service}');
-                        return Qore::service(UrlHelper::class)->generate(
-                            $this->getRouteName(get_class($artificer), 'index'),
-                            [],
-                            $artificer->getFilters($this, ['id' => $_data['id']])
-                        );
-                    },
-                ],
-                'update', 'delete',
-            ];
-        */
+        return [
+            'extra' => [
+                'label' => 'Дополнительные опции',
+                'icon' => 'fas fa-bars',
+                'actionUri' => function($_data) {
+                    return Qore::service(UrlHelper::class)->generate(
+                        $this->getRouteName('extra'),
+                        ['id' => $_data['id']],
+                    );
+                },
+            ],
+            'update', 'delete',
+        ];
 
         return [];
     }

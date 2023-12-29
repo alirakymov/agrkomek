@@ -41,6 +41,14 @@ return [
         'type' => '2',
         'description' => '',
     ],
+    'QSynapse:SynapseRelations(QSynapse:Synapses(Consultancy);consultancies;QSynapse:Synapses(Moderator);moderator)' => [
+        'iSynapseFrom' => 'QSynapse:Synapses(Moderator)',
+        'synapseAliasFrom' => 'consultancies',
+        'iSynapseTo' => 'QSynapse:Synapses(Consultancy)',
+        'synapseAliasTo' => 'moderator',
+        'type' => '2',
+        'description' => '',
+    ],
     'QSynapse:SynapseRelations(QSynapse:Synapses(Consultancy);consultancy;QSynapse:Synapses(Routes);route)' => [
         'iSynapseFrom' => 'QSynapse:Synapses(Routes)',
         'synapseAliasFrom' => 'consultancy',

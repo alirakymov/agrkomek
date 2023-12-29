@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Qore\App\SynapseNodes\Components\User\Authentication;
+namespace Qore\App\SynapseNodes\Components\Moderator\Authentication;
 
 /**
  * Class: ConfigProvider
@@ -33,7 +33,7 @@ class ConfigProvider
             'factories' => [
                 Adapter\AuthenticationInterface::class => Adapter\AuthenticationFactory::class,
                 AuthenticateMiddleware::class => AuthenticateMiddlewareFactory::class,
-                UserRepository::class => UserRepositoryFactory::class,
+                ModeratorRepository::class => ModeratorRepositoryFactory::class,
                 InitializeUserDataMiddleware::class => InitializeUserDataMiddlewareFactory::class,
             ],
         ];

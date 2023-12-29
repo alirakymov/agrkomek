@@ -40,7 +40,7 @@ class ModeratorRepository implements UserRepositoryInterface
         } else {
             # Find user by phone & password
             $user = ($this->_mm)('SM:Moderator')->where(function($_where) use ($_credential) {
-                $_where(['@this.phone' => $this->preparePhone($_credential)]);
+                $_where(['@this.email' => $_credential]);
             })->one();
 
             $user = ! is_null($user) && $user->password && password_verify($_password, $user->password) ? $user : null;
@@ -52,19 +52,6 @@ class ModeratorRepository implements UserRepositoryInterface
         }
 
         return $user;
-    }
-
-    /**
-     * Prepare phone
-     *
-     * @param  $_value
-     *
-     * @return string
-     */
-    protected function preparePhone($_value): string
-    {
-        $_value = preg_replace('/[^0-9]/', '', $_value);
-        return mb_strlen($_value) > 10 ? mb_substr($_value, -10) : $_value;
     }
 
 }

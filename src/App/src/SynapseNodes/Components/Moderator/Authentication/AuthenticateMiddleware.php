@@ -6,11 +6,13 @@ namespace Qore\App\SynapseNodes\Components\Moderator\Authentication;
 
 use Laminas\Diactoros\Response\RedirectResponse;
 use Mezzio\Authentication\AuthenticationInterface;
+use Mezzio\Router\RouteResult;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Qore\App\SynapseNodes\Components\User\User;
+use Qore\App\Actions\Login;
+use Qore\App\SynapseNodes\Components\Moderator\Moderator;
 use Qore\Qore;
 use Qore\SynapseManager\SynapseManager;
 
@@ -52,18 +54,28 @@ class AuthenticateMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $_request, RequestHandlerInterface $_handler): ResponseInterface
     {
-        # - Authenticate user
+        # - Authenticate moderator
         $user = $this->adapter->authenticate($_request);
         if (! is_null($user)) {
             return $_handler->handle(
-                $_request->withAttribute(User::class, $user)
+                $_request->withAttribute(Moderator::class, $user)
             );
         }
-        # - Get authentication artificer
-        $artificer = ($this->_sm)('User:Authentication');
-        return new RedirectResponse(
-            Qore::url($artificer->getRouteName('signin'))
-        );
+
+        # - Authenticate moderator
+        if (! is_null($_request->getAttribute('admin'))) {
+            return $_handler->handle($_request);
+        }
+
+        $loginRoute = Qore::service(Login::class)->routeName('index');
+        $registerRoute = Qore::service(Login::class)->routeName('register');
+
+        if (! in_array($_request->getAttribute(RouteResult::class)->getMatchedRouteName(), [$loginRoute, $registerRoute])) {
+            # - Get authentication artificer
+            return new RedirectResponse(Qore::url($loginRoute));
+        } 
+
+        return $_handler->handle($_request);
     }
 
 }

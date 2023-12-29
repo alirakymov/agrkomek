@@ -18,9 +18,15 @@ export default {
             messageRoute: _.get(this.options, 'message-route', null),
             closeRoute: _.get(this.options, 'close-route', null),
             reloadDialogRoute: _.get(this.options, 'reload-dialog-route', null),
+            moderatorRoute: _.get(this.options, 'moderator-route', null),
             message: '',
             messages: _.get(this.options, 'messages', []),
-            interval: null
+            otherMessages: _.get(this.options, 'otherMessages', []),
+            moderators: _.get(this.options, 'moderators', []),
+            moderator: _.get(this.options, 'consultancy.moderator', {id: 0}),
+            currentModeratorId: _.get(this.options, 'consultancy.moderator.id', 0),
+            interval: null,
+            viewport: 'main',
         };
     },
 
@@ -37,6 +43,9 @@ export default {
     },
 
     computed: {
+        currentModerator() {
+            return this.moderator.id;
+        },
         alertType: function() {
             return 'alert-' + this['info-type'];
         },
@@ -119,6 +128,14 @@ export default {
     },
 
     methods: {
+        selectModerator(event) {
+
+            let moderator = _.find(this.moderators, (o) => o.id == event.target.value);
+            this.$axios.post(this.moderatorRoute, {
+                id: moderator.id
+            });
+        },
+
         getDate(message) {
             moment.locale('ru');
             let created = moment.utc(message.__created.date), now = moment();

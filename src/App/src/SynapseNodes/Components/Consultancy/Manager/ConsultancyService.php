@@ -1,9 +1,9 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Qore\App\SynapseNodes\Components\Consultancy\Manager;
 
+use Laminas\Db\Sql\Predicate\NotIn;
 use Mezzio\Helper\UrlHelper;
 use Qore\DealingManager\Result;
 use Qore\DealingManager\ResultInterface;
@@ -64,6 +64,7 @@ class ConsultancyService extends ServiceArtificer
             $this->routingHelper->routesCrud($_router);
             $_router->get('/dialog/{id: \d+}', 'dialog');
             $_router->post('/message/{id: \d+}', 'message');
+            $_router->post('/moderator/{id: \d+}', 'moderator');
             $_router->get('/close/{id: \d+}', 'close');
             $_router->get('/reload-dialog/{id: \d+}', 'reload-dialog');
         });
@@ -79,7 +80,7 @@ class ConsultancyService extends ServiceArtificer
     {
         /** @var RoutingHelper */
         $this->routingHelper = $this->plugin(RoutingHelper::class);
-        list($method, $arguments) = $this->routingHelper->dispatch(['dialog', 'message', 'close', 'reload-dialog' => 'reloadDialog']) ?? [null, null];
+        list($method, $arguments) = $this->routingHelper->dispatch(['dialog', 'message', 'close', 'moderator' => 'moderator', 'reload-dialog' => 'reloadDialog']) ?? [null, null];
 
         return ! is_null($method) ? call_user_func_array([$this, $method], $arguments ?? []) : null;
     }
@@ -95,8 +96,11 @@ class ConsultancyService extends ServiceArtificer
     }
 
     /**
-     * index
+     * Index 
      *
+     * @param  $_reload (optional) 
+     *
+     * @return null|ResultInterface
      */
     protected function index($_reload = false)
     {
@@ -134,7 +138,7 @@ class ConsultancyService extends ServiceArtificer
         $routeResult = $this->model->getRouteResult();
         $matchedParams = $routeResult->getMatchedParams();
 
-        $consultancy = $this->mm()->where(['@this.id' => $matchedParams['id']])->one();
+        $consultancy = $this->mm()->with('moderator')->where(['@this.id' => $matchedParams['id']])->one();
 
         if (! $consultancy) {
             return $this->response([]);
@@ -153,6 +157,38 @@ class ConsultancyService extends ServiceArtificer
     }
 
     /**
+     * update
+     *
+     */
+    protected function moderator()
+    {
+        # - Init synpase structure
+        $this->next->process($this->model);
+
+        $request = $this->model->getRequest();
+
+        $ig = Qore::service(InterfaceGateway::class);
+
+        $routeResult = $this->model->getRouteResult();
+        $matchedParams = $routeResult->getMatchedParams();
+
+        $consultancy = $this->mm()->where(['@this.id' => $matchedParams['id']])->one();
+        if (! $consultancy) {
+            return $this->response([]);
+        }
+
+        $moderator = $this->mm('SM:Moderator')->where(['@this.id' => $request('id')])->one();
+        if (! $moderator) {
+            return $this->response([]);
+        }
+
+        $consultancy->link('moderator', $moderator);
+        $this->mm($consultancy)->save();
+
+        return $this->response([]);
+    }
+
+    /**
      * Result dialog
      *
      * @return ?ResultInterface 
@@ -166,7 +202,7 @@ class ConsultancyService extends ServiceArtificer
         $routeResult = $this->model->getRouteResult();
         $matchedParams = $routeResult->getMatchedParams();
 
-        $consultancy = $this->mm()->where(['@this.id' => $matchedParams['id']])->one();
+        $consultancy = $this->mm()->with('moderator')->where(['@this.id' => $matchedParams['id']])->one();
 
         $dialog = $this->getDialogComponent($consultancy);
 
@@ -253,18 +289,53 @@ class ConsultancyService extends ServiceArtificer
      */
     protected function getDialogComponent(Consultancy $_consultancy): ConsultancyComponent
     {
+        $this->mm($_consultancy)->with('moderator')->one();
+
         $messages = $this->mm('SM:ConsultancyMessage')
             ->where(['@this.idConsultancy' => $_consultancy['id']])
             ->select(fn ($_select) => $_select->order('@this.id'))
             ->all();
 
+        $consultanices = $this->mm('SM:Consultancy')
+            ->where(['@this.token' => $_consultancy->token])
+            ->all()
+            ->filter(fn($_item) => $_item['id'] != $_consultancy->id)
+            ->extract('id')
+            ->toList();
+
+        $otherMessages = $this->mm('SM:ConsultancyMessage')
+            ->where([
+                '@this.idConsultancy' => $consultanices
+            ])
+            ->select(fn ($_select) => $_select->order('@this.id'))
+            ->all();
+
+        $moderator = $_consultancy->moderator();
+        unset($moderator['password']);
+
+        $moderators = $this->mm('SM:Moderator')
+            ->with('role', function($_gw) {
+                $_gw->with('permissions');
+            })
+            ->where(['@this.role.permissions.component' => ConsultancyService::class])
+            ->all();
+
+        $moderators = $moderators->map(function($_moderator) {
+            unset($_moderator['password']);
+            unset($_moderator['otp']);
+            return $_moderator->toArray(true);
+        })->toList();
+
         $ig = Qore::service(InterfaceGateway::class);
         $dialog = $ig(ConsultancyComponent::class, sprintf('%s.%s', get_class($this), 'dialog-consultancy'))
             ->setOption('consultancy', $_consultancy->toArray(true))
+            ->setOption('moderators', $moderators)
             ->setOption('message-route', Qore::url($this->getRouteName('message'), ['id' => $_consultancy['id']]))
             ->setOption('close-route', Qore::url($this->getRouteName('close'), ['id' => $_consultancy['id']]))
+            ->setOption('moderator-route', Qore::url($this->getRouteName('moderator'), ['id' => $_consultancy['id']]))
             ->setOption('reload-dialog-route', Qore::url($this->getRouteName('reload-dialog'), ['id' => $_consultancy['id']]))
-            ->setOption('messages', $messages->map(fn($_message) => $_message->toArray(true))->toList());
+            ->setOption('messages', $messages->map(fn($_message) => $_message->toArray(true))->toList())
+            ->setOption('otherMessages', $otherMessages->map(fn($_message) => $_message->toArray(true))->toList());
 
         return $dialog;
     }
@@ -310,8 +381,7 @@ class ConsultancyService extends ServiceArtificer
     protected function getComponent($_data = null)
     {
         if ($_data !== null) {
-
-            $gw = $this->mm()->with('category')
+            $gw = $this->mm()->with('category')->with('moderator')
                 ->select(fn ($_select) => $_select->order('@this.__updated desc'));
             $_data = $gw->all();
         }
@@ -332,13 +402,19 @@ class ConsultancyService extends ServiceArtificer
                     'label' => 'Запрос',
                     'class-header' => 'col-3',
                     'class-column' => 'col-3',
+                    'transform' => function ($_item) {
+                        return sprintf('<small class="fw-light">%s</small> <br> %s', $_item['token'], $_item['question']);
+                    },
                 ],
-                'token' => [
-                    'label' => 'Сессия',
+                'moderator' => [
+                    'label' => 'Консультант',
                     'class-header' => 'col-2',
-                    'class-column' => 'col-2',
+                    'class-column' => 'col-2 text-center',
+                    'transform' => function ($_item) {
+                        return $_item->moderator() ? sprintf('%s %s', $_item->moderator()->firstname, $_item->moderator()->lastname) : 'Не назначен';
+                    },
                 ],
-                'category' => [
+                'category text-center' => [
                     'label' => 'Категория',
                     'class-header' => 'col-2',
                     'class-column' => 'col-2',

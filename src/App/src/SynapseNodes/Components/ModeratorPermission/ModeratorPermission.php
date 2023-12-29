@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Qore\App\SynapseNodes\Components\ModeratorPermission;
 
+use Qore\App\SynapseNodes\Components\Article\Manager\ArticleService;
+use Qore\App\SynapseNodes\Components\Consultancy\Manager\ConsultancyService;
+use Qore\App\SynapseNodes\Components\Guide\Manager\GuideService;
+use Qore\App\SynapseNodes\Components\Moderator\Manager\ModeratorService;
 use Qore\Qore;
 use Qore\SynapseManager\Structure\Entity\SynapseBaseEntity;
 
@@ -22,9 +26,10 @@ class ModeratorPermission extends SynapseBaseEntity
     public static function getComponents(): array
     {
         return [
-            ['id' => 'article', 'label' => 'Новостная лента'],
-            ['id' => 'guide', 'label' => 'Справочник'],
-            ['id' => 'moderator', 'label' => 'Модераторы'],
+            ['id' => ArticleService::class, 'label' => 'Новостная лента'],
+            ['id' => GuideService::class, 'label' => 'Справочник'],
+            ['id' => ModeratorService::class, 'label' => 'Модераторы'],
+            ['id' => ConsultancyService::class, 'label' => 'Консультации'],
         ];
     }
 
@@ -48,6 +53,22 @@ class ModeratorPermission extends SynapseBaseEntity
      */
     public static function subscribe()
     {
+        static::before('save', function($_event) {
+            $entity = $_event->getTarget();
+            $entity->extra = is_string($entity->extra) 
+                ? $entity->extra 
+                : json_encode($entity->extra, JSON_UNESCAPED_UNICODE);
+        });
+
+        static::after('save', $func = function($_event) {
+            $entity = $_event->getTarget();
+            $entity->extra = is_string($entity->extra) 
+                ? json_decode($entity->extra, true) 
+                : $entity->extra;
+        });
+
+        static::after('initialize', $func);
+
         parent::subscribe();
     }
 

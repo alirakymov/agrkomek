@@ -7,8 +7,8 @@ namespace Qore\App\SynapseNodes\Components\Moderator\Authentication\Adapter;
 use Mezzio\Authentication\UserInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Qore\App\SynapseNodes\Components\User\Authentication\UserRepository;
-use Qore\App\SynapseNodes\Components\User\User;
+use Qore\App\SynapseNodes\Components\Moderator\Authentication\ModeratorRepository;
+use Qore\App\SynapseNodes\Components\Moderator\Moderator;
 use Qore\SessionManager\SessionManager;
 
 /**
@@ -19,9 +19,9 @@ use Qore\SessionManager\SessionManager;
 class Authentication implements AuthenticationInterface
 {
     /**
-     * @var \Qore\App\SynapseNodes\Components\User\Authentication\UserRepository
+     * @var \Qore\App\SynapseNodes\Components\Moderator\Authentication\ModeratorRepository
      */
-    protected UserRepository $_userRepository;
+    protected ModeratorRepository $_userRepository;
 
     /**
      * @var \Qore\SessionManager\SessionManager
@@ -34,11 +34,11 @@ class Authentication implements AuthenticationInterface
     protected $_responseFactory;
 
     /**
-     * @param \Qore\App\SynapseNodes\Components\User\Authentication\UserRepository $_userRepository
+     * @param \Qore\App\SynapseNodes\Components\Moderator\Authentication\ModeratorRepository $_userRepository 
      * @param \Qore\SessionManager\SessionManager $_session
      * @param callable|null $_responseFactory
      */
-    public function __construct(UserRepository $_userRepository, SessionManager $_session, $_responseFactory)
+    public function __construct(ModeratorRepository $_userRepository, SessionManager $_session, $_responseFactory)
     {
         $this->_userRepository = $_userRepository;
         $this->_session = $_session;
@@ -56,9 +56,10 @@ class Authentication implements AuthenticationInterface
             if (is_null($user = $this->_userRepository->authenticate($session[static::AUTH_TOKEN]))) {
                 unset($session[static::AUTH_TOKEN]);
             }
-        } elseif (! is_null($request('phone')) && ! is_null($request('password'))) {
+        } elseif (! is_null($request('email')) && ! is_null($request('password'))) {
             # - Find username & password in request authenticate user and save token to session
-            $user = $this->_userRepository->authenticate($request('phone'), $request('password'));
+            $user = $this->_userRepository->authenticate($request('email'), $request('password'));
+            dump($user);
             ! is_null($user) && $session[static::AUTH_TOKEN] = $user->token;
         }
 

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Qore\App\SynapseNodes\Components\User\Authentication\Adapter;
+namespace Qore\App\SynapseNodes\Components\Moderator\Authentication\Adapter;
 
 use Mezzio\Authentication\Exception\InvalidConfigException;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
-use Qore\App\SynapseNodes\Components\User\Authentication\UserRepository;
+use Qore\App\SynapseNodes\Components\Moderator\Authentication\ModeratorRepository;
 use Qore\SessionManager\SessionManager;
 
 /**
@@ -23,7 +23,7 @@ class AuthenticationFactory
      */
     public function __invoke(ContainerInterface $container): AuthenticationInterface
     {
-        $userRepository = $container->get(UserRepository::class);
+        $userRepository = $container->get(ModeratorRepository::class);
 
         if (null === $userRepository) {
             throw new InvalidConfigException(

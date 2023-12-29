@@ -3,6 +3,7 @@
 namespace Qore\App\Middlewares;
 
 use Mezzio\Router\RouteResult;
+use Qore\App\SynapseNodes\Components\Moderator\Authentication\AuthenticateMiddleware;
 use Qore\Qore;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -31,6 +32,9 @@ class StartMiddleware implements MiddlewareInterface
         $pipeline = Qore::pipeline([
             Qore::service(CsrfGuardMiddleware::class),
             Qore::service(AuthGuardMiddleware::class),
+            Qore::service(AuthenticateMiddleware::class),
+            Qore::service(PermissionMiddleware::class),
+            Qore::service(InterfaceInitializerMiddleware::class),
             Qore::service($middleware),
         ]);
 

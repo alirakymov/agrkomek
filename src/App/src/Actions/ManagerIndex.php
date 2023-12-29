@@ -53,9 +53,9 @@ class ManagerIndex extends BaseAction
      */
     protected function runIndex()
     {
-        $sm = Qore::service(SynapseManager::class);
+        // $sm = Qore::service(SynapseManager::class);
 
-        $sm('Routes:Manager')->initializeInterfaceGateway($this->request);
+        // $sm('Routes:Manager')->initializeInterfaceGateway($this->request);
 
         $ig = Qore::service(InterfaceGateway::class);
         $content = Qore::service(TemplateRendererInterface::class)->render('app::main', [

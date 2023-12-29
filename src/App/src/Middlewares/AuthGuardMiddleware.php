@@ -31,25 +31,16 @@ class AuthGuardMiddleware extends BaseMiddleware
      */
     public function process(ServerRequestInterface $_request, RequestHandlerInterface $_handler) : ResponseInterface
     {
-        $loginRoute = Qore::service(\Qore\App\Actions\Login::class)->routeName('index');
-        $indexRoute = Qore::service(\Qore\App\Actions\ManagerIndex::class)->routeName('index');
-
-        if (! $this->authService->hasIdentity() && ! $this->checkRouteName($_request, $loginRoute)) {
-            return new RedirectResponse(Qore::service(UrlHelper::class)->generate($loginRoute));
-        } elseif ($this->authService->hasIdentity() && $this->checkRouteName($_request, $loginRoute)) {
-            return new RedirectResponse(Qore::service(UrlHelper::class)->generate($indexRoute));
-        }
-
         /** @var UserStackInterface */
         $userStack = Qore::service(UserStackInterface::class);
 
         if ($user = $this->authService->getIdentity()) {
             return $userStack($user, function ($_user) use ($_handler, $_request) {
-                return $_handler->handle($_request->withAttribute('auth', $_user));
+                return $_handler->handle($_request->withAttribute('admin', $_user));
             });
         }
         
-        return $_handler->handle($_request->withAttribute('auth', null));
+        return $_handler->handle($_request->withAttribute('admin', null));
     }
 
 }

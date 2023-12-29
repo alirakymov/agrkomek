@@ -200,7 +200,6 @@ class MachineryService extends ServiceArtificer
 
     /**
      * update
-     *
      */
     protected function update()
     {
@@ -212,7 +211,7 @@ class MachineryService extends ServiceArtificer
         $routeResult = $this->model->getRouteResult();
         $routeParams = $routeResult->getMatchedParams();
 
-        $machinery = $this->mm()->where(['@this.id' => $routeParams['id']])->one();
+        $machinery = $this->mm()->with('user')->where(['@this.id' => $routeParams['id']])->one();
         if (! $machinery) {
             return $this->response([]);
         }
@@ -225,7 +224,7 @@ class MachineryService extends ServiceArtificer
         $form->setOption('upload-route', Qore::url($this->sm('ImageStore:Uploader')->getRouteName('upload')));
         $form->setOption('save-route', Qore::url($this->getRouteName('update')));
         $form->setOption('types', Machinery::getTypes());
-        $form->setOption('statuses', Machinery::getStatuses());
+        $form->setOption('statuses', $machinery->user() ? Machinery::getModeratorOnlyStatuses() : Machinery::getStatuses());
 
         $modal = $ig(Modal::class, sprintf('%s.%s', get_class($this), 'modal-update'))
             ->setTitle('Редактирование')
@@ -235,10 +234,16 @@ class MachineryService extends ServiceArtificer
 
         if ($request->getMethod() === 'POST') {
             $data = $request->getParsedBody()['machinery'];
-            unset($data['__created'], $data['__updated']);
 
-            $entity = $this->mm($data);
-            $this->mm($entity)->save();
+            if ($machinery->user()) {
+                $machinery->status = $data['status'];
+                $machinery->rejectMessage = $data['rejectMessage'];
+            } else {
+                unset($data['__created'], $data['__updated']);
+                $machinery = $this->mm($data);
+            }
+
+            $this->mm($machinery)->save();
 
             $component = $this->getComponent(null);
             # - Generate json response

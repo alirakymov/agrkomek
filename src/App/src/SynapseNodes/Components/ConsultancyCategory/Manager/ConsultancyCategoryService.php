@@ -264,11 +264,6 @@ class ConsultancyCategoryService extends ServiceArtificer
      */
     protected function getComponent($_data = null)
     {
-        # - Формируем уникальный суффикс для имени компонента интерфейса
-        $testFilters = $this->model->getFilters(true)->firstMatch([
-            'referencePath' => '{relation.path}' # Example: {relation.path} => @this.id
-        ]);
-
         return $this->presentAs(ListComponent::class, [
             'actions' => $this->getListActions(),
             'suffix' => $testFilters['filters']['id'] ?? null,

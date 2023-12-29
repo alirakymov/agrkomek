@@ -12,8 +12,10 @@
     }
 }
 
-.modal-content {
-    overflow: auto;
+.modal-dialog-rightside {
+    .modal-content {
+        overflow: auto;
+    }
 }
 
 $modal-transition: all 0.2s ease;

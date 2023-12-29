@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Qore\App\SynapseNodes\Components\Chat\ApiPrivate;
 
+use Laminas\Db\Sql\Expression;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Laminas\Diactoros\Response\JsonResponse;
 use Mezzio\Authentication\UserInterface;
@@ -136,7 +137,30 @@ class ChatService extends ServiceArtificer
 
         $data = $gw->all();
 
-        $data = $data->map(fn ($_item) => $_item->toArray(true));
+        $gw = $this->mm('SM:ChatMessage')
+            ->where(['@this.idChat' => $data->extract('id')->toList()])
+            ->select(function ($_select) {
+                $_select->columns(['@this.max-id' => new Expression('max(@this.id)')]);
+                $_select->group('@this.idChat');
+            });
+
+        $lastMessaagesID = $gw->all()->extract('max-id')->toList();
+
+        $messages = $this->mm('SM:ChatMessage')->where(['@this.id' => $lastMessaagesID])->all();
+
+        $users = $messages->extract('idUser')->toList();
+        $users = $this->mm('SM:User')->where(['@this.id' => $users])->all();
+
+        $messages = $messages->map(function($_message) use ($users) {
+            $_message['user'] = $users->firstMatch(['id' => $_message['idUser']])->decorate()->toArray(true);
+            return $_message;
+        });
+
+        $data = $data->map(function($_item) use ($messages) {
+            $_item['lastMessage'] = $messages->firstMatch(['idChat' => $_item['id']])->toArray(true);
+            return $_item;
+        });
+
         return $this->response(new JsonResponse($data->toList()));
     }
 
@@ -167,7 +191,30 @@ class ChatService extends ServiceArtificer
 
         $data = $gw->all();
 
-        $data = $data->map(fn ($_item) => $_item->toArray(true));
+        $gw = $this->mm('SM:ChatMessage')
+            ->where(['@this.idChat' => $data->extract('id')->toList()])
+            ->select(function ($_select) {
+                $_select->columns(['@this.max-id' => new Expression('max(@this.id)')]);
+                $_select->group('@this.idChat');
+            });
+
+        $lastMessaagesID = $gw->all()->extract('max-id')->toList();
+
+        $messages = $this->mm('SM:ChatMessage')->where(['@this.id' => $lastMessaagesID])->all();
+
+        $users = $messages->extract('idUser')->toList();
+        $users = $this->mm('SM:User')->where(['@this.id' => $users])->all();
+
+        $messages = $messages->map(function($_message) use ($users) {
+            $_message['user'] = $users->firstMatch(['id' => $_message['idUser']])->decorate()->toArray(true);
+            return $_message;
+        });
+
+        $data = $data->map(function($_item) use ($messages) {
+            $_item['lastMessage'] = $messages->firstMatch(['idChat' => $_item['id']])->toArray(true);
+            return $_item;
+        });
+
         return $this->response(new JsonResponse($data->toList()));
     }
 
@@ -261,7 +308,7 @@ class ChatService extends ServiceArtificer
         $users = $this->mm('SM:User')->where(['@this.id' => $users])->all();
 
         $data = $data->map(function($_message) use ($users) {
-            $_message['user'] = $users->firstMatch(['id' => $_message['idUser']])->toArray(true);
+            $_message['user'] = $users->firstMatch(['id' => $_message['idUser']])->decorate()->toArray(true);
             return $_message;
         });
 

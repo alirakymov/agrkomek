@@ -23,7 +23,7 @@
         </div>
 
         <div class="form-floating mb-4">
-            <select class="form-select" v-model="machinery.type" :class="{'is-invalid': isInvalidType()}">
+            <select class="form-select" v-model="machinery.type" :class="{'is-invalid': isInvalidType()}" :disabled="user">
                 <option v-for="option in types" :value="option.id" >{{ option.label }}</option>
             </select>
             <label >Тип объявления</label>
@@ -46,7 +46,7 @@
             <div class="form-text animated fadeInUp">опишите причину отклонения</div>
         </div>
         <div class="form-floating mb-4">
-            <input type="text" class="form-control"
+            <input type="text" class="form-control" :disabled="user"
                 placeholder="Название"
                 v-model="machinery.title"
             >
@@ -54,7 +54,7 @@
             <div class="form-text animated fadeInUp">название техники</div>
         </div>
         <div class="form-floating mb-4" v-if="machinery.type != 'exchange'">
-            <input type="text" class="form-control"
+            <input type="text" class="form-control" :disabled="user"
                 placeholder="Цена"
                 v-model="machinery.price"
             >
@@ -62,16 +62,16 @@
             <div class="form-text animated fadeInUp">введите стоимость техники</div>
         </div>
         <div class="form-floating mb-4" v-for="(param, key) in params">
-            <input type="text" class="form-control"
+            <input type="text" class="form-control" :disabled="user"
                 placeholder="Новый параметр"
                 v-model="params[key]"
             >
             <label>Параметр</label>
             <div class="form-text animated fadeInUp">дополнительный параметр</div>
         </div>
-        <div class="mb-4"><a href="javascript:void(0);" @click="addParam()">+ добавить параметр</a></div>
+        <div class="mb-4"><a href="javascript:void(0);" @click="addParam()" v-if="! user">+ добавить параметр</a></div>
         <div class="form-floating mb-4">
-            <input type="text" class="form-control"
+            <input type="text" class="form-control" :disabled="user"
                 placeholder="Ссылка на geo-локацию"
                 v-model="machinery.linkGeo"
             >
@@ -79,7 +79,7 @@
             <div class="form-text animated fadeInUp">введите ссылку на geo-локацию</div>
         </div>
         <div class="form-floating mb-4">
-            <input type="text" class="form-control"
+            <input type="text" class="form-control" :disabled="user"
                 placeholder="Ссылка на Whatsapp"
                 v-model="machinery.linkWhatsapp"
             >
@@ -87,7 +87,7 @@
             <div class="form-text animated fadeInUp">введите ссылку на Whatsapp</div>
         </div>
         <div class="form-floating mb-4">
-            <input type="text" class="form-control"
+            <input type="text" class="form-control" :disabled="user"
                 placeholder="Номер телефона"
                 v-model="machinery.phone"
             >
@@ -95,7 +95,7 @@
             <div class="form-text animated fadeInUp">введите телефон</div>
         </div>
         <div class="form-floating mb-4">
-            <textarea class="form-control" style="height: 120px"
+            <textarea class="form-control" style="height: 120px" :disabled="user"
                 placeholder="Описание"
                 v-model="machinery.content"
                 rows="10"

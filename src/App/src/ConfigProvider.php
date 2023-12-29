@@ -47,6 +47,8 @@ class ConfigProvider
                 Middlewares\BaseUrlMiddleware::class,
                 Middlewares\AuthGuardMiddleware::class,
                 Middlewares\CsrfGuardMiddleware::class,
+                Middlewares\PermissionMiddleware::class,
+                Middlewares\InterfaceInitializerMiddleware::class,
                 Middlewares\NotifySubscriberMiddleware::class,
                 Observers\FrontAppCombiner::class,
                 Actions\ManagerIndex::class,

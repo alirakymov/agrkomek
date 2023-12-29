@@ -6,14 +6,35 @@ namespace Qore\App\SynapseNodes\Components\Moderator;
 
 use Qore\Qore;
 use Qore\SynapseManager\Structure\Entity\SynapseBaseEntity;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Class: Moderator
  *
  * @see Qore\SynapseManager\Structure\Entity\SynapseBaseEntity
  */
-class Moderator extends SynapseBaseEntity
+class Moderator extends SynapseBaseEntity implements ModeratorInterface
 {
+
+    public function checkPermission(string $_component): bool
+    {
+        $role = $this->role();
+
+        if (is_null($role)) {
+            return false;
+        }
+
+        $permissions = $role->permissions();
+
+        if (is_null($permissions)) {
+            return false;
+        }
+
+        // dump($_component);
+        // dump($permissions->filter(fn ($_item) => $_item->component === $_component)->first());
+
+        return ! is_null($permissions->firstMatch(['component' => $_component]));
+    }
 
     /**
      * Reset password
@@ -27,6 +48,14 @@ class Moderator extends SynapseBaseEntity
     }
 
     /**
+     * @inheritdoc
+     */
+    public function generateToken(): string
+    {
+        return $this->token = sha1(Uuid::uuid4()->toString());
+    }
+
+    /**
      * Generate OTP
      *
      * @return UserInterface
@@ -35,6 +64,38 @@ class Moderator extends SynapseBaseEntity
     {
         $this['otp'] = rand(100000, 999999);
         return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getIdentity(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getRoles(): iterable
+    {
+        return [];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDetail(string $name, $default = null)
+    {
+        return $this->firstname ?: $default;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDetails(): array
+    {
+        return [];
     }
 
     /**

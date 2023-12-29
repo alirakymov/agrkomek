@@ -12,6 +12,7 @@ export default {
         return {
             dispatchMap: [ 'machinery', ],
             machinery: _.get(this.options, 'machinery', null),
+            user: _.get(this.options, 'machinery.user', null),
             saveRoute: _.get(this.options, 'save-route', null),
             uploadRoute: _.get(this.options, 'upload-route', null),
             images: _.get(this.options, 'machinery.images', []),

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Qore\App\SynapseNodes\Components\User\Authentication\Adapter;
+namespace Qore\App\SynapseNodes\Components\Moderator\Authentication\Adapter;
 
 use Mezzio\Authentication\AuthenticationInterface as MezzioAuthenticationInterface;
 

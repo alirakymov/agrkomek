@@ -56,6 +56,18 @@ class Machinery extends SynapseBaseEntity
     }
 
     /**
+     * Return status
+     *
+     * @return array
+     */
+    public static function getModeratorOnlyStatuses(): array
+    {
+        return [
+            ['id' => self::STATUS_REJECTED, 'label' => 'Отклонено'],
+            ['id' => self::STATUS_ACTIVE, 'label' => 'Активно'],
+        ];
+    }
+    /**
      * subscribe
      *
      */

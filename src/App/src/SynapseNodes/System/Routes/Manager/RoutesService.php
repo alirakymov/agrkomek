@@ -8,7 +8,11 @@ use Mezzio\Helper\UrlHelper;
 use Mezzio\Router\RouteResult;
 
 use Qore\App;
+use Qore\App\Middlewares\AuthGuardMiddleware;
+use Qore\App\Middlewares\InterfaceInitializerMiddleware;
+use Qore\App\Middlewares\PermissionMiddleware;
 use Qore\App\SynapseNodes;
+use Qore\App\SynapseNodes\Components\Moderator\Authentication\AuthenticateMiddleware;
 use Qore\App\SynapseNodes\Components\User\User;
 use Qore\Desk\Actions\BaseActionNavpillsTrait;
 use Qore\InterfaceGateway\Component\Auth;
@@ -22,6 +26,7 @@ use Qore\SynapseManager\Artificer\Service;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Qore\App\SynapseNodes\Components\Moderator\Moderator;
 use Qore\SynapseManager\Artificer\Service\ServiceArtificer;
 use Qore\SynapseManager\Artificer\Service\ServiceArtificerInterface;
 
@@ -68,7 +73,7 @@ class RoutesService extends ServiceArtificer
         $pipeline = Qore::pipeline($this->getPipelineCollectionForMiddleware($middleware));
 
         # - Initialize interface gateway for admin layout
-        $this->initializeInterfaceGateway($_request);
+        // $this->initializeInterfaceGateway($_request);
 
         # - return response
         return $pipeline->process($_request, $_handler);
@@ -84,7 +89,10 @@ class RoutesService extends ServiceArtificer
         $synapseMiddlewaresConfig = Qore::config('qore.synapse-middlewares', []);
 
         $result = [
-            Qore::service(App\Middlewares\AuthGuardMiddleware::class),
+            Qore::service(AuthGuardMiddleware::class),
+            Qore::service(AuthenticateMiddleware::class),
+            Qore::service(PermissionMiddleware::class),
+            Qore::service(InterfaceInitializerMiddleware::class),
         ];
 
         foreach ($synapseMiddlewaresConfig as $regularExpression => $middlewares) {
@@ -108,50 +116,6 @@ class RoutesService extends ServiceArtificer
         }
 
         return $result;
-    }
-
-    /**
-     * Initialize interface gateway for admin interface
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $_request
-     *
-     * @return void
-     */
-    public function initializeInterfaceGateway(ServerRequestInterface $_request) : void
-    {
-        $ig = Qore::service(InterfaceGateway::class);
-        $layout = $ig(Layout::class, 'layout');
-        $layout->navbar($this->getNavbar($_request));
-        $layout->navpills($this->getNavpills($_request));
-    }
-
-    /**
-     * Prepare navigation bar
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $_request
-     * @param array $_navItems (optional)
-     *
-     * @return array
-     */
-    protected function getNavbar(ServerRequestInterface $_request, array $_navItems = null) : array
-    {
-        $navigationItems = $_navItems ?? Qore::config('app.admin.navigation-items', []);
-
-        foreach ($navigationItems as &$item) {
-            if (isset($item['sublevel'])) {
-                $item['sublevel'] = $this->getNavbar($_request, $item['sublevel']);
-                if (! $item['sublevel']) {
-                    continue;
-                }
-            }
-
-            if (isset($item['route'])) {
-                $route = is_string($item['route']) ? [$item['route'], 'index'] : array_values($item['route']);
-                $item['route'] = Qore::service(UrlHelper::class)->generate($this->getRouteName($route[0], $route[1] ?? 'index'));
-            }
-        }
-
-        return $navigationItems;
     }
 
 }

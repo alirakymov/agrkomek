@@ -47,8 +47,7 @@ abstract class BaseAction extends QoreActionMiddleware
      */
     protected function checkPrivilege()
     {
-        $authResult = $this->request->getAttribute('auth');
-        return (int)$authResult->privilege <= $this->accessPrivilege;
+        return true;
     }
 
     /**

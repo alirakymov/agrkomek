@@ -337,12 +337,26 @@ return [
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
         'description' => 'пароль',
     ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Moderator);token)' => [
+        'iSynapse' => 'QSynapse:Synapses(Moderator)',
+        'name' => 'token',
+        'label' => 'token',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
+        'description' => '',
+    ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(ModeratorPermission);component)' => [
         'iSynapse' => 'QSynapse:Synapses(ModeratorPermission)',
         'name' => 'component',
         'label' => 'Компонент системы',
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
         'description' => 'компонент системы',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(ModeratorPermission);extra)' => [
+        'iSynapse' => 'QSynapse:Synapses(ModeratorPermission)',
+        'name' => 'extra',
+        'label' => 'extra',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\LongText',
+        'description' => 'extra',
     ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(ModeratorPermission);level)' => [
         'iSynapse' => 'QSynapse:Synapses(ModeratorPermission)',
