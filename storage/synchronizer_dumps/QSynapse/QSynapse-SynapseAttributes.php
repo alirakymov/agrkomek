@@ -218,6 +218,13 @@ return [
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
         'description' => '',
     ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);address)' => [
+        'iSynapse' => 'QSynapse:Synapses(Machinery)',
+        'name' => 'address',
+        'label' => 'Адрес',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Text',
+        'description' => 'Адрес',
+    ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);blocked)' => [
         'iSynapse' => 'QSynapse:Synapses(Machinery)',
         'name' => 'blocked',
@@ -239,12 +246,12 @@ return [
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\LongText',
         'description' => 'Изображения',
     ],
-    'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);linkGeo)' => [
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);lat)' => [
         'iSynapse' => 'QSynapse:Synapses(Machinery)',
-        'name' => 'linkGeo',
-        'label' => 'Ссылка geo',
-        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Text',
-        'description' => 'Ссылка geo',
+        'name' => 'lat',
+        'label' => 'latitude',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
+        'description' => 'latitude',
     ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);linkWhatsapp)' => [
         'iSynapse' => 'QSynapse:Synapses(Machinery)',
@@ -252,6 +259,13 @@ return [
         'label' => 'Ссылка Whatsapp',
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Text',
         'description' => 'Ссылка Whatsapp',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);lon)' => [
+        'iSynapse' => 'QSynapse:Synapses(Machinery)',
+        'name' => 'lon',
+        'label' => 'longitude',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
+        'description' => 'longitude',
     ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Machinery);params)' => [
         'iSynapse' => 'QSynapse:Synapses(Machinery)',

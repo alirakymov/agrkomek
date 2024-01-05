@@ -16,4 +16,5 @@ trait LanguageTrait
             ['id' => 'rus', 'label' => 'Русский'],
         ];
     }
+
 }

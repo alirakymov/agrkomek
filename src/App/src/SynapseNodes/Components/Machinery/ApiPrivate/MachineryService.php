@@ -44,6 +44,7 @@ class MachineryService extends ServiceArtificer
             $_router->post('/save', 'save');
             $_router->get('/user-list', 'user-list');
             $_router->get('/archive', 'archive');
+            $_router->delete('/delete', 'delete');
         });
         # - Register related subjects routes
         $this->registerSubjectsRoutes($_router);
@@ -62,7 +63,7 @@ class MachineryService extends ServiceArtificer
 
         $this->routingHelper = $this->plugin(RoutingHelper::class);
 
-        list($method, $arguments) = $this->routingHelper->dispatch(['save', 'user-list' => 'list', 'archive']) ?? ['notFound', null];
+        list($method, $arguments) = $this->routingHelper->dispatch(['save', 'user-list' => 'list', 'archive', 'delete']) ?? ['notFound', null];
         return ! is_null($method) ? call_user_func_array([$this, $method], $arguments ?? []) : null;
     }
 
@@ -148,6 +149,43 @@ class MachineryService extends ServiceArtificer
         return $this->response(new JsonResponse([
             'result' => 'success',
             'entity' => $entity,
+        ]));
+    }
+
+    /**
+     * Delete
+     *
+     * @return ?ResultInterface
+     */
+    protected function delete(): ?ResultInterface
+    {
+        $request = $this->model->getRequest();
+        /**@var UserInterface */
+        $user = $request->getAttribute(UserInterface::class);
+
+        $queryParams = $request->getQueryParams();
+
+        if (! isset($queryParams['id'])) {
+            return $this->response(new JsonResponse([
+                'result' => 'bad request',
+            ], 400));
+        }
+
+        $entity = $this->mm()
+            ->with('user')
+            ->where(['@this.id' => $queryParams['id'], '@this.user.phone' => $user->getIdentity()])
+            ->one();
+
+        if (! $entity) {
+            return $this->response(new JsonResponse([
+                'result' => 'bad request',
+            ], 400));
+        }
+
+        $this->mm($entity)->delete();
+
+        return $this->response(new JsonResponse([
+            'result' => 'success',
         ]));
     }
 
@@ -239,7 +277,13 @@ class MachineryService extends ServiceArtificer
 
                 return true;
             },
-            'linkGeo' => function($_value) {
+            'address' => function($_value) {
+                return is_string($_value);
+            },
+            'lat' => function($_value) {
+                return is_string($_value);
+            },
+            'lon' => function($_value) {
                 return is_string($_value);
             },
             'linkWhatsapp' => function($_value) {
