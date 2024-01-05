@@ -325,6 +325,14 @@ class ArticleService extends ServiceArtificer
                         return $_item['__created']->format('d.m.Y H:i');
                     }
                 ],
+                'updated' => [
+                    'label' => 'Обновлено',
+                    'class-header' => 'col-2',
+                    'class-column' => 'col-2',
+                    'transform' => function($_item) {
+                        return $_item['__updated']->format('d.m.Y H:i');
+                    }
+                ],
             ],
             'actions' => $this->getListActions(),
             'suffix' => $testFilters['filters']['id'] ?? null,

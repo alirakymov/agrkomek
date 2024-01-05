@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Qore\App\SynapseNodes\Components\Moderator;
 
+use Qore\App\SynapseNodes\Components\ModeratorPermission\ModeratorPermission;
 use Qore\Qore;
 use Qore\SynapseManager\Structure\Entity\SynapseBaseEntity;
 use Ramsey\Uuid\Uuid;
@@ -16,24 +17,40 @@ use Ramsey\Uuid\Uuid;
 class Moderator extends SynapseBaseEntity implements ModeratorInterface
 {
 
-    public function checkPermission(string $_component): bool
+    /**
+     * Moderator permission
+     *
+     * @param string $_component
+     *
+     * @return \Qore\App\SynapseNodes\Components\ModeratorPermission\Manager\Forms\ModeratorPermission|null 
+     */
+    public function getPermission(string $_component): ?ModeratorPermission
     {
         $role = $this->role();
 
         if (is_null($role)) {
-            return false;
+            return null;
         }
 
         $permissions = $role->permissions();
 
         if (is_null($permissions)) {
-            return false;
+            return null;
         }
 
-        // dump($_component);
-        // dump($permissions->filter(fn ($_item) => $_item->component === $_component)->first());
+        return $permissions->firstMatch(['component' => $_component]);
+    }
 
-        return ! is_null($permissions->firstMatch(['component' => $_component]));
+    /**
+     * Check permission
+     *
+     * @param string $_component
+     *
+     * @return bool 
+     */
+    public function checkPermission(string $_component): bool
+    {
+        return ! is_null($this->getPermission($_component));
     }
 
     /**

@@ -278,7 +278,8 @@ class GuideService extends ServiceArtificer
         # - Формируем уникальный суффикс для имени компонента интерфейса
         if ($_data !== null) {
 
-            $gw = $this->mm();
+            $gw = $this->mm()
+                ->select(fn ($_select) => $_select->order('@this.__updated desc'));
             $gw->with('category');
             $_data = $gw->all();
         }
@@ -292,8 +293,8 @@ class GuideService extends ServiceArtificer
                 ],
                 'title' => [
                     'label' => 'Заголовок',
-                    'class-header' => 'col-5',
-                    'class-column' => 'col-5',
+                    'class-header' => 'col-3',
+                    'class-column' => 'col-3',
                 ],
                 'category' => [
                     'label' => 'Категория',
@@ -305,8 +306,8 @@ class GuideService extends ServiceArtificer
                 ],
                 'language' => [
                     'label' => 'Язык',
-                    'class-header' => 'col-2',
-                    'class-column' => 'col-2',
+                    'class-header' => 'col-1',
+                    'class-column' => 'col-1',
                     'transform' => function ($_item) {
                         $lang = Qore::collection(Guide::getLanguages())->firstMatch(['id' => $_item['language']]);
                         return $lang
@@ -316,8 +317,8 @@ class GuideService extends ServiceArtificer
                 ],
                 'approved' => [
                     'label' => 'Статус',
-                    'class-header' => 'col-2',
-                    'class-column' => 'col-2',
+                    'class-header' => 'col-1',
+                    'class-column' => 'col-1',
                     'transform' => function ($_item) {
                         return isset($_item['approved']) && (int)$_item['approved']
                             ? ['isLabel' => true, 'class' => 'bg-success-light text-success', 'label' => 'Опубликовано']
@@ -330,6 +331,14 @@ class GuideService extends ServiceArtificer
                     'class-column' => 'col-2',
                     'transform' => function($_item) {
                         return $_item['__created']->format('d.m.Y H:i');
+                    }
+                ],
+                'updated' => [
+                    'label' => 'Обновлено',
+                    'class-header' => 'col-2',
+                    'class-column' => 'col-2',
+                    'transform' => function($_item) {
+                        return $_item['__updated']->format('d.m.Y H:i');
                     }
                 ],
             ],

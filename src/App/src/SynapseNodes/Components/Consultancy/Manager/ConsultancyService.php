@@ -5,6 +5,7 @@ namespace Qore\App\SynapseNodes\Components\Consultancy\Manager;
 
 use Laminas\Db\Sql\Predicate\NotIn;
 use Mezzio\Helper\UrlHelper;
+use Qore\App\SynapseNodes\Components\Moderator\Moderator;
 use Qore\DealingManager\Result;
 use Qore\DealingManager\ResultInterface;
 use Qore\Form\Decorator\QoreFront;
@@ -13,8 +14,7 @@ use Qore\InterfaceGateway\InterfaceGateway;
 use Qore\Qore as Qore;
 use Qore\Router\RouteCollector;
 use Qore\SynapseManager\Artificer\Decorator\ListComponent;
-use Mezzio\Template\TemplateRendererInterface;
-use Laminas\Diactoros\Response\HtmlResponse;
+use Mezzio\Template\TemplateRendererInterface; use Laminas\Diactoros\Response\HtmlResponse;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -380,9 +380,28 @@ class ConsultancyService extends ServiceArtificer
      */
     protected function getComponent($_data = null)
     {
-        if ($_data !== null) {
+        if ($_data !== null) {            
+            $request = $this->model->getRequest();
+
+            /**@var Moderator */
+            $moderator = $request->getAttribute(Moderator::class);
+            $admin = $request->getAttribute('admin');
+
             $gw = $this->mm()->with('category')->with('moderator')
                 ->select(fn ($_select) => $_select->order('@this.__updated desc'));
+
+            $filters = [];
+            if (is_null($admin)) {
+                $permission = $moderator->getPermission(ConsultancyService::class);
+                if ($permission->extra) {
+                    $filters['@this.category.id'] = $permission->extra;
+                }
+
+                if ($filters) {
+                    $gw->where($filters);
+                }
+            }
+
             $_data = $gw->all();
         }
 

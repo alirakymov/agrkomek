@@ -5,7 +5,7 @@
                 @change="selectModerator($event)"
                 v-model="currentModeratorId"
             >
-                <option v-for="moderator in moderators" :value="moderator.id" >{{ moderator.firstname }} ({{ moderator.email }})</option>
+                <option v-for="moderator in moderators" :value="moderator.id" >{{ moderator.firstname }} ({{ moderator.role.title }})</option>
             </select>
             <label>Консультант</label>
         </div>

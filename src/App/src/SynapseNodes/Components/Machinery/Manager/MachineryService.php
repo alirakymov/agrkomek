@@ -70,6 +70,7 @@ class MachineryService extends ServiceArtificer
     /**
      * compile
      *
+     * @return ResultInterface|null
      */
     public function compile() : ?ResultInterface
     {
@@ -325,8 +326,8 @@ class MachineryService extends ServiceArtificer
                 ],
                 'title' => [
                     'label' => 'Название',
-                    'class-header' => 'col-4',
-                    'class-column' => 'col-4',
+                    'class-header' => 'col-3',
+                    'class-column' => 'col-3',
                 ],
                 'price' => [
                     'label' => 'Цена',
@@ -343,8 +344,8 @@ class MachineryService extends ServiceArtificer
                 ],
                 'status' => [
                     'label' => 'Статус',
-                    'class-header' => 'col-2',
-                    'class-column' => 'col-2 text-center',
+                    'class-header' => 'col-1',
+                    'class-column' => 'col-1 text-center',
                     'transform' => function ($_item) {
                         if (! $_item['status']) {
                             return ['isLabel' => true, 'class' => 'bg-warning-light text-warning', 'label' => 'Не назначен'];
@@ -381,9 +382,17 @@ class MachineryService extends ServiceArtificer
                 'created' => [
                     'label' => 'Создано',
                     'class-header' => 'col-2',
-                    'class-column' => 'col-2',
+                    'class-column' => 'col-2 text-center',
                     'transform' => function($_item) {
                         return $_item['__created']->format('d.m.Y H:i');
+                    }
+                ],
+                'updated' => [
+                    'label' => 'Обновлено',
+                    'class-header' => 'col-2',
+                    'class-column' => 'col-2 text-center',
+                    'transform' => function($_item) {
+                        return $_item['__updated']->format('d.m.Y H:i');
                     }
                 ],
             ],

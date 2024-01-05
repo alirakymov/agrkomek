@@ -114,9 +114,9 @@ class MachineryService extends ServiceArtificer
     }
 
     /**
-     * Archive 
+     * Archive
      *
-     * @return ?ResultInterface
+     * @return ResultInterface|null
      */
     protected function archive(): ?ResultInterface
     {

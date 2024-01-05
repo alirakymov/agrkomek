@@ -257,6 +257,7 @@ class ChatService extends ServiceArtificer
             'idUser' => $user->id,
         ]);
 
+        $this->mm($chat)->save();
         $this->mm($message)->save();
 
         return $this->response(new JsonResponse([
