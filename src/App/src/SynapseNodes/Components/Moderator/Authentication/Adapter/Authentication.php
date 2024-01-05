@@ -59,7 +59,6 @@ class Authentication implements AuthenticationInterface
         } elseif (! is_null($request('email')) && ! is_null($request('password'))) {
             # - Find username & password in request authenticate user and save token to session
             $user = $this->_userRepository->authenticate($request('email'), $request('password'));
-            dump($user);
             ! is_null($user) && $session[static::AUTH_TOKEN] = $user->token;
         }
 
