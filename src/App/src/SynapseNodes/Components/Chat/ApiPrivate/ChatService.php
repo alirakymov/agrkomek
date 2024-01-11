@@ -104,7 +104,7 @@ class ChatService extends ServiceArtificer
 
         $entity = $this->getChatEntity($data);
 
-        if (is_null($data)) {
+        if (is_null($entity)) {
             return $this->response(new JsonResponse([
                 'result' => 'bad request'
             ], 400));
