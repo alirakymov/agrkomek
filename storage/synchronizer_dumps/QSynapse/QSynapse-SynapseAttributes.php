@@ -50,18 +50,18 @@ return [
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
         'description' => '',
     ],
-    'QSynapse:SynapseAttributes(QSynapse:Synapses(Chat);idImage)' => [
-        'iSynapse' => 'QSynapse:Synapses(Chat)',
-        'name' => 'idImage',
-        'label' => 'Изображение',
-        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\BigInteger',
-        'description' => '',
-    ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Chat);idUser)' => [
         'iSynapse' => 'QSynapse:Synapses(Chat)',
         'name' => 'idUser',
         'label' => 'Пользователь',
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Integer',
+        'description' => '',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Chat);image)' => [
+        'iSynapse' => 'QSynapse:Synapses(Chat)',
+        'name' => 'image',
+        'label' => 'Изображение',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
         'description' => '',
     ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Chat);title)' => [
