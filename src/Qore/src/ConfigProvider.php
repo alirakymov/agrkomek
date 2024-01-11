@@ -427,7 +427,7 @@ class ConfigProvider
         return [
             'session_config' => [
                 // Срок действия cookie сессии истечет через 1 час.
-                // 'cookie_lifetime' => 60*60*24,
+                'cookie_lifetime' => 60*60*24*30,
                 // Данные сессии будут храниться на сервере до 30 дней.
                 'gc_maxlifetime'     => 60*60*24*30,
                 'cookie_samesite' => 'None Secure'
