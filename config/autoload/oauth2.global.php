@@ -16,7 +16,7 @@ return [
         'private_key'    => PROJECT_DATA_PATH . '/oauth/private.key',
         'public_key'     => PROJECT_DATA_PATH . '/oauth/public.key',
         'encryption_key' => require PROJECT_DATA_PATH . '/oauth/encryption.key',
-        'access_token_expire'  => 'P1D',
+        'access_token_expire'  => 'P1M',
         'refresh_token_expire' => 'P1M',
         'auth_code_expire'     => 'PT10M',
         'pdo' => [
