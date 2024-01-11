@@ -212,7 +212,8 @@ class ChatService extends ServiceArtificer
         });
 
         $data = $data->map(function($_item) use ($messages) {
-            $_item['lastMessage'] = $messages->firstMatch(['idChat' => $_item['id']])->toArray(true);
+            $firstMessage = $messages->firstMatch(['idChat' => $_item['id']]);
+            $_item['lastMessage'] = $firstMessage ? $firstMessage->toArray(true) : null;
             return $_item;
         });
 
