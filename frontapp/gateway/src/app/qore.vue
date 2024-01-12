@@ -15,6 +15,7 @@ export default {
             themeApp: null,
             modals: [],
             mounted: false,
+            scriptYandexMap: null,
         };
     },
 
@@ -52,6 +53,11 @@ export default {
                 modal.commandClose();
             }
         });
+
+        // Установить скрипты для использования яндекс карты
+        this.scriptYandexMap = document.createElement('script');
+        this.scriptYandexMap.setAttribute('src', 'https://api-maps.yandex.ru/2.1/?apikey=6438dbae-14c9-4e50-8df4-9672951f5190&lang=ru_RU&mode=debug');
+        document.head.appendChild(this.scriptYandexMap);
     },
 
     updated() {

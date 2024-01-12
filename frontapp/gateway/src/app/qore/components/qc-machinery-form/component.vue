@@ -103,6 +103,10 @@
             <label>Описание</label>
             <div class="form-text animated fadeInUp">опишите технику</div>
         </div>
+        <div class="form-floating mb-4">
+            <div id="yandex-map"></div>
+
+        </div>
         <div class="mb-4">
             <button type="submit" class="btn btn-alt-primary" @click="save()">Сохранить</button>
         </div>

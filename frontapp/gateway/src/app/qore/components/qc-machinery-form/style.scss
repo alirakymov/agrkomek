@@ -1,4 +1,5 @@
 .machinery-dropzone {
+
     .img-fluid {
         max-width: 100%;
         height: auto;
@@ -8,4 +9,9 @@
     .dz-default.dz-message {
         display: none;
     }
+}
+
+#yandex-map {
+  width: 100%;
+  height: 400px;
 }

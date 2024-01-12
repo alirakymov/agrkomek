@@ -1,4 +1,7 @@
 import { CommandInterface, ProtocolInterface } from '_scripts/qore/protocol.js';
+import { isProxy, toRaw } from 'vue';
+// import { yandexMap, ymapMarker } from 'vue-yandex-maps'
+
 /** Lodash ES */
 import _ from 'lodash-es';
 
@@ -7,6 +10,8 @@ import 'dropzone/dist/dropzone.css';
 
 export default {
     mixins: [CommandInterface],
+
+    // components: { yandexMap, ymapMarker },
 
     data: function() {
         return {
@@ -22,13 +27,48 @@ export default {
             dropzone: null,
             dropzoneUploads: [],
             errors: [],
+            coords: [54, 39],
+            settings: {
+                apiKey: '6438dbae-14c9-4e50-8df4-9672951f5190',
+                lang: 'ru_RU',
+                coordorder: 'latlong',
+                // enterprise: false,
+                version: '2.1',
+                coords: [48.352571497155054, 64.04235076905002],
+            },
+            placemark: null,
+            map: null,
         };
     },
 
     props: ['options'],
 
     mounted: function() {
-        this.initializeUploadForm()
+        this.initializeUploadForm();
+        let $this = this;
+
+        // console.log(ymaps);
+        ymaps.ready(() => {
+
+            $this.map = new ymaps.Map("yandex-map", {
+                center: $this.getMapCenter(),
+                zoom: 5,
+                // controls: ['fullscreenControl'],
+                searchControlProvider: 'yandex#search',
+            });
+
+            // Добавление метки по клику на карту
+            $this.map.events.add('click', function (e) {
+                var coords = e.get('coords');
+                console.log(coords);
+                $this.machinery.lat = coords[0];
+                $this.machinery.lon = coords[1];
+
+                $this.setMarkers();
+            });
+
+            $this.setMarkers();
+        });
     },
 
     unmounted: function() {
@@ -41,6 +81,31 @@ export default {
     },
 
     methods: {
+
+        getMapCenter() {
+            let center = [48.352571497155054, 64.04235076905002];
+
+            if (this.machinery.lat && this.machinery.lon) {
+                center = [this.machinery.lat, this.machinery.lon];
+            }
+
+            return center;
+        },
+
+        setMarkers() {
+
+            if (! this.machinery.lat || ! this.machinery.lon) {
+                return;
+            }
+
+            if (this.placemark == null) {
+                this.placemark = new ymaps.Placemark([this.machinery.lat, this.machinery.lon]);
+                this.map.geoObjects.add(this.placemark);
+            } else {
+                this.placemark.geometry.setCoordinates([this.machinery.lat, this.machinery.lon]);
+            }
+        },
+
         initializeUploadForm() {
             let $this = this;
             let headers = {};
