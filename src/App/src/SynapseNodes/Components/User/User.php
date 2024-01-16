@@ -30,6 +30,11 @@ class User extends SynapseBaseEntity
         return $this;
     }
 
+    /**
+     * Decorate
+     *
+     * @return User
+     */
     public function decorate(): User
     {
         unset($this['password'], $this['code'], $this['validatedCode']);

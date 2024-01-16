@@ -335,6 +335,9 @@ class ChatService extends ServiceArtificer
             'title' => function($_value) {
                 return ! empty($_value);
             },
+            'image' => function($_value) {
+                return ! empty($_value);
+            },
         ];
 
         $result = true;
