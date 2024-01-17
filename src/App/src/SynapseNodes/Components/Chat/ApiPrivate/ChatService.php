@@ -70,7 +70,7 @@ class ChatService extends ServiceArtificer
 
         $this->routingHelper = $this->plugin(RoutingHelper::class);
 
-        list($method, $arguments) = $this->routingHelper->dispatch(['save', 'user-list' => 'userList', 'list', 'message-post' => 'messagePost', 'message-list' => 'messageList']) ?? ['notFound', null];
+        list($method, $arguments) = $this->routingHelper->dispatch(['save', 'delete','user-list' => 'userList', 'list', 'message-post' => 'messagePost', 'message-list' => 'messageList']) ?? ['notFound', null];
         return ! is_null($method) ? call_user_func_array([$this, $method], $arguments ?? []) : null;
     }
 
@@ -115,6 +115,40 @@ class ChatService extends ServiceArtificer
         return $this->response(new JsonResponse([
             'result' => 'success',
             'entity' => $entity,
+        ]));
+    }
+
+    /**
+     * Delete 
+     *
+     * @return ?ResultInterface
+     */
+    protected function delete(): ?ResultInterface
+    {
+        $request = $this->model->getRequest();
+
+        $params = $request->getQueryParams();
+        
+        if (! isset($params['id'])) {
+            return $this->response(new JsonResponse([
+                'result' => 'bad request'
+            ], 400));
+        }
+
+        $entity = $this->getChatEntity([
+            'id' => $params['id']
+        ]);
+
+        if (is_null($entity)) {
+            return $this->response(new JsonResponse([
+                'result' => 'bad request'
+            ], 400));
+        }
+
+        $this->mm($entity)->delete();
+
+        return $this->response(new JsonResponse([
+            'result' => 'success',
         ]));
     }
 
@@ -372,13 +406,19 @@ class ChatService extends ServiceArtificer
         /**@var UserInterface */
         $user = $request->getAttribute(UserInterface::class);
 
+
         if (isset($_data['id'])) {
             $entity = $this->mm()
-                ->with('user')
-                ->where(['@this.id' => $_data['id'], '@this.user.phone' => $user->getIdentity()])
+                // ->with('user')
+                ->where(['@this.id' => $_data['id']])
                 ->one();
 
-            if (is_null($entity)) {
+            $user = $this->mm('SM:User')
+                ->where([
+                    '@this.phone' => $user->getIdentity(),
+                ])->one();
+
+            if (is_null($entity) || (int)$user['id'] !== (int)$entity['idUser']) {
                 return null;
             }
 

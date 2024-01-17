@@ -15,3 +15,66 @@
   width: 100%;
   height: 400px;
 }
+
+select {
+  border: 1px solid #000;
+  padding-left: 5px;
+}
+
+.pie-marker-title {
+  position: absolute;
+  top: 120%;
+  left: 50%;
+  padding: 2px 4px;
+  background-color: #fff;
+  transform: translateX(-50%);
+  color: var(--color);
+}
+
+.pie-marker {
+  background-color: currentColor;
+  background-image: var(--image);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.circle {
+  width: var(--radius);
+  height: var(--radius);
+  border-radius: 50%;
+  background-color: currentColor;
+  color: var(--color);
+}
+
+.circle_element {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: inline-block;
+  width: 50%;
+  height: 50%;
+  border-radius: 50%;
+  background: #fff var(--image) no-repeat center center;
+  transform: translate3d(-50%, -50%, 0);
+}
+
+.icon {
+  position: absolute;
+  top: -55px;
+  left: -20px;
+  width: var(--size);
+  height: var(--size);
+  color: var(--color);
+  background: var(--icon) no-repeat center center / contain;
+}
+
+.icon_title {
+  position: absolute;
+  top: 120%;
+  left: 50%;
+  padding: 2px 4px;
+  background-color: #fff;
+  transform: translateX(-50%);
+}

@@ -13,6 +13,8 @@ import FlatPickr from 'vue-flatpickr-component';
 import 'flatpickr/dist/flatpickr.css';
 import 'flatpickr/dist/themes/airbnb.css';
 
+import { createYmapsOptions, initYmaps } from 'vue-yandex-maps';
+
 /** Vue json viewer */
 import JsonViewer from 'vue3-json-viewer';
 /** Json viewer styles */
@@ -50,6 +52,22 @@ export default (app) => {
     };
 
     app.directive('mask', vMaskVue3);
+
+    const settings = {
+        apiKey: '6438dbae-14c9-4e50-8df4-9672951f5190',
+        lang: 'ru_RU',
+        coordorder: 'latlong',
+        enterprise: false,
+        version: '2.1'
+    }
+
+    let a = createYmapsOptions({
+        apikey: '6438dbae-14c9-4e50-8df4-9672951f5190',
+    });
+
+    initYmaps();
+
+    // app.use(a);
 
     /** -- Vue ColorPicker */
     Chrome.name = 'color-picker';

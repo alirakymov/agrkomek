@@ -104,8 +104,34 @@
             <div class="form-text animated fadeInUp">опишите технику</div>
         </div>
         <div class="form-floating mb-4">
-            <div id="yandex-map"></div>
-
+            <!-- <div id="yandex-map"></div> -->
+            <yandex-map
+                v-model="map"
+                :settings="{
+                    location: {
+                        center: mapCenter,
+                        zoom: 10,
+                    },
+                }"
+                width="100%"
+                height="500px"
+            >
+                <yandex-map-default-scheme-layer/>
+                <yandex-map-default-features-layer/>
+                <yandex-map-listener :settings="{ onClick: clickOnMap() }" />
+                <yandex-map-marker
+                    :settings="marker"
+                >
+                    <div
+                        class="icon"
+                        :style="{
+                            '--size': 'size' in marker ? marker.size : '20px',
+                            '--color': 'color' in marker && marker.color,
+                            '--icon': 'icon' in marker && `url(${marker.icon})`,
+                        }"
+                    ></div>
+                </yandex-map-marker>
+            </yandex-map>
         </div>
         <div class="mb-4">
             <button type="submit" class="btn btn-alt-primary" @click="save()">Сохранить</button>
