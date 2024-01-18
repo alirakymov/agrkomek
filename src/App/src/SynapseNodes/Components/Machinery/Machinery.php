@@ -67,6 +67,7 @@ class Machinery extends SynapseBaseEntity
             ['id' => self::STATUS_ACTIVE, 'label' => 'Активно'],
         ];
     }
+
     /**
      * subscribe
      *

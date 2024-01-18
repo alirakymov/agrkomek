@@ -103,7 +103,7 @@ class MachineryService extends ServiceArtificer
             ], 400));
         }
 
-        $entity->type = Machinery::TYPE_EXCHANGE;
+        // $entity->type = Machinery::TYPE_EXCHANGE;
 
         $this->mm($entity)->save();
 
@@ -233,6 +233,10 @@ class MachineryService extends ServiceArtificer
      */
     private function validate(array $_data): array|string
     {
+        if (! isset($_data['type'])) {
+            $_data['type'] = Machinery::TYPE_EXCHANGE;
+        }
+
         $rules = [
             'id' => function($_value) {
                 return is_null($_value) || preg_match('/\d+/', (string)$_value);
@@ -240,9 +244,12 @@ class MachineryService extends ServiceArtificer
             'title' => function($_value) {
                 return ! empty($_value);
             },
-            // 'price' => function($_value) {
-            //     return preg_match('/\d+/', (string)$_value);
-            // },
+            'type' => function ($_value) {
+                return ! in_array($_value, Machinery::getTypes());
+            },
+            'price' => function ($_value) use ($_data) {
+                return $_data['type'] == Machinery::TYPE_EXCHANGE || preg_match('/\d+/', (string)$_value);
+            },
             'content' => function($_value) {
                 return ! empty($_value);
             },
