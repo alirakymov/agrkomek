@@ -97,6 +97,12 @@ return [
         'description' => 'Сервис роутов',
         'tree' => 0,
     ],
+    'QSynapse:Synapses(Search)' => [
+        'iParent' => null,
+        'name' => 'Search',
+        'description' => 'Поисковый модуль',
+        'tree' => 0,
+    ],
     'QSynapse:Synapses(User)' => [
         'iParent' => null,
         'name' => 'User',

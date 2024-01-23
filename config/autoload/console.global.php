@@ -10,6 +10,7 @@ return [
             '\\Qore\\SynapseManager\\Command\\DataSynchronizer',
             '\\Qore\\SynapseManager\\Plugin\\Indexer\\IndexerCommand',
             '\\Qore\\SynapseManager\\Plugin\\Indexer\\IndexerProcess',
+            '\\Qore\\App\\Services\\Indexer\\ArticleIndexer',
         ],
     ],
     'console' => [
@@ -21,6 +22,7 @@ return [
             '\\Qore\\SynapseManager\\Command\\DataSynchronizer',
             '\\Qore\\SynapseManager\\Plugin\\Indexer\\IndexerCommand',
             '\\Qore\\SynapseManager\\Plugin\\Indexer\\IndexerProcess',
+            '\\Qore\\App\\Services\\Indexer\\ArticleIndexer',
         ],
     ],
 ];

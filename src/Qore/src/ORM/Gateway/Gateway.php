@@ -113,6 +113,13 @@ class Gateway implements GatewayInterface
     protected $whereCursors = [];
 
     /**
+     * with deleted
+     *
+     * @var bool 
+     */
+    protected bool $withDeleted = false;
+
+    /**
      * repository
      *
      * @var ProcessorRepository
@@ -326,7 +333,7 @@ class Gateway implements GatewayInterface
         # - Prepare sql with all references
         $this->prepareSelect();
 
-        if ($this->isSoftDelete()) {
+        if ($this->isSoftDelete() && ! $this->withDeleted) {
             $this->where(function($_where) {
                 $_where(['@this.__deleted' => null]);
             });
@@ -469,6 +476,21 @@ class Gateway implements GatewayInterface
             # - Restore reference path preffix
             $this->processorPathPreffix = $currentProcessorPathPreffix;
         }
+    }
+
+    /**
+     * With deleted entities
+     *
+     * @param bool|null $_bool (optional)
+     *
+     * @return Gateway
+     */
+    public function withDeleted(?bool $_bool = null): Gateway
+    {
+        $_bool ??= true;
+
+        $this->withDeleted = $_bool;
+        return $this;
     }
 
     /**

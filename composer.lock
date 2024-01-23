@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "27004a4f91aadf9d65223d37b7757c40",
+    "content-hash": "f6dc6a64f941e5b48b61f97c7d16d35b",
     "packages": [
         {
             "name": "apix/log",
@@ -6859,6 +6859,85 @@
             "time": "2022-11-09T19:09:30+00:00"
         },
         {
+            "name": "lstrojny/fxmlrpc",
+            "version": "0.22.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lstrojny/fxmlrpc.git",
+                "reference": "866ae7835beb0d0e36ec2ae183fb86f4dafd1b34"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lstrojny/fxmlrpc/zipball/866ae7835beb0d0e36ec2ae183fb86f4dafd1b34",
+                "reference": "866ae7835beb0d0e36ec2ae183fb86f4dafd1b34",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0",
+                "php-http/discovery": "^1.0"
+            },
+            "require-dev": {
+                "lstrojny/hmmmath": "^0.8",
+                "monolog/monolog": "~1",
+                "php-http/guzzle7-adapter": "^0.1",
+                "php-http/httplug": "^1.0 || ^2.0",
+                "php-http/message": "^1.2",
+                "php-http/message-factory": "^1.0",
+                "phpunit/phpunit": "^8.5",
+                "psr/http-factory": "*",
+                "psr/log": "*",
+                "symfony/process": "~2.1",
+                "zendframework/zend-diactoros": "^1.3",
+                "zendframework/zend-log": "~2",
+                "zendframework/zendframework1": "~1"
+            },
+            "suggest": {
+                "monolog/monolog": "To integrate monolog as logger",
+                "php-http/curl-client": "A simple PSR-7 compatible HTTP client",
+                "php-http/guzzle5-adapter": "Guzzle 5 PSR-7 adapter",
+                "php-http/guzzle6-adapter": "Guzzle 6 PSR-7 adapter",
+                "php-http/guzzle7-adapter": "Guzzle 7 PSR-7 adapter",
+                "php-http/message": "For PSR-7 message factories",
+                "zendframework/zend-log": "To use ZF2 Zend\\Log\\Logger as a logger",
+                "zendframework/zendframework1": "To use ZF1 Log"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "fXmlRpc\\": "src/fXmlRpc"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lars Strojny",
+                    "email": "lstrojny@php.net",
+                    "homepage": "http://usrportage.de"
+                }
+            ],
+            "description": "Fast and tiny XML/RPC client with bridges for various HTTP clients",
+            "keywords": [
+                "api",
+                "performance",
+                "rpc",
+                "xml",
+                "xmlrpc"
+            ],
+            "support": {
+                "issues": "https://github.com/lstrojny/fxmlrpc/issues",
+                "source": "https://github.com/lstrojny/fxmlrpc/tree/0.22.0"
+            },
+            "time": "2021-06-21T09:30:29+00:00"
+        },
+        {
             "name": "malkusch/lock",
             "version": "v2.2.1",
             "source": {
@@ -9032,6 +9111,84 @@
             "time": "2023-10-22T15:02:02+00:00"
         },
         {
+            "name": "php-http/discovery",
+            "version": "1.19.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-http/discovery.git",
+                "reference": "61e1a1eb69c92741f5896d9e05fb8e9d7e8bb0cb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-http/discovery/zipball/61e1a1eb69c92741f5896d9e05fb8e9d7e8bb0cb",
+                "reference": "61e1a1eb69c92741f5896d9e05fb8e9d7e8bb0cb",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0|^2.0",
+                "php": "^7.1 || ^8.0"
+            },
+            "conflict": {
+                "nyholm/psr7": "<1.0",
+                "zendframework/zend-diactoros": "*"
+            },
+            "provide": {
+                "php-http/async-client-implementation": "*",
+                "php-http/client-implementation": "*",
+                "psr/http-client-implementation": "*",
+                "psr/http-factory-implementation": "*",
+                "psr/http-message-implementation": "*"
+            },
+            "require-dev": {
+                "composer/composer": "^1.0.2|^2.0",
+                "graham-campbell/phpspec-skip-example-extension": "^5.0",
+                "php-http/httplug": "^1.0 || ^2.0",
+                "php-http/message-factory": "^1.0",
+                "phpspec/phpspec": "^5.1 || ^6.1 || ^7.3",
+                "symfony/phpunit-bridge": "^6.2"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Http\\Discovery\\Composer\\Plugin",
+                "plugin-optional": true
+            },
+            "autoload": {
+                "psr-4": {
+                    "Http\\Discovery\\": "src/"
+                },
+                "exclude-from-classmap": [
+                    "src/Composer/Plugin.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com"
+                }
+            ],
+            "description": "Finds and installs PSR-7, PSR-17, PSR-18 and HTTPlug implementations",
+            "homepage": "http://php-http.org",
+            "keywords": [
+                "adapter",
+                "client",
+                "discovery",
+                "factory",
+                "http",
+                "message",
+                "psr17",
+                "psr7"
+            ],
+            "support": {
+                "issues": "https://github.com/php-http/discovery/issues",
+                "source": "https://github.com/php-http/discovery/tree/1.19.2"
+            },
+            "time": "2023-11-30T16:49:05+00:00"
+        },
+        {
             "name": "php-imap/php-imap",
             "version": "5.0.1",
             "source": {
@@ -11005,41 +11162,39 @@
         },
         {
             "name": "supervisorphp/supervisor",
-            "version": "v3.0.0",
+            "version": "5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/supervisorphp/supervisor.git",
-                "reference": "41b52b9e74daffd58c4993b21d59c29515a3493e"
+                "reference": "e8a5ac306748c5fc6f53ada6a68648eef5a1a286"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/supervisorphp/supervisor/zipball/41b52b9e74daffd58c4993b21d59c29515a3493e",
-                "reference": "41b52b9e74daffd58c4993b21d59c29515a3493e",
+                "url": "https://api.github.com/repos/supervisorphp/supervisor/zipball/e8a5ac306748c5fc6f53ada6a68648eef5a1a286",
+                "reference": "e8a5ac306748c5fc6f53ada6a68648eef5a1a286",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "lstrojny/fxmlrpc": ">=0.12",
+                "php": ">=8.1",
+                "psr/log": ">=1"
             },
             "require-dev": {
-                "behat/behat": "~3.0.0",
-                "guzzlehttp/guzzle": ">=4.0.0",
-                "henrikbjorn/phpspec-code-coverage": "~1.0.0",
-                "lstrojny/fxmlrpc": "dev-master",
-                "phpspec/phpspec": "~2.1.0",
-                "rhumsaa/array_column": "~1.1.0",
-                "supervisorphp/configuration": "~0.1.0",
-                "zendframework/zend-xmlrpc": ">=2.3.3"
-            },
-            "suggest": {
-                "lstrojny/fxmlrpc": "A modern, super fast XML/RPC client for PHP >=5.4",
-                "zendframework/zend-xmlrpc": "XmlRpc component from Zend Framework 2"
+                "behat/behat": "^3.0",
+                "ext-pcntl": "*",
+                "ext-posix": "*",
+                "guzzlehttp/guzzle": "^7",
+                "php-http/httplug": "^2.1",
+                "php-http/message": "^1.8",
+                "php-parallel-lint/php-console-highlighter": "^1",
+                "php-parallel-lint/php-parallel-lint": "^1.3",
+                "phpspec/phpspec": "^7",
+                "phpstan/phpstan": "^1",
+                "phpstan/phpstan-strict-rules": "^1",
+                "roave/security-advisories": "dev-latest",
+                "supervisorphp/configuration": "^0.3"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.1-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Supervisor\\": "src/"
@@ -11053,19 +11208,23 @@
                 {
                     "name": "Márk Sági-Kazár",
                     "email": "mark.sagikazar@gmail.com"
+                },
+                {
+                    "name": "Buster Neece",
+                    "email": "buster@busterneece.com"
                 }
             ],
             "description": "PHP library for managing Supervisor through XML-RPC API",
-            "homepage": "https://supervisorphp.com",
+            "homepage": "http://supervisorphp.com",
             "keywords": [
                 "process manager",
                 "supervisor"
             ],
             "support": {
                 "issues": "https://github.com/supervisorphp/supervisor/issues",
-                "source": "https://github.com/supervisorphp/supervisor/tree/v3.0.0"
+                "source": "https://github.com/supervisorphp/supervisor/tree/5.1.0"
             },
-            "time": "2015-01-13T23:06:23+00:00"
+            "time": "2022-11-21T11:48:01+00:00"
         },
         {
             "name": "symfony/cache",

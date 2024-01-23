@@ -161,6 +161,14 @@ return [
         'type' => '1',
         'description' => '',
     ],
+    'QSynapse:SynapseRelations(QSynapse:Synapses(Search);search;QSynapse:Synapses(Routes);route)' => [
+        'iSynapseFrom' => 'QSynapse:Synapses(Routes)',
+        'synapseAliasFrom' => 'search',
+        'iSynapseTo' => 'QSynapse:Synapses(Search)',
+        'synapseAliasTo' => 'route',
+        'type' => '1',
+        'description' => '',
+    ],
     'QSynapse:SynapseRelations(QSynapse:Synapses(User);user;QSynapse:Synapses(Routes);route)' => [
         'iSynapseFrom' => 'QSynapse:Synapses(Routes)',
         'synapseAliasFrom' => 'user',

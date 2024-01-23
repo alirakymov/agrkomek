@@ -5,7 +5,7 @@ return [
         'iSynapse' => 'QSynapse:Synapses(Article)',
         'name' => 'Api',
         'label' => 'Api',
-        'index' => 0,
+        'index' => 1,
         'description' => '',
     ],
     'QSynapse:SynapseServices(QSynapse:Synapses(Article);Manager)' => [
@@ -68,7 +68,7 @@ return [
         'iSynapse' => 'QSynapse:Synapses(Guide)',
         'name' => 'Api',
         'label' => 'Api',
-        'index' => 0,
+        'index' => 1,
         'description' => '',
     ],
     'QSynapse:SynapseServices(QSynapse:Synapses(Guide);Manager)' => [
@@ -168,6 +168,13 @@ return [
         'label' => 'Сервис управления',
         'index' => 0,
         'description' => 'сервис управления роутами',
+    ],
+    'QSynapse:SynapseServices(QSynapse:Synapses(Search);Api)' => [
+        'iSynapse' => 'QSynapse:Synapses(Search)',
+        'name' => 'Api',
+        'label' => 'Api поиска',
+        'index' => 0,
+        'description' => 'Api поиска',
     ],
     'QSynapse:SynapseServices(QSynapse:Synapses(User);Api)' => [
         'iSynapse' => 'QSynapse:Synapses(User)',

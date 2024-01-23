@@ -69,6 +69,7 @@ class IndexerProcess extends SymfonyCommand
                 'iSynapseService' => $serviceEntity['id'],
             ]);
 
+
         /** @var Indexer */
         $indexer = $artificer->plugin(Indexer::class);
         $mapping = $indexer->getMapping();
