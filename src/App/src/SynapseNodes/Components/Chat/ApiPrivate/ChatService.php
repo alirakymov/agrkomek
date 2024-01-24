@@ -179,11 +179,11 @@ class ChatService extends ServiceArtificer
                 $_select->group('@this.idChat');
             });
 
-        $lastMessaagesID = $gw->all()->extract('max-id')->toList();
+        $lastMessagesID = $gw->all()->extract('max-id')->toList();
         $messages = Qore::collection([]);
 
         if ($lastMessagesID) {
-            $messages = $this->mm('SM:ChatMessage')->where(['@this.id' => $lastMessaagesID])->all();
+            $messages = $this->mm('SM:ChatMessage')->where(['@this.id' => $lastMessagesID])->all();
             $users = $messages->extract('idUser')->toList();
             $users = $this->mm('SM:User')->where(['@this.id' => $users])->all();
 
@@ -236,12 +236,12 @@ class ChatService extends ServiceArtificer
                 $_select->group('@this.idChat');
             });
 
-        $lastMessaagesID = $gw->all()->extract('max-id')->toList();
+        $lastMessagesID = $gw->all()->extract('max-id')->toList();
 
         $messages = Qore::collection([]);
 
         if ($lastMessagesID) {
-            $messages = $this->mm('SM:ChatMessage')->where(['@this.id' => $lastMessaagesID])->all();
+            $messages = $this->mm('SM:ChatMessage')->where(['@this.id' => $lastMessagesID])->all();
             $users = $messages->extract('idUser')->toList();
             $users = $this->mm('SM:User')->where(['@this.id' => $users])->all();
 
