@@ -182,7 +182,7 @@ class ChatService extends ServiceArtificer
         $lastMessaagesID = $gw->all()->extract('max-id')->toList();
         $messages = Qore::collection([]);
 
-        if ($lastMessageID) {
+        if ($lastMessagesID) {
             $messages = $this->mm('SM:ChatMessage')->where(['@this.id' => $lastMessaagesID])->all();
             $users = $messages->extract('idUser')->toList();
             $users = $this->mm('SM:User')->where(['@this.id' => $users])->all();
