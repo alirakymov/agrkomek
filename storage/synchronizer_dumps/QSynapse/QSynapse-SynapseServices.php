@@ -110,7 +110,7 @@ return [
         'iSynapse' => 'QSynapse:Synapses(Machinery)',
         'name' => 'Api',
         'label' => 'Api',
-        'index' => 0,
+        'index' => 1,
         'description' => 'Api',
     ],
     'QSynapse:SynapseServices(QSynapse:Synapses(Machinery);ApiPrivate)' => [

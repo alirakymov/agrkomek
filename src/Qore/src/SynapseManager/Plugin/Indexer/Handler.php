@@ -145,6 +145,7 @@ class Handler implements HandlerInterface
 
         foreach ($filters as $filter) {
             foreach ($attributes as $attribute => $type) {
+                dump($filter);
                 isset($filter[$attribute]) && $this->prepareFilter($type, $attribute, $filter);
             }
         }

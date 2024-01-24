@@ -11,9 +11,11 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Qore\App\SynapseNodes\Components\Machinery\Machinery;
 use Qore\DealingManager\ResultInterface;
 use Qore\Qore;
 use Qore\Router\RouteCollector;
+use Qore\SynapseManager\Artificer\Service\Filter\Equal;
 use Qore\SynapseManager\Artificer\Service\ServiceArtificer;
 use Qore\SynapseManager\Plugin\Indexer\Indexer;
 use Qore\SynapseManager\Plugin\RoutingHelper\RoutingHelper;
@@ -127,9 +129,35 @@ class SearchService extends ServiceArtificer
 
         $guides = $this->mm('SM:Guide')->where(['@this.id' => $ids])->all()->map(fn ($_guide) => $_guide->toArray(true));
 
+        $service = $sm('Machinery:Api');
+        $indexer = $service->plugin(Indexer::class);
+
+        /**@var ResultHit[]*/
+        $results = $indexer->search(
+            Qore::collection([]), [
+                'query' => $queryParams['q'] ?? null,
+                'limit' => 10,
+                'offset' => 0,
+                'sort' => ['id' => 'desc'],
+            ]
+        );
+
+        $ids = [];
+        foreach ($results as $result) {
+            $ids[] = $result->getId();
+        }
+
+        $machineries = $this->mm('SM:Machinery')
+            ->where(['@this.id' => $ids, '@this.status' => Machinery::STATUS_ACTIVE])
+            ->all()
+            ->map(
+                fn ($_machinery) => $_machinery->toArray(true)
+            );
+
         return $this->response(new JsonResponse([
             'articles' => $articles->toList(),
             'guides' => $guides->toList(),
+            'machinery' => $machineries->toList(),
         ]));
     }
 

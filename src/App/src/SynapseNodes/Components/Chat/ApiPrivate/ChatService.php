@@ -11,6 +11,7 @@ use Mezzio\Authentication\UserInterface;
 use Qore\App\SynapseNodes\Components\Chat\Chat;
 use Qore\App\SynapseNodes\Components\Machinery\Machinery;
 use Qore\DealingManager\ResultInterface;
+use Qore\Qore;
 use Qore\Router\RouteCollector;
 use Qore\SynapseManager\Artificer\Service\ServiceArtificer;
 use Qore\SynapseManager\Plugin\RoutingHelper\RoutingHelper;
@@ -179,21 +180,23 @@ class ChatService extends ServiceArtificer
             });
 
         $lastMessaagesID = $gw->all()->extract('max-id')->toList();
+        $messages = Qore::collection([]);
 
-        $messages = $this->mm('SM:ChatMessage')->where(['@this.id' => $lastMessaagesID])->all();
+        if ($lastMessageID) {
+            $messages = $this->mm('SM:ChatMessage')->where(['@this.id' => $lastMessaagesID])->all();
+            $users = $messages->extract('idUser')->toList();
+            $users = $this->mm('SM:User')->where(['@this.id' => $users])->all();
 
-        $users = $messages->extract('idUser')->toList();
-        $users = $this->mm('SM:User')->where(['@this.id' => $users])->all();
-
-        $messages = $messages->map(function($_message) use ($users) {
-            $_message['user'] = $users->firstMatch(['id' => $_message['idUser']])->decorate()->toArray(true);
-            return $_message;
-        });
+            $messages = $messages->map(function($_message) use ($users) {
+                $_message['user'] = $users->firstMatch(['id' => $_message['idUser']])->decorate()->toArray(true);
+                return $_message;
+            });
+        }
 
         $data = $data->map(function($_item) use ($messages) {
             $firstMessage = $messages->firstMatch(['idChat' => $_item['id']]);
             $_item['lastMessage'] = $firstMessage ? $firstMessage->toArray(true) : null;
-            return $_item;
+            return $_item->toArray(true);
         });
 
         return $this->response(new JsonResponse($data->toList()));
@@ -235,20 +238,23 @@ class ChatService extends ServiceArtificer
 
         $lastMessaagesID = $gw->all()->extract('max-id')->toList();
 
-        $messages = $this->mm('SM:ChatMessage')->where(['@this.id' => $lastMessaagesID])->all();
+        $messages = Qore::collection([]);
 
-        $users = $messages->extract('idUser')->toList();
-        $users = $this->mm('SM:User')->where(['@this.id' => $users])->all();
+        if ($lastMessaagesID) {
+            $messages = $this->mm('SM:ChatMessage')->where(['@this.id' => $lastMessaagesID])->all();
+            $users = $messages->extract('idUser')->toList();
+            $users = $this->mm('SM:User')->where(['@this.id' => $users])->all();
 
-        $messages = $messages->map(function($_message) use ($users) {
-            $_message['user'] = $users->firstMatch(['id' => $_message['idUser']])->decorate()->toArray(true);
-            return $_message;
-        });
+            $messages = $messages->map(function($_message) use ($users) {
+                $_message['user'] = $users->firstMatch(['id' => $_message['idUser']])->decorate()->toArray(true);
+                return $_message;
+            });
+        }
 
         $data = $data->map(function($_item) use ($messages) {
             $firstMessage = $messages->firstMatch(['idChat' => $_item['id']]);
             $_item['lastMessage'] = $firstMessage ? $firstMessage->toArray(true) : null;
-            return $_item;
+            return $_item->toArray(true);
         });
 
         return $this->response(new JsonResponse($data->toList()));
