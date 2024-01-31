@@ -36,6 +36,20 @@ return [
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
         'description' => 'Заголовок',
     ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(ArticleParser);link)' => [
+        'iSynapse' => 'QSynapse:Synapses(ArticleParser)',
+        'name' => 'link',
+        'label' => 'Ссылка',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Text',
+        'description' => 'Ссылка',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(ArticleParser);title)' => [
+        'iSynapse' => 'QSynapse:Synapses(ArticleParser)',
+        'name' => 'title',
+        'label' => 'Название',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
+        'description' => 'Название',
+    ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(ArticleType);language)' => [
         'iSynapse' => 'QSynapse:Synapses(ArticleType)',
         'name' => 'language',

@@ -15,6 +15,13 @@ return [
         'index' => 0,
         'description' => 'Управление новостями',
     ],
+    'QSynapse:SynapseServices(QSynapse:Synapses(ArticleParser);Manager)' => [
+        'iSynapse' => 'QSynapse:Synapses(ArticleParser)',
+        'name' => 'Manager',
+        'label' => 'Управление источниками новостей',
+        'index' => 0,
+        'description' => '',
+    ],
     'QSynapse:SynapseServices(QSynapse:Synapses(ArticleType);Api)' => [
         'iSynapse' => 'QSynapse:Synapses(ArticleType)',
         'name' => 'Api',

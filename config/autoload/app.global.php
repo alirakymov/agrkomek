@@ -1,6 +1,7 @@
 <?php
 
 use Qore\App\SynapseNodes\Components\Article\Manager\ArticleService;
+use Qore\App\SynapseNodes\Components\ArticleParser\Manager\ArticleParserService;
 use Qore\App\SynapseNodes\Components\ArticleType\Manager\ArticleTypeService; use Qore\App\SynapseNodes\Components\ConsultancyCategory\Manager\ConsultancyCategoryService;
 use Qore\App\SynapseNodes\Components\Consultancy\Manager\ConsultancyService;
 use Qore\App\SynapseNodes\Components\Guide\Manager\GuideService;
@@ -45,6 +46,12 @@ return [
                             'privilege' => 1,
                             'icon' => 'far fa-newspaper',
                             'route' => [ArticleTypeService::class, 'index'],
+                        ],
+                        [
+                            'label' => 'Источники',
+                            'privilege' => 1,
+                            'icon' => 'far fa-newspaper',
+                            'route' => [ArticleParserService::class, 'index'],
                         ],
                     ],
                 ],

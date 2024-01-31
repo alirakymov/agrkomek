@@ -7,6 +7,12 @@ return [
         'description' => 'Новости',
         'tree' => 0,
     ],
+    'QSynapse:Synapses(ArticleParser)' => [
+        'iParent' => 'Article',
+        'name' => 'ArticleParser',
+        'description' => '',
+        'tree' => 0,
+    ],
     'QSynapse:Synapses(ArticleType)' => [
         'iParent' => 'Article',
         'name' => 'ArticleType',

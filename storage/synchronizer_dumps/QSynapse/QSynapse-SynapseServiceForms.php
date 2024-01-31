@@ -19,6 +19,20 @@ return [
             ],
         ],
     ],
+    'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ArticleParser);Manager);ArticleParserForm)' => [
+        'iSynapseService' => 'QSynapse:SynapseServices(QSynapse:Synapses(ArticleParser);Manager)',
+        'name' => 'ArticleParserForm',
+        'label' => 'Форма парсера',
+        'template' => '$title',
+        'description' => 'Форма парсера',
+        'type' => 0,
+        '__options' => [
+            'fields-order' => [
+                'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ArticleParser);Manager);ArticleParserForm);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(ArticleParser);title)',
+                'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ArticleParser);Manager);ArticleParserForm);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(ArticleParser);link)',
+            ],
+        ],
+    ],
     'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ArticleType);Manager);ArticleTypeForm)' => [
         'iSynapseService' => 'QSynapse:SynapseServices(QSynapse:Synapses(ArticleType);Manager)',
         'name' => 'ArticleTypeForm',
