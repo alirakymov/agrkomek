@@ -11,6 +11,7 @@ return [
             '\\Qore\\SynapseManager\\Plugin\\Indexer\\IndexerCommand',
             '\\Qore\\SynapseManager\\Plugin\\Indexer\\IndexerProcess',
             '\\Qore\\App\\Services\\Indexer\\ArticleIndexer',
+            '\\Qore\\App\\SynapseNodes\\Components\\ArticleParser\\ArticleFeedParser',
         ],
     ],
     'console' => [
@@ -23,6 +24,7 @@ return [
             '\\Qore\\SynapseManager\\Plugin\\Indexer\\IndexerCommand',
             '\\Qore\\SynapseManager\\Plugin\\Indexer\\IndexerProcess',
             '\\Qore\\App\\Services\\Indexer\\ArticleIndexer',
+            '\\Qore\\App\\SynapseNodes\\Components\\ArticleParser\\ArticleFeedParser',
         ],
     ],
 ];

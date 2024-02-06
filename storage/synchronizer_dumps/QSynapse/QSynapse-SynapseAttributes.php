@@ -15,6 +15,13 @@ return [
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\LongText',
         'description' => 'Содержимое',
     ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Article);hash)' => [
+        'iSynapse' => 'QSynapse:Synapses(Article)',
+        'name' => 'hash',
+        'label' => 'хеш новости',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
+        'description' => '',
+    ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Article);language)' => [
         'iSynapse' => 'QSynapse:Synapses(Article)',
         'name' => 'language',
@@ -35,6 +42,20 @@ return [
         'label' => 'Заголовок',
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
         'description' => 'Заголовок',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(ArticleParser);date)' => [
+        'iSynapse' => 'QSynapse:Synapses(ArticleParser)',
+        'name' => 'date',
+        'label' => 'Дата обновления',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Datetime',
+        'description' => 'Дата обновления',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(ArticleParser);hash)' => [
+        'iSynapse' => 'QSynapse:Synapses(ArticleParser)',
+        'name' => 'hash',
+        'label' => 'Уникальный ключ',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
+        'description' => 'Уникальный ключ',
     ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(ArticleParser);link)' => [
         'iSynapse' => 'QSynapse:Synapses(ArticleParser)',

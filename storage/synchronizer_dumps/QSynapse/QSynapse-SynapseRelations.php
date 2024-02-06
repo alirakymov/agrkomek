@@ -25,6 +25,14 @@ return [
         'type' => '1',
         'description' => '',
     ],
+    'QSynapse:SynapseRelations(QSynapse:Synapses(ArticleParser);sources;QSynapse:Synapses(ArticleType);type)' => [
+        'iSynapseFrom' => 'QSynapse:Synapses(ArticleType)',
+        'synapseAliasFrom' => 'sources',
+        'iSynapseTo' => 'QSynapse:Synapses(ArticleParser)',
+        'synapseAliasTo' => 'type',
+        'type' => '2',
+        'description' => '',
+    ],
     'QSynapse:SynapseRelations(QSynapse:Synapses(ArticleType);articleType;QSynapse:Synapses(Routes);route)' => [
         'iSynapseFrom' => 'QSynapse:Synapses(Routes)',
         'synapseAliasFrom' => 'articleType',

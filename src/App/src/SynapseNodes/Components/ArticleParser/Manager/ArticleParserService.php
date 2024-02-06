@@ -270,6 +270,39 @@ class ArticleParserService extends ServiceArtificer
         ]);
 
         return $this->presentAs(ListComponent::class, [
+            'columns' => [
+                'id' => [
+                    'label' => '#',
+                    'class-header' => 'col-1',
+                    'class-column' => 'col-1',
+                ],
+                'title' => [
+                    'label' => 'Название',
+                    'class-header' => 'col-4',
+                    'class-column' => 'col-4',
+                ],
+                'type' => [
+                    'label' => 'Тип',
+                    'class-header' => 'col-2',
+                    'class-column' => 'col-2',
+                    'transform' => function ($_item) {
+                        return $_item->type()->title ?? '';
+                    },
+                ],
+                'link' => [
+                    'label' => 'Ссылка',
+                    'class-header' => 'col-2',
+                    'class-column' => 'col-2',
+                ],
+                'updated' => [
+                    'label' => 'Обновлено',
+                    'class-header' => 'col-2',
+                    'class-column' => 'col-2',
+                    'transform' => function($_item) {
+                        return $_item['__updated']->format('d.m.Y H:i');
+                    }
+                ],
+            ],
             'actions' => $this->getListActions(),
             'suffix' => $testFilters['filters']['id'] ?? null,
             'sortable' => $this->getSortableOptions(),

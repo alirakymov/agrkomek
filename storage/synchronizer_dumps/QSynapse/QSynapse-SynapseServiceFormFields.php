@@ -89,6 +89,17 @@ return [
         'placeholder' => 'Введите название источника',
         'description' => 'Название источника',
     ],
+    'QSynapse:SynapseServiceFormFields(QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ArticleParser);Manager);ArticleParserForm);QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ArticleType);Manager);Selection);QSynapse:SynapseAttributes())' => [
+        'iSynapseServiceForm' => 'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ArticleParser);Manager);ArticleParserForm)',
+        'iSynapseServiceSubject' => 'QSynapse:SynapseServiceSubjects(QSynapse:SynapseRelations(QSynapse:Synapses(ArticleParser);sources;QSynapse:Synapses(ArticleType);type);QSynapse:SynapseServices(QSynapse:Synapses(ArticleParser);Manager);QSynapse:SynapseServices(QSynapse:Synapses(ArticleType);Manager))',
+        'iSynapseServiceSubjectForm' => 'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ArticleType);Manager);Selection)',
+        'iSynapseAttribute' => 'QSynapse:SynapseAttributes()',
+        'type' => 2,
+        'attributeFieldType' => null,
+        'label' => 'Тип источника',
+        'placeholder' => 'выберите тип источника',
+        'description' => 'новости из данного источника будут привязаны к данном типу',
+    ],
     'QSynapse:SynapseServiceFormFields(QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ArticleType);Manager);ArticleTypeForm);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(ArticleType);language))' => [
         'iSynapseServiceForm' => 'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ArticleType);Manager);ArticleTypeForm)',
         'iSynapseServiceSubject' => 'QSynapse:SynapseServiceSubjects()',

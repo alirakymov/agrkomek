@@ -30,6 +30,7 @@ return [
             'fields-order' => [
                 'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ArticleParser);Manager);ArticleParserForm);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(ArticleParser);title)',
                 'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ArticleParser);Manager);ArticleParserForm);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(ArticleParser);link)',
+                'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ArticleParser);Manager);ArticleParserForm);QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(ArticleType);Manager);Selection);QSynapse:SynapseAttributes()',
             ],
         ],
     ],

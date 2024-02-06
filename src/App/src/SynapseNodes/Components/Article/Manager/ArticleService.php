@@ -293,7 +293,7 @@ class ArticleService extends ServiceArtificer
                     'class-header' => 'col-2',
                     'class-column' => 'col-2',
                     'transform' => function ($_item) {
-                        return $_item->type()->title;
+                        return $_item->type()->title ?? '';
                     },
                 ],
                 'language' => [
