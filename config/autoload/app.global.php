@@ -9,6 +9,7 @@ use Qore\App\SynapseNodes\Components\GuideCategory\Manager\GuideCategoryService;
 use Qore\App\SynapseNodes\Components\Machinery\Manager\MachineryService;
 use Qore\App\SynapseNodes\Components\ModeratorRole\Manager\ModeratorRoleService;
 use Qore\App\SynapseNodes\Components\Moderator\Manager\ModeratorService;
+use Qore\App\SynapseNodes\Components\NotificationMessage\Manager\NotificationMessageService;
 use Qore\App\SynapseNodes\Components\User\Manager\UserService;
 
 return [
@@ -86,6 +87,17 @@ return [
                             'privilege' => 1,
                             'icon' => 'far fa-comment-dots',
                             'route' => [ConsultancyCategoryService::class, 'index'],
+                        ],
+                    ],
+                ],
+                [
+                    'label' => 'Уведомления',
+                    'sublevel' => [
+                        [
+                            'label' => 'Шаблоны',
+                            'privilege' => 1,
+                            'icon' => 'far fa-comment-dots',
+                            'route' => [NotificationMessageService::class, 'index'],
                         ],
                     ],
                 ],
