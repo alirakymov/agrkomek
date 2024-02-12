@@ -55,6 +55,12 @@ return [
         'description' => 'Сессия консультации',
         'tree' => 0,
     ],
+    'QSynapse:Synapses(Device)' => [
+        'iParent' => null,
+        'name' => 'Device',
+        'description' => 'Устройство',
+        'tree' => 0,
+    ],
     'QSynapse:Synapses(Guide)' => [
         'iParent' => null,
         'name' => 'Guide',
@@ -95,6 +101,18 @@ return [
         'iParent' => null,
         'name' => 'ModeratorRole',
         'description' => 'Роль модератора',
+        'tree' => 0,
+    ],
+    'QSynapse:Synapses(Notification)' => [
+        'iParent' => null,
+        'name' => 'Notification',
+        'description' => '',
+        'tree' => 0,
+    ],
+    'QSynapse:Synapses(NotificationMessage)' => [
+        'iParent' => 'Notification',
+        'name' => 'NotificationMessage',
+        'description' => '',
         'tree' => 0,
     ],
     'QSynapse:Synapses(Routes)' => [

@@ -93,8 +93,8 @@ class IndexerProcess extends SymfonyCommand
             $objects = $artificer->mm()->select(function($_select) use ($i) {
                 $_select->limit($c = 50)->offset($i*$c - ($i ? 1 : 0))->order('@this.__updated');
             })->where(function($_where) use ($indexerEntity) {
-                $_where(['@this.__indexed' => 0]);
-                // $_where->greaterThan('@this.__updated', $indexerEntity->lastIndexDate->format('Y-m-d H:i:s'));
+                // $_where(['@this.__indexed' => 0]);
+                $_where->greaterThan('@this.__updated', $indexerEntity->lastIndexDate->format('Y-m-d H:i:s'));
             })->all();
 
             if (! $objects->count()) {

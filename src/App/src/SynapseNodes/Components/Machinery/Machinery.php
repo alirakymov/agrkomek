@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Qore\App\SynapseNodes\Components\Machinery;
 
 
+use Qore\App\Services\Tracking\TrackingInterface;
+use Qore\App\SynapseNodes\Components\Notification\Notification;
 use Qore\Qore;
 use Qore\SynapseManager\Structure\Entity\SynapseBaseEntity;
 
@@ -104,11 +106,17 @@ class Machinery extends SynapseBaseEntity
 
             $entity->images = is_string($entity->images) 
                 ? json_decode($entity->images, true) 
-                : $entity->images;
+            : $entity->images;
+
+        });
+
+        static::after('save', function($_event) {
+            $entity = $_event->getTarget();
+            $tracking = Qore::service(TrackingInterface::class);
+            $tracking->fire(Notification::EVENT_MACHINERY_STATUS_UPDATE, $entity);
         });
 
         static::after('initialize', $func);
-
     }
 
 }

@@ -162,6 +162,13 @@ return [
         'index' => 0,
         'description' => 'Сервис управления',
     ],
+    'QSynapse:SynapseServices(QSynapse:Synapses(NotificationMessage);Manager)' => [
+        'iSynapse' => 'QSynapse:Synapses(NotificationMessage)',
+        'name' => 'Manager',
+        'label' => 'Управление сообщениями',
+        'index' => 0,
+        'description' => 'Управление сообщениями',
+    ],
     'QSynapse:SynapseServices(QSynapse:Synapses(Routes);Api)' => [
         'iSynapse' => 'QSynapse:Synapses(Routes)',
         'name' => 'Api',

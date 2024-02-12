@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Mezzio\Csrf\CsrfGuardFactoryInterface;
 use Mezzio\Csrf\FlashCsrfGuardFactory;
+use Qore\App\Middlewares\TrackingMiddleware;
 use Qore\App\Services\SmsService\SmsService;
 use Qore\App\Services\SmsService\SmsServiceFactory;
 
@@ -24,6 +25,7 @@ return [
         // class name.
         'invokables' => [
             // Fully\Qualified\InterfaceName::class => Fully\Qualified\ClassName::class,
+            TrackingMiddleware::class,
         ],
         // Use 'factories' for services provided by callbacks/factory classes.
         'factories'  => [

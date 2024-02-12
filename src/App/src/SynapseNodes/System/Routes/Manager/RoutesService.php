@@ -86,7 +86,7 @@ class RoutesService extends ServiceArtificer
      */
     private function getPipelineCollectionForMiddleware(string $_middleware) : array
     {
-        $synapseMiddlewaresConfig = Qore::config('qore.synapse-middlewares', []);
+        $synapseMiddlewaresConfig = Qore::config('qore.route-middlewares', []);
 
         $result = [
             Qore::service(AuthGuardMiddleware::class),

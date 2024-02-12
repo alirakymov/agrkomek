@@ -177,6 +177,14 @@ return [
         'type' => '1',
         'description' => '',
     ],
+    'QSynapse:SynapseRelations(QSynapse:Synapses(NotificationMessage);notificationMessage;QSynapse:Synapses(Routes);route)' => [
+        'iSynapseFrom' => 'QSynapse:Synapses(Routes)',
+        'synapseAliasFrom' => 'notificationMessage',
+        'iSynapseTo' => 'QSynapse:Synapses(NotificationMessage)',
+        'synapseAliasTo' => 'route',
+        'type' => '1',
+        'description' => '',
+    ],
     'QSynapse:SynapseRelations(QSynapse:Synapses(Search);search;QSynapse:Synapses(Routes);route)' => [
         'iSynapseFrom' => 'QSynapse:Synapses(Routes)',
         'synapseAliasFrom' => 'search',

@@ -168,4 +168,21 @@ return [
         'type' => 2,
         '__options' => [],
     ],
+    'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(NotificationMessage);Manager);NotificationMessage)' => [
+        'iSynapseService' => 'QSynapse:SynapseServices(QSynapse:Synapses(NotificationMessage);Manager)',
+        'name' => 'NotificationMessage',
+        'label' => 'Форма создания редактирования',
+        'template' => '$titileRu',
+        'description' => 'Форма создания редактирования',
+        'type' => 0,
+        '__options' => [
+            'fields-order' => [
+                'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(NotificationMessage);Manager);NotificationMessage);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(NotificationMessage);event)',
+                'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(NotificationMessage);Manager);NotificationMessage);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(NotificationMessage);titleRu)',
+                'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(NotificationMessage);Manager);NotificationMessage);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(NotificationMessage);messageRu)',
+                'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(NotificationMessage);Manager);NotificationMessage);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(NotificationMessage);titleKz)',
+                'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(NotificationMessage);Manager);NotificationMessage);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(NotificationMessage);messageKz)',
+            ],
+        ],
+    ],
 ];
