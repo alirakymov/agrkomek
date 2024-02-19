@@ -81,6 +81,14 @@ return [
         'type' => '1',
         'description' => '',
     ],
+    'QSynapse:SynapseRelations(QSynapse:Synapses(Device);devices;QSynapse:Synapses(User);user)' => [
+        'iSynapseFrom' => 'QSynapse:Synapses(User)',
+        'synapseAliasFrom' => 'devices',
+        'iSynapseTo' => 'QSynapse:Synapses(Device)',
+        'synapseAliasTo' => 'user',
+        'type' => '2',
+        'description' => '',
+    ],
     'QSynapse:SynapseRelations(QSynapse:Synapses(Guide);guide;QSynapse:Synapses(Routes);route)' => [
         'iSynapseFrom' => 'QSynapse:Synapses(Routes)',
         'synapseAliasFrom' => 'guide',

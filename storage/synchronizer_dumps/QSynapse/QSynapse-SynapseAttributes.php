@@ -190,6 +190,13 @@ return [
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
         'description' => 'Токен сессии',
     ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Device);token)' => [
+        'iSynapse' => 'QSynapse:Synapses(Device)',
+        'name' => 'token',
+        'label' => 'token',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\VarcharBig',
+        'description' => '',
+    ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Guide);approved)' => [
         'iSynapse' => 'QSynapse:Synapses(Guide)',
         'name' => 'approved',
@@ -427,6 +434,20 @@ return [
         'label' => 'Данные',
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\LongText',
         'description' => '',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Notification);event)' => [
+        'iSynapse' => 'QSynapse:Synapses(Notification)',
+        'name' => 'event',
+        'label' => 'Событие',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
+        'description' => '',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Notification);idUser)' => [
+        'iSynapse' => 'QSynapse:Synapses(Notification)',
+        'name' => 'idUser',
+        'label' => 'Идентификатор пользователя',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\BigInteger',
+        'description' => 'Идентификатор пользователя',
     ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Notification);message)' => [
         'iSynapse' => 'QSynapse:Synapses(Notification)',
