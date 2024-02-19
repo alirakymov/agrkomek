@@ -61,6 +61,7 @@
         "hollodotme/fast-cgi-client": "^3.1",
         "imagine/imagine": "^1.2",
         "kint-php/kint": "^2.2",
+        "kreait/firebase-php": "^7.0",
         "laminas/laminas-authentication": "^2.6",
         "laminas/laminas-cache": "^2.9",
         "laminas/laminas-component-installer": "^2.1.1",

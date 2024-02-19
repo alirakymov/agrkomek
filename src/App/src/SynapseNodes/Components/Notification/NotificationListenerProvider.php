@@ -10,6 +10,7 @@ use Qore\App\SynapseNodes\Components\User\User;
 use Qore\App\SynapseNodes\Components\User\UserStack;
 use Qore\ORM\ModelManager;
 use Qore\Qore;
+use Qore\QueueManager\QueueManager;
 use Qore\Sanitizer\SanitizerInterface;
 use Qore\App\Services\Deferring\DeferringInterface;
 use Qore\App\SynapseNodes\Components\DemandMessage\DemandMessage;
@@ -33,9 +34,9 @@ class NotificationListenerProvider implements ListenerProviderInterface
     }
 
     /**
-     * Machinery status update 
+     * Machinery status update
      *
-     * @param \Laminas\EventManager\EventInterface $_event 
+     * @param \Laminas\EventManager\EventInterface $_event
      *
      * @return void 
      */
@@ -45,9 +46,39 @@ class NotificationListenerProvider implements ListenerProviderInterface
         $machinery = $_event->getTarget();
         $eventName = $_event->getName();
 
-        // dump($machinery);
-        // dump($eventName);
-    }
+        $mm = Qore::service(ModelManager::class);
 
+        $mm($machinery)->with('user')->one();
+
+        if (! $machinery->user()) {
+            return;
+        }
+
+        $messageTemplate = $mm('SM:NotificationMessage')->where([
+            '@this.event' => Notification::EVENT_MACHINERY_STATUS_UPDATE
+        ])->one();
+
+        if (! $messageTemplate) {
+            return;
+        }
+
+        $notification = $mm('SM:Notification', [
+            'idUser' => $machinery->user()->id,
+            'event' => Notification::EVENT_MACHINERY_STATUS_UPDATE,
+            'title' => $messageTemplate->titleRu,
+            'message' => $messageTemplate->messageRu,
+            'data' => [
+                'entity-id' => $machinery->id,
+                'user-id' => $machinery->user()->id,
+            ]
+        ]);
+
+        $mm($notification)->save();
+
+        $qm = Qore::service(QueueManager::class);
+        $qm->publish(new NotificationFirebase([
+            'id' => $notification->id
+        ]));
+    }
 
 }

@@ -29,6 +29,23 @@ class Machinery extends SynapseBaseEntity
 
     const STATUS_ARCHIVE = 'archive';
 
+    private $originalStatus = null;
+
+    /**
+     * Save original status
+     *
+     * @return void
+     */
+    public function snapshotStatus(): void
+    {
+        $this->originalStatus = $this->status;
+    }
+
+    public function statusIsChanged(): bool
+    {
+        return $this->originalStatus !== $this->status;
+    }
+
     /**
      * Return types
      *
@@ -106,17 +123,22 @@ class Machinery extends SynapseBaseEntity
 
             $entity->images = is_string($entity->images) 
                 ? json_decode($entity->images, true) 
-            : $entity->images;
-
-        });
-
-        static::after('save', function($_event) {
-            $entity = $_event->getTarget();
-            $tracking = Qore::service(TrackingInterface::class);
-            $tracking->fire(Notification::EVENT_MACHINERY_STATUS_UPDATE, $entity);
+                : $entity->images;
         });
 
         static::after('initialize', $func);
+
+        static::after('save', function($_event) {
+            $entity = $_event->getTarget();
+            if ($entity->statusIsChanged()) {
+                $tracking = Qore::service(TrackingInterface::class);
+                $tracking->fire(Notification::EVENT_MACHINERY_STATUS_UPDATE, $entity);
+            }
+        });
+
+        static::after('initialize', function($_event) {
+            $_event->getTarget()->snapshotStatus();
+        });
     }
 
 }

@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "agrokomek",
+  "private_key_id": "dc7d468bc4c0a1fd9e2e5ef66849642d36c73f28",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCzKxbchMMtooFV\nHLIgzJyq1Jthu94XzcNCTCTBegOjmrPpmXgUUrJIlaVI4n4PIzosr/YBA/h94kYY\neRMezfr6oqmvuWs2jz84RuQBmbRU6sb/4qRCaRLYcz81v8fah/syMwELz4cH7eq1\niWB4J/PXvNiZZ/UjWPrupcqtYPNfj7eePTn7bH9IHmnjD8l79WqlDpILKrBkstuj\net65pY98SY+IVPVxObZcdLf7ax2F1NZ9tU8bM4+yfgWEFvcX11M4OPnkWvVqA3qj\nOwKLZdXBPYvz3Dpf7A6cV7TrVDshgpJs5xEFzJ9s++nWt7G1S/TzrIWNSjrIPdf3\nDTcCZh0bAgMBAAECggEADQEG9cEaZsjcA5DDn6ck2oP34HjBk+S2qVcxdmwkBiSH\nrmAZ27ps1OEs+pnwdaokN3NwstOA86dlWF1hSo5qCvWcxJ5RQ8fTL4MlsAq3O0/s\nWveDiIvBIb4A9nu8RluG8IvMevj4X1ZLVMXAdLghoKTvlk15+LN6nbD21u1UfLj9\n1KZpXVPgcrOOBTw8XdgRb1wcLs70u2lvqckAt1kqpieQUOzkpj/efoqVDMolcKsz\neothu+7X5mmU2NaaVITSSg9E1DmOpVJoezu1h7LaICPOU4FOx54bCSqKw6qlgYTS\n08jCAy+8gcN7s8dxxkTqkWB/KFHSct54RQ+7robxYQKBgQDkNhtqil/FMaJ6HhdM\nOXN3kegqX2UehSyK1Ywb2MEQNExR71qhx4CAPxaRVIvrHaOsBpVnbMbV3zzKkVZN\ns5P/lrB3QTi+oT0H8KzSvhtOzfYltIBZGo7rgy3dS98qffW0z6QO1oxVEl4ORtsb\nZbhU+TvFX9Yq/hAW0Dy78u4vuQKBgQDI/DGPhLd0F30U7xRROzyPwV6LiXIRMIgN\nP9mZ685lRO2SY+s1ZBbjdlOpCScx0y+deQQMK/jFvcp5JAJCGyaCAvhDTSVJ5YeZ\nCTrekRnGwysQv3fi8YBxdl16AIr++i5yu4fM6BRtJekEnKUR2/jCjOEGUFjlPEMK\nn0L3zKCVcwKBgHuO2/ssHjwq6nhJsH2BoYW8hsHiUmJa4kns4uX0zlrSpfu6pwxu\ncqF9Bt/6saLDsmkiS2Pq3iDPtB9M3zhEoT3BvZtjwbBcpimVYkzbxvc8xieV+ePE\nYFsc9Akb2iEsf4q83Wt3OBWbUzdRn7HOuiWvp2/uuosecWGYrzlnhxRpAoGAdKJl\n4HOUQrqey9cyYzGNI5+DzlYk6/TN/2JeVQSS8hHeDGYPyRwcbEPuqNm29SMpLqlb\nv/SEmbxaE5Lh/Jrk7e3rRKMwUIHy/sxsbVynKMF57G4wlHKxpyaZeIN4Jh/pdIt/\nc1n7AJxPbW26HXMaGUzICXH3JJCkFzX1FviY+CECgYA+2q33MNAst6uCod25z/3s\nlS3p4FXD4kHNzphlzMYfB+aqBbPhrchWVkfnzlvlOKzj07pP5LvPhMSO8Oxirvzz\n9/IFfdXRllY3YHSIBgn8yZiviRXey/7QD6Y7UWuyhJm3q78tDaLLtw4MsXTouxoW\nh3E5uiiSem4WsAqhJREoBw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-kjr9g@agrokomek.iam.gserviceaccount.com",
+  "client_id": "116241074890984391742",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-kjr9g%40agrokomek.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -36,6 +36,22 @@ class Notification extends SynapseBaseEntity
      */
     public static function subscribe()
     {
+        static::before('save', function($_event) {
+            $entity = $_event->getTarget();
+            $entity->data = is_string($entity->data) 
+                ? $entity->data 
+                : json_encode($entity->data, JSON_UNESCAPED_UNICODE);
+        });
+
+        static::after('save', $func = function($_event) {
+            $entity = $_event->getTarget();
+            $entity->data = is_string($entity->data) 
+                ? json_decode($entity->data, true) 
+                : $entity->data;
+        });
+
+        static::after('initialize', $func);
+
         parent::subscribe();
     }
 

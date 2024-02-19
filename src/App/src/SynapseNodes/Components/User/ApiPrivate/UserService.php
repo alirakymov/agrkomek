@@ -49,6 +49,7 @@ class UserService extends ServiceArtificer
         $_router->group('/user', null, function($_router) {
             $_router->post('/profile', 'profile');
             $_router->get('/info', 'info');
+            $_router->post('/delete', 'delete');
         });
         # - Register related subjects routes
         $this->registerSubjectsRoutes($_router);
@@ -67,7 +68,7 @@ class UserService extends ServiceArtificer
 
         $this->routingHelper = $this->plugin(RoutingHelper::class);
 
-        list($method, $arguments) = $this->routingHelper->dispatch(['profile', 'info']) ?? ['notFound', null];
+        list($method, $arguments) = $this->routingHelper->dispatch(['profile', 'info', 'delete']) ?? ['notFound', null];
 
         return ! is_null($method) ? call_user_func_array([$this, $method], $arguments ?? []) : null;
     }
@@ -107,6 +108,28 @@ class UserService extends ServiceArtificer
         return $this->response(new JsonResponse([
             'result' => 'success',
             'entity' => $user,
+        ]));
+    }
+
+    /**
+     * Delete
+     *
+     * @return ?ResultInterface
+     */
+    protected function delete(): ?ResultInterface
+    {
+        $request = $this->model->getRequest();
+        $queryParams = $request->getQueryParams();
+        /**@var UserInterface */
+        $user = $request->getAttribute(UserInterface::class);
+        $user = $this->mm('SM:User')->where(['@this.phone' => $user->getIdentity()])->one();
+
+        if ($user) {
+            $this->mm($user)->delete();
+        }
+
+        return $this->response(new JsonResponse([
+            'result' => 'success',
         ]));
     }
 

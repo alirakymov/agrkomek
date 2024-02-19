@@ -7,6 +7,7 @@ use Mezzio\Csrf\FlashCsrfGuardFactory;
 use Qore\App\Middlewares\TrackingMiddleware;
 use Qore\App\Services\SmsService\SmsService;
 use Qore\App\Services\SmsService\SmsServiceFactory;
+use Qore\App\SynapseNodes\Components\User\ApiPrivate\UserDeviceRegisterMiddleware;
 
 return [
     // Provides application-wide services.
@@ -26,6 +27,7 @@ return [
         'invokables' => [
             // Fully\Qualified\InterfaceName::class => Fully\Qualified\ClassName::class,
             TrackingMiddleware::class,
+            UserDeviceRegisterMiddleware::class,
         ],
         // Use 'factories' for services provided by callbacks/factory classes.
         'factories'  => [
