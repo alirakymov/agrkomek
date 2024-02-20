@@ -254,7 +254,15 @@ class ChatService extends ServiceArtificer
             $users = $this->mm('SM:User')->where(['@this.id' => $users])->all();
 
             $messages = $messages->map(function($_message) use ($users) {
-                $_message['user'] = $users->firstMatch(['id' => $_message['idUser']])->decorate()->toArray(true);
+                $user =  $users->firstMatch(['id' => $_message['idUser']]);
+                if ($user) {
+                    $_message['user'] = $users->firstMatch(['id' => $_message['idUser']])->decorate()->toArray(true);
+                } else {
+                    $_message['user'] = [
+                        'firstname' => 'удаленный',
+                        'secondname' => 'аккаунт',
+                    ];
+                }
                 return $_message;
             });
         }
