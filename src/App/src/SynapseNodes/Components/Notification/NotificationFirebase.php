@@ -55,22 +55,28 @@ class NotificationFirebase extends JobAbstract implements JobInterface
 
         $user = $mm('SM:User')->with('devices')->where(['@this.id' => $notification->idUser])->one();
 
-        try {
-            $serviceAccount = PROJECT_DATA_PATH . '/firebase/google-services.json';
-            $factory = (new Factory)->withServiceAccount($serviceAccount);
-            $firebase = $factory->createMessaging();
+        $serviceAccount = PROJECT_DATA_PATH . '/firebase/google-services.json';
+        $factory = (new Factory)->withServiceAccount($serviceAccount);
+        $firebase = $factory->createMessaging();
 
-            $notify = Notification::create($notification->title, $notification->message);
+        $notify = Notification::create($notification->title, $notification->message);
 
-            foreach ($user->devices() as $device) {
+        foreach ($user->devices() as $device) {
+            try {
                 $message = CloudMessage::withTarget('token', $device['token'])
                     ->withNotification($notify)
                     ->withData(array_merge($notification['data'], ['event' => $notification['event']]))
+                    ->withDefaultSounds()
                     ->withHighestPossiblePriority();
                 $result = $firebase->send($message);
+            } catch (NotFound $e) {
+                $mm($device)->delete();
+                dump($e);
+            } catch (ServerError $e) {
+                dump($e);
+            } catch (\Throwable $t) {
+                dump($t);
             }
-        } catch (\Throwable $t) {
-            dump($t);
         }
 
         $connection->disconnect();
