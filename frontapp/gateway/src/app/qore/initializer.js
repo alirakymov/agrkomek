@@ -109,6 +109,7 @@ export default (app) => {
         'qc-pagination',
         'qc-simpletile',
         'qc-stomp',
+        'qc-story-form',
         'qc-table',
         'qc-tabs',
         'qc-tabs-improve',

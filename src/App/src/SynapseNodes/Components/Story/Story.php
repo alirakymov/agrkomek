@@ -21,6 +21,26 @@ class Story extends SynapseBaseEntity
     public static function subscribe()
     {
         parent::subscribe();
+
+        static::before('save', function($_event) {
+            $entity = $_event->getTarget();
+
+            $entity->images = is_string($entity->images) 
+                ? $entity->images 
+                : json_encode($entity->images, JSON_UNESCAPED_UNICODE);
+        });
+
+        static::after('save', $func = function($_event) {
+            $entity = $_event->getTarget();
+
+            $entity->images = $entity->images ?: [];
+
+            $entity->images = is_string($entity->images) 
+                ? json_decode($entity->images, true) 
+                : $entity->images;
+        });
+
+        static::after('initialize', $func);
     }
 
 }

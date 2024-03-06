@@ -19,6 +19,7 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Qore\App\SynapseNodes\Components\Story\Manager\InterfaceGateway\Form;
 use Qore\SynapseManager\Artificer\Service\ServiceArtificer;
 use Qore\SynapseManager\Plugin\FormMaker\FormMaker;
 use Qore\SynapseManager\Plugin\RoutingHelper\RoutingHelper;
@@ -138,8 +139,9 @@ class StoryService extends ServiceArtificer
     }
 
     /**
-     * create
+     * Create
      *
+     * @return ResponseInterface|null
      */
     protected function create()
     {
@@ -148,30 +150,43 @@ class StoryService extends ServiceArtificer
 
         $request = $this->model->getRequest();
 
-        /** @var FormMaker */
-        $formMaker = $this->plugin(FormMaker::class);
-        $fm = $formMaker->make($this->serviceForm);
 
         $ig = Qore::service(InterfaceGateway::class);
+
+        $story = $this->mm([]);
+
+        /**@var InterfaceGateway */
+        $ig = Qore::service(InterfaceGateway::class);
+        $form = $ig(Form::class, sprintf('story-form-%s', 'new'));
+
+        $form->setOption('story', [ 'images' => [], ]);
+
+        $form->setOption('upload-route', Qore::url($this->sm('ImageStore:Uploader')->getRouteName('upload')));
+        $form->setOption('save-route', Qore::url($this->getRouteName('create')));
+
         $modal = $ig(Modal::class, sprintf('%s.%s', get_class($this), 'modal-create'))
             ->setTitle('Создание')
-            ->component(Qore::service(QoreFront::class)->decorate($fm));
+            ->setOption('modal-type', 'rightside')
+            ->setOption('size', 'xl')
+            ->component($form);
 
         $component = $this->getComponent();
 
         if ($request->getMethod() === 'POST') {
-            if ($fm->isValid()) {
-                # - Save data
-                $this->mm($this->model->getDataSource()->extractData()->first())->save();
 
-                # - Generate json response
-                return $this->response([
-                    $modal->execute('close'),
-                    $component->execute('reload'),
-                ]);
-            } else {
-                return $this->response($fm->decorate(['decorate']));
-            }
+            $data = $request->getParsedBody()['story'];
+            unset($data['__created'], $data['__updated']);
+
+            $entity = $this->mm($data);
+            $this->mm($entity)->save();
+
+            $component = $this->getComponent();
+            # - Generate json response
+            return $this->response([
+                $modal->execute('close'),
+                $component->execute('reload'),
+            ]);
+
         } else {
             $modal->execute('open');
             # - Generate json response
@@ -190,33 +205,42 @@ class StoryService extends ServiceArtificer
 
         $request = $this->model->getRequest();
 
-        /** @var FormMaker */
-        $formMaker = $this->plugin(FormMaker::class);
-        $fm = $formMaker->make($this->serviceForm);
+        $routeResult = $this->model->getRouteResult();
+        $routeParams = $routeResult->getMatchedParams();
 
+        $story = $this->mm()->where(['@this.id' => $routeParams['id']])->one();
+        if (! $story) {
+            return $this->response([]);
+        }
+
+        /**@var InterfaceGateway */
         $ig = Qore::service(InterfaceGateway::class);
+        $form = $ig(Form::class, sprintf('story-form-%s', $story->id));
+
+        $form->setOption('story', $story->toArray(true));
+        $form->setOption('upload-route', Qore::url($this->sm('ImageStore:Uploader')->getRouteName('upload')));
+        $form->setOption('save-route', Qore::url($this->getRouteName('update')));
+
         $modal = $ig(Modal::class, sprintf('%s.%s', get_class($this), 'modal-update'))
             ->setTitle('Редактирование')
-            ->component(Qore::service(QoreFront::class)->decorate($fm));
-
-        $component = $this->getComponent();
+            ->setOption('modal-type', 'rightside')
+            ->setOption('size', 'xl')
+            ->component($form);
 
         if ($request->getMethod() === 'POST') {
-            if ($fm->isValid()) {
-                # - Save data
-                $this->model->getDataSource()->extractData()->each(function($_entity){
-                    $this->mm($_entity)->save();
-                });
-                # - Generate json response
-                return $this->response([
-                    $modal->execute('close'),
-                    $component->execute('reload'),
-                ]);
-            } else {
-                return $this->response(
-                    $fm->decorate(['decorate'])
-                );
-            }
+            $data = $request->getParsedBody()['story'];
+
+            unset($data['__created'], $data['__updated']);
+            $story = $this->mm($data);
+
+            $this->mm($story)->save();
+
+            $component = $this->getComponent(null);
+            # - Generate json response
+            return $this->response([
+                $modal->execute('close'),
+                $component->execute('reload'),
+            ]);
         } else {
             $modal->execute('open');
             # - Generate json response
