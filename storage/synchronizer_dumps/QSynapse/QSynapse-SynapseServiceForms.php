@@ -185,4 +185,19 @@ return [
             ],
         ],
     ],
+    'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(Story);Manager);StoryForm)' => [
+        'iSynapseService' => 'QSynapse:SynapseServices(QSynapse:Synapses(Story);Manager)',
+        'name' => 'StoryForm',
+        'label' => 'Форма добавления/редактирования',
+        'template' => '$title',
+        'description' => 'Форма добавления/редактирования',
+        'type' => 0,
+        '__options' => [
+            'fields-order' => [
+                'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(Story);Manager);StoryForm);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(Story);title)',
+                'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(Story);Manager);StoryForm);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(Story);link)',
+                'QSynapse:SynapseServiceForms(QSynapse:SynapseServices(QSynapse:Synapses(Story);Manager);StoryForm);QSynapse:SynapseServiceForms();QSynapse:SynapseAttributes(QSynapse:Synapses(Story);content)',
+            ],
+        ],
+    ],
 ];

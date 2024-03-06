@@ -127,6 +127,12 @@ return [
         'description' => 'Поисковый модуль',
         'tree' => 0,
     ],
+    'QSynapse:Synapses(Story)' => [
+        'iParent' => null,
+        'name' => 'Story',
+        'description' => '',
+        'tree' => 0,
+    ],
     'QSynapse:Synapses(User)' => [
         'iParent' => null,
         'name' => 'User',

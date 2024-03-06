@@ -10,12 +10,24 @@ use Qore\App\SynapseNodes\Components\Machinery\Manager\MachineryService;
 use Qore\App\SynapseNodes\Components\ModeratorRole\Manager\ModeratorRoleService;
 use Qore\App\SynapseNodes\Components\Moderator\Manager\ModeratorService;
 use Qore\App\SynapseNodes\Components\NotificationMessage\Manager\NotificationMessageService;
+use Qore\App\SynapseNodes\Components\Story\Manager\StoryService;
 use Qore\App\SynapseNodes\Components\User\Manager\UserService;
 
 return [
     'app' => [
         'admin' => [
             'navigation-items' => [
+                [
+                    'label' => 'Сторисы',
+                    'sublevel' => [
+                        [
+                            'label' => 'Список',
+                            'privilege' => 1,
+                            'icon' => 'fab fa-instagram',
+                            'route' => [StoryService::class, 'index'],
+                        ],
+                    ],
+                ],
                 [
                     'label' => 'Модераторы',
                     'sublevel' => [
