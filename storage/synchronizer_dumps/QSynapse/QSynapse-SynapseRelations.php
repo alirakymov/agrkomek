@@ -185,6 +185,14 @@ return [
         'type' => '1',
         'description' => '',
     ],
+    'QSynapse:SynapseRelations(QSynapse:Synapses(Notification);notification;QSynapse:Synapses(Routes);route)' => [
+        'iSynapseFrom' => 'QSynapse:Synapses(Routes)',
+        'synapseAliasFrom' => 'notification',
+        'iSynapseTo' => 'QSynapse:Synapses(Notification)',
+        'synapseAliasTo' => 'route',
+        'type' => '1',
+        'description' => '',
+    ],
     'QSynapse:SynapseRelations(QSynapse:Synapses(NotificationMessage);notificationMessage;QSynapse:Synapses(Routes);route)' => [
         'iSynapseFrom' => 'QSynapse:Synapses(Routes)',
         'synapseAliasFrom' => 'notificationMessage',

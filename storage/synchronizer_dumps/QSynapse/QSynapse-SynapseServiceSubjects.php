@@ -183,6 +183,13 @@ return [
         'relationType' => 1,
         'description' => 'роуты ролей модератора',
     ],
+    'QSynapse:SynapseServiceSubjects(QSynapse:SynapseRelations(QSynapse:Synapses(Notification);notification;QSynapse:Synapses(Routes);route);QSynapse:SynapseServices(QSynapse:Synapses(Routes);Api);QSynapse:SynapseServices(QSynapse:Synapses(Notification);ApiPrivate))' => [
+        'iSynapseRelation' => 'QSynapse:SynapseRelations(QSynapse:Synapses(Notification);notification;QSynapse:Synapses(Routes);route)',
+        'iSynapseServiceFrom' => 'QSynapse:SynapseServices(QSynapse:Synapses(Routes);Api)',
+        'iSynapseServiceTo' => 'QSynapse:SynapseServices(QSynapse:Synapses(Notification);ApiPrivate)',
+        'relationType' => 1,
+        'description' => '',
+    ],
     'QSynapse:SynapseServiceSubjects(QSynapse:SynapseRelations(QSynapse:Synapses(NotificationMessage);notificationMessage;QSynapse:Synapses(Routes);route);QSynapse:SynapseServices(QSynapse:Synapses(Routes);Manager);QSynapse:SynapseServices(QSynapse:Synapses(NotificationMessage);Manager))' => [
         'iSynapseRelation' => 'QSynapse:SynapseRelations(QSynapse:Synapses(NotificationMessage);notificationMessage;QSynapse:Synapses(Routes);route)',
         'iSynapseServiceFrom' => 'QSynapse:SynapseServices(QSynapse:Synapses(Routes);Manager)',

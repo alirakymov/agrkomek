@@ -162,6 +162,13 @@ return [
         'index' => 0,
         'description' => 'Сервис управления',
     ],
+    'QSynapse:SynapseServices(QSynapse:Synapses(Notification);ApiPrivate)' => [
+        'iSynapse' => 'QSynapse:Synapses(Notification)',
+        'name' => 'ApiPrivate',
+        'label' => 'ApiPrivate',
+        'index' => 0,
+        'description' => 'ApiPrivate',
+    ],
     'QSynapse:SynapseServices(QSynapse:Synapses(NotificationMessage);Manager)' => [
         'iSynapse' => 'QSynapse:Synapses(NotificationMessage)',
         'name' => 'Manager',
