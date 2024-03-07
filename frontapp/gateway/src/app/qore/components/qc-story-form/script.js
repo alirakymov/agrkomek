@@ -112,7 +112,7 @@ export default {
             }
 
             let story = this.story;
-
+    
             story.images = this.images;
 
             this.$axios

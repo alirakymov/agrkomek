@@ -44,6 +44,15 @@
             <label>Описание</label>
             <div class="form-text animated fadeInUp">описание сторис</div>
         </div>
+        <div class="w-100 mb-4">
+            <div class="form-switch form-switch">
+                <input type="checkbox" class="form-check-input"
+                    id="status-checker"
+                    v-model="story.active"
+                >
+                <label class="ms-2 form-check-label" for="status-checker">Опубликовать</label>
+            </div>
+        </div>
         <div class="mb-4">
             <button type="submit" class="btn btn-alt-primary" @click="save()">Сохранить</button>
         </div>

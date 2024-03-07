@@ -498,6 +498,20 @@ return [
         'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Text',
         'description' => 'Заголовок на русском',
     ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Settings);key)' => [
+        'iSynapse' => 'QSynapse:Synapses(Settings)',
+        'name' => 'key',
+        'label' => 'Ключ',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Varchar',
+        'description' => '',
+    ],
+    'QSynapse:SynapseAttributes(QSynapse:Synapses(Story);active)' => [
+        'iSynapse' => 'QSynapse:Synapses(Story)',
+        'name' => 'active',
+        'label' => 'Активный',
+        'type' => 'Qore\\ORM\\Mapper\\Table\\Column\\Integer',
+        'description' => '',
+    ],
     'QSynapse:SynapseAttributes(QSynapse:Synapses(Story);content)' => [
         'iSynapse' => 'QSynapse:Synapses(Story)',
         'name' => 'content',

@@ -197,6 +197,13 @@ return [
         'index' => 0,
         'description' => 'Api поиска',
     ],
+    'QSynapse:SynapseServices(QSynapse:Synapses(Story);Api)' => [
+        'iSynapse' => 'QSynapse:Synapses(Story)',
+        'name' => 'Api',
+        'label' => 'Api',
+        'index' => 0,
+        'description' => '',
+    ],
     'QSynapse:SynapseServices(QSynapse:Synapses(Story);Manager)' => [
         'iSynapse' => 'QSynapse:Synapses(Story)',
         'name' => 'Manager',

@@ -20,6 +20,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Qore\App\SynapseNodes\Components\Story\Manager\InterfaceGateway\Form;
+use Qore\App\SynapseNodes\Components\Story\Story;
 use Qore\SynapseManager\Artificer\Service\ServiceArtificer;
 use Qore\SynapseManager\Plugin\FormMaker\FormMaker;
 use Qore\SynapseManager\Plugin\RoutingHelper\RoutingHelper;
@@ -36,7 +37,7 @@ class StoryService extends ServiceArtificer
      *
      * @var mixed
      */
-    private $sortable = false;
+    private $sortable = true;
 
     /**
      * serviceForm
@@ -177,6 +178,8 @@ class StoryService extends ServiceArtificer
             $data = $request->getParsedBody()['story'];
             unset($data['__created'], $data['__updated']);
 
+            $data['active'] = (int)$data['active'];
+
             $entity = $this->mm($data);
             $this->mm($entity)->save();
 
@@ -213,6 +216,8 @@ class StoryService extends ServiceArtificer
             return $this->response([]);
         }
 
+        $story->active = (bool)$story->active;
+
         /**@var InterfaceGateway */
         $ig = Qore::service(InterfaceGateway::class);
         $form = $ig(Form::class, sprintf('story-form-%s', $story->id));
@@ -233,6 +238,7 @@ class StoryService extends ServiceArtificer
             unset($data['__created'], $data['__updated']);
             $story = $this->mm($data);
 
+            $story['active'] = (int)$story['active'];
             $this->mm($story)->save();
 
             $component = $this->getComponent(null);
@@ -294,6 +300,51 @@ class StoryService extends ServiceArtificer
         ]);
 
         return $this->presentAs(ListComponent::class, [
+            'columns' => [
+                'id' => [
+                    'label' => '#',
+                    'class-header' => 'col-1',
+                    'class-column' => 'col-1',
+                ],
+                'title' => [
+                    'label' => 'Заголовок',
+                    'class-header' => 'col-3',
+                    'class-column' => 'col-3',
+                ],
+                'link' => [
+                    'label' => 'Ссылка',
+                    'class-header' => 'col-3',
+                    'class-column' => 'col-3',
+                ],
+                'active' => [
+                    'label' => 'Статус',
+                    'class-header' => 'col-1 text-center',
+                    'class-column' => 'col-1 text-center',
+                    'transform' => function ($_item) {
+                        if ($_item['active']) {
+                            return ['isLabel' => true, 'class' => 'bg-success-light text-success', 'label' => 'Активен'];
+                        } else {
+                            return ['isLabel' => true, 'class' => 'bg-warning-light text-warning', 'label' => 'Неактивен'];
+                        }
+                    },
+                ],
+                'created' => [
+                    'label' => 'Создано',
+                    'class-header' => 'col-2',
+                    'class-column' => 'col-2 text-center',
+                    'transform' => function($_item) {
+                        return $_item['__created']->format('d.m.Y H:i');
+                    }
+                ],
+                'updated' => [
+                    'label' => 'Обновлено',
+                    'class-header' => 'col-2',
+                    'class-column' => 'col-2 text-center',
+                    'transform' => function($_item) {
+                        return $_item['__updated']->format('d.m.Y H:i');
+                    }
+                ],
+            ],
             'actions' => $this->getListActions(),
             'suffix' => $testFilters['filters']['id'] ?? null,
             'sortable' => $this->getSortableOptions(),
@@ -347,21 +398,12 @@ class StoryService extends ServiceArtificer
      */
     protected function getOptionsStorage()
     {
-        $optionsStorage = null;
-        if (isset($this->requestFilters['__idparent'])) {
-            $optionsStorage = $this->getLocalGateway(['id' => (string)$this->requestFilters['__idparent']])->one();
-        } else  {
-            /**
-                $filter = $this->model->getFilters(true)->firstMatch([
-                    'namespace' => sprintf('%s.%s', $this->getNameIdentifier(), '{RelatedSynapse:Service}'),
-                ]);
+        $optionsStorage = $this->mm('SM:Settings')->where(['@this.key' => Story::class])->one();
 
-                if (isset($filter['filters']['id'])) {
-                    $optionsStorage = $this->mm('{RelatedSynapse}')->where(function($_where) use ($filter) {
-                        $_where(['id' => (string)$filter['filters']['id']]);
-                    })->one();
-                }
-            */
+        if (is_null($optionsStorage)) {
+            $optionsStorage = $this->mm('SM:Settings', [
+                'key' => Story::class,
+            ]);
         }
 
         return $optionsStorage;
